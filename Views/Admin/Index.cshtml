@@ -1,0 +1,46 @@
+﻿@using BugTracker.Models;
+@model IEnumerable<BugTracker.Models.ApplicationUser>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<div class="container">
+    <div class="row">
+        <h2>User List</h2>
+    </div>
+    <div class="row user-header-row">
+        <div class="col-xs-3">
+            <label>User Name</label>
+        </div>
+        <div class="col-xs-3">
+            <label>User Role</label>
+        </div>
+        <div class="col-xs-3">
+            <label>User Email</label>
+        </div>
+        <div class="col-xs-3">
+            <label>Change User Role</label>
+        </div>
+    </div>
+    @foreach (var user in Model) {
+        <div class="row user-row">
+            <div class="col-xs-3">
+                @user.DisplayName
+            </div>
+            <div class="col-xs-3">
+                @foreach (var role in user.Roles) {
+                    <div>@ViewBag.Roles[role.RoleId]</div>
+                }
+            </div>
+            <div class="col-xs-3">
+                @user.UserName
+            </div>
+            <div class="col-xs-3">
+                @Html.ActionLink("Edit User", "EditUser", new { id = user.Id })
+            </div>
+        </div>
+    }
+</div>
+

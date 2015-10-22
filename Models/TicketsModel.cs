@@ -33,7 +33,7 @@ namespace BugTracker.Models {
         public int TicketStatusId { get; set; }
         public int OwnerUserId { get; set; }
         public int AssignedToUserId { get; set; }
-        
+
 
         public virtual ProjectsModel Project { get; set; }
         public virtual TicketTypesModel TicketType { get; set; }

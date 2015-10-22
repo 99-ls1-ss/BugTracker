@@ -21,24 +21,27 @@ namespace BugTracker.Migrations {
 
             if (!context.Roles.Any(r => r.Name == "Admin")) {
                 roleManager.Create(new IdentityRole { Name = "Admin" });
-            } else if (!context.Roles.Any(r => r.Name == "ProjectManager")) {
+            };
+            if (!context.Roles.Any(r => r.Name == "ProjectManager")) {
                 roleManager.Create(new IdentityRole { Name = "ProjectManager" });
-            } else if (!context.Roles.Any(r => r.Name == "Developer")) {
+            };
+            if (!context.Roles.Any(r => r.Name == "Developer")) {
                 roleManager.Create(new IdentityRole { Name = "Developer" });
-            } else if (!context.Roles.Any(r => r.Name == "Submitter")) {
+            };
+            if (!context.Roles.Any(r => r.Name == "Submitter")) {
                 roleManager.Create(new IdentityRole { Name = "Submitter" });
             };
 
 
             if (!context.Users.Any(u => u.Email == "brandon@navicamls.net")) {
                 roleManager.Create(new IdentityRole { Name = "Admin" });
-            } else if (!context.Users.Any(u => u.Email == "moderator@coderfoundry.com")) {
-                roleManager.Create(new IdentityRole { Name = "ProjectManager" });
-            } else if (!context.Users.Any(u => u.Email == "branpayne69@gmail.com")) {
-                roleManager.Create(new IdentityRole { Name = "Developer" });
-            } else {
-                roleManager.Create(new IdentityRole { Name = "Submitter" });
             };
+            if (!context.Users.Any(u => u.Email == "moderator@coderfoundry.com")) {
+                roleManager.Create(new IdentityRole { Name = "ProjectManager" });
+            };
+            if (!context.Users.Any(u => u.Email == "branpayne69@gmail.com")) {
+                roleManager.Create(new IdentityRole { Name = "Developer" });
+            }; 
             
 
             var userManager = new UserManager<ApplicationUser>(
@@ -79,11 +82,11 @@ namespace BugTracker.Migrations {
                     "Password-1");
             };
 
-            var userId = userManager.FindByEmail("brandon@navicamls.net").Id;
-            userManager.AddToRole(userId, "Admin");
+            var userIdAdmin = userManager.FindByEmail("brandon@navicamls.net").Id;
+            userManager.AddToRole(userIdAdmin, "Admin");
             var userIdMod = userManager.FindByEmail("moderator@coderfoundry.com").Id;
             userManager.AddToRole(userIdMod, "ProjectManager");
-            var userIdDev = userManager.FindByEmail("branpayne@gmail.com").Id;
+            var userIdDev = userManager.FindByEmail("branpayne69@gmail.com").Id;
             userManager.AddToRole(userIdDev, "Developer");
         }
     }

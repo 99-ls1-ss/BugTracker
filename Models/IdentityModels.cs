@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
+using System;
 
 namespace BugTracker.Models {
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
@@ -12,15 +13,18 @@ namespace BugTracker.Models {
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string DisplayName { get; set; }
-        public string UserRole { get; set; }
+        public DateTimeOffset CreatedDate { get; set; }
+        public Nullable<DateTimeOffset> ModifiedDate { get; set; }
 
         public ApplicationUser() {
             this.Ticket = new HashSet<TicketsModel>();
         }
 
         public virtual ICollection<TicketsModel> Ticket { get; set; }
-
+        public virtual DbSet<TicketCommentsModel> Comment { get; set; }
+        public virtual DbSet<ProjectsModel> Projects { get; set; }
         public virtual ICollection<ProjectsModel> Project { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager) {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
@@ -37,5 +41,17 @@ namespace BugTracker.Models {
         public static ApplicationDbContext Create() {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<BugTracker.Models.ProjectsModel> ProjectsModels { get; set; }
+
+        public System.Data.Entity.DbSet<BugTracker.Models.TicketsModel> TicketsModels { get; set; }
+
+        public System.Data.Entity.DbSet<BugTracker.Models.TicketPrioritiesModel> TicketPrioritiesModels { get; set; }
+
+        public System.Data.Entity.DbSet<BugTracker.Models.TicketStatusesModel> TicketStatusesModels { get; set; }
+
+        public System.Data.Entity.DbSet<BugTracker.Models.TicketTypesModel> TicketTypesModels { get; set; }
+
+        public System.Data.Entity.DbSet<BugTracker.Models.TicketCommentsModel> TicketCommentsModels { get; set; }
     }
 }

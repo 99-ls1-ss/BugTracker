@@ -38,14 +38,16 @@
 
 	/* Init */
 	jQuery(window).ready(function () {
-		jQuery.browserDetect();
+		//jQuery.browserDetect();
 
-		// Load Bootstrap JS
-		loadScript(plugin_path + 'bootstrap/js/bootstrap.min.js', function() {
+		//// Load Bootstrap JS
+		//loadScript(plugin_path + 'bootstrap/js/bootstrap.min.js', function () {
 
-			Init(false);
+		//    Init(false);
 
-		});
+		//    console.log(loadScript);
+
+		//});
 
 
 		/* --- */

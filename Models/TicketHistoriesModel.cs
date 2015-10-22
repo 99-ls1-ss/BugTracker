@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BugTracker.Models {
     public class TicketHistoriesModel {
-        
+
         public int Id { get; set; }
         public int TicketId { get; set; }
         [Display(Name = "Field Name")]
@@ -20,7 +20,7 @@ namespace BugTracker.Models {
         public DateTimeOffset ChangedDate { get; set; }
         public int UserId { get; set; }
 
-        public virtual ApplicationUser User { get; set;  }
+        public virtual ApplicationUser User { get; set; }
         public virtual TicketsModel Ticket { get; set; }
 
     }

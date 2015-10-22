@@ -22,3 +22,12 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.user-header-row {
+    margin-bottom:2em;
+    border-bottom: 1px solid #eee;
+}
+
+.user-row:nth-child(even) {
+    background-color:aliceblue;
+}

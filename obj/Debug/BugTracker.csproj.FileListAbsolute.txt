@@ -55,3 +55,7 @@ C:\Users\Brandon\Documents\School Source\BugTracker\BugTracker\obj\Debug\BugTrac
 C:\Users\Brandon\Documents\School Source\BugTracker\BugTracker\obj\Debug\BugTracker.pdb
 C:\Users\Brandon\Documents\School Source\BugTracker\BugTracker\bin\SendGrid.SmtpApi.dll
 C:\Users\Brandon\Documents\School Source\BugTracker\BugTracker\bin\SendGridMail.dll
+C:\Users\Brandon\Documents\School Source\BugTracker\BugTracker\bin\PagedList.dll
+C:\Users\Brandon\Documents\School Source\BugTracker\BugTracker\bin\PagedList.Mvc.dll
+C:\Users\Brandon\Documents\School Source\BugTracker\BugTracker\bin\PagedList.xml
+C:\Users\Brandon\Documents\School Source\BugTracker\BugTracker\bin\PagedList.Mvc.xml
