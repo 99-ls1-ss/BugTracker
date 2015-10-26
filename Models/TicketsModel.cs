@@ -9,8 +9,7 @@ namespace BugTracker.Models {
     public class TicketsModel {
 
         public TicketsModel() {
-            this.Comment = new HashSet<TicketCommentsModel>();
-            this.Attachment = new HashSet<TicketAttachmentsModel>();
+            this.Comments = new HashSet<TicketCommentsModel>();
             this.History = new HashSet<TicketHistoriesModel>();
             this.Notification = new HashSet<TicketNotificationsModel>();
         }
@@ -27,24 +26,32 @@ namespace BugTracker.Models {
         public DateTimeOffset CreatedDate { get; set; }
         [Display(Name = "Date Updated")]
         public Nullable<DateTimeOffset> UpdatedDate { get; set; }
+        [Display(Name = "Project ID")]
         public int ProjectId { get; set; }
+        [Display(Name = "Ticket Type")]
         public int TicketTypeId { get; set; }
+        [Display(Name = "Ticket Priority")]
         public int TicketPriorityId { get; set; }
+        [Display(Name = "Ticket Status")]
         public int TicketStatusId { get; set; }
-        public int OwnerUserId { get; set; }
-        public int AssignedToUserId { get; set; }
+        [Display(Name = "Ticket Owner")]
+        public string OwnerUserId { get; set; }
+        [Display(Name = "Assigned To")]
+        public string AssignedToUserId { get; set; }
 
 
         public virtual ProjectsModel Project { get; set; }
+        [Display(Name = "Ticket Type")]
         public virtual TicketTypesModel TicketType { get; set; }
+        [Display(Name = "Ticket Priority")]
         public virtual TicketPrioritiesModel TicketPriority { get; set; }
+        [Display(Name = "Ticket Status")]
         public virtual TicketStatusesModel TicketStatus { get; set; }
+        [Display(Name = "Owner")]
         public virtual ApplicationUser OwnerUser { get; set; }
+        [Display(Name = "Assigned To")]
         public virtual ApplicationUser AssignedToUser { get; set; }
-
-
-        public virtual ICollection<TicketCommentsModel> Comment { get; set; }
-        public virtual ICollection<TicketAttachmentsModel> Attachment { get; set; }
+        public virtual ICollection<TicketCommentsModel> Comments { get; set; }
         public virtual ICollection<TicketHistoriesModel> History { get; set; }
         public virtual ICollection<TicketNotificationsModel> Notification { get; set; }
 

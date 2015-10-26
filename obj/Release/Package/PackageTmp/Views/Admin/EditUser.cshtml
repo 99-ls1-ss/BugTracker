@@ -1,0 +1,26 @@
+﻿@using BugTracker.Models
+@using Microsoft.AspNet.Identity;
+@model AdminUserViewModel
+
+    @{
+        ViewBag.Title = "EditUser";
+    }
+
+
+<div class="container">
+    <div class="row">
+        <h2>EditUser</h2>
+    </div>
+    <div>
+
+        <form method="post" action="@Url.Action("EditUser", new { Model.User.Id })">
+            @Html.AntiForgeryToken()
+            @Html.LabelFor(m => m.SelectedUser, Model.User.DisplayName)
+            @Html.ListBoxFor(m => m.SelectedRoles, Model.Roles)
+            <button type="submit">Submit</button>
+
+        </form>
+
+    </div>
+</div>
+

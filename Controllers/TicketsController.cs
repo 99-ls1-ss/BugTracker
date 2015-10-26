@@ -33,11 +33,15 @@ namespace BugTracker.Controllers {
 
         // GET: Tickets/Create
         public ActionResult Create() {
+            TicketsModel ticketsModel = new TicketsModel();
+            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "Name");
+            ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "Name");
+
             ViewBag.ProjectId = new SelectList(db.ProjectsModels, "Id", "Name");
             ViewBag.TicketPriorityId = new SelectList(db.TicketPrioritiesModels, "Id", "Name");
             ViewBag.TicketStatusId = new SelectList(db.TicketStatusesModels, "Id", "Name");
             ViewBag.TicketTypeId = new SelectList(db.TicketTypesModels, "Id", "Name");
-            return View();
+            return View(ticketsModel);
         }
 
         // POST: Tickets/Create
@@ -45,8 +49,11 @@ namespace BugTracker.Controllers {
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Title,Description,CreatedDate,UpdatedDate,ProjectId,TicketTypeId,TicketPriorityId,TicketStatusId,OwnerUserId,AssignedToUserId")] TicketsModel ticketsModel) {
+        public async Task<ActionResult> Create([Bind(Include = "Id,Title,Description,CreatedDate,ProjectId,TicketTypeId,TicketPriorityId,TicketStatusId,OwnerUserId")] TicketsModel ticketsModel) {
             if (ModelState.IsValid) {
+
+                ticketsModel.CreatedDate = DateTimeOffset.Now;
+                ticketsModel.UpdatedDate = null;
                 db.TicketsModels.Add(ticketsModel);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -56,6 +63,7 @@ namespace BugTracker.Controllers {
             ViewBag.TicketPriorityId = new SelectList(db.TicketPrioritiesModels, "Id", "Name", ticketsModel.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatusesModels, "Id", "Name", ticketsModel.TicketStatusId);
             ViewBag.TicketTypeId = new SelectList(db.TicketTypesModels, "Id", "Name", ticketsModel.TicketTypeId);
+            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "Name", ticketsModel.AssignedToUserId);
             return View(ticketsModel);
         }
 
