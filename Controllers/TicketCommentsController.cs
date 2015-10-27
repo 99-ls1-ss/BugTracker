@@ -15,7 +15,7 @@ namespace BugTracker.Controllers {
 
         // GET: TicketComments
         public async Task<ActionResult> Index() {
-            var ticketCommentsModels = db.TicketCommentsModels.Include(t => t.Ticket);
+            var ticketCommentsModels = db.TicketCommentsData.Include(t => t.Ticket);
             return View(await ticketCommentsModels.ToListAsync());
         }
 
@@ -24,7 +24,7 @@ namespace BugTracker.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TicketCommentsModel ticketCommentsModel = await db.TicketCommentsModels.FindAsync(id);
+            TicketCommentsModel ticketCommentsModel = await db.TicketCommentsData.FindAsync(id);
             if (ticketCommentsModel == null) {
                 return HttpNotFound();
             }
@@ -33,7 +33,7 @@ namespace BugTracker.Controllers {
 
         // GET: TicketComments/Create
         public ActionResult Create() {
-            ViewBag.TicketId = new SelectList(db.TicketsModels, "Id", "Title");
+            ViewBag.TicketId = new SelectList(db.TicketsData, "Id", "Title");
             return View();
         }
 
@@ -44,12 +44,12 @@ namespace BugTracker.Controllers {
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id,Comment,CreatedDate,TicketId,UserId")] TicketCommentsModel ticketCommentsModel) {
             if (ModelState.IsValid) {
-                db.TicketCommentsModels.Add(ticketCommentsModel);
+                db.TicketCommentsData.Add(ticketCommentsModel);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.TicketId = new SelectList(db.TicketsModels, "Id", "Title", ticketCommentsModel.TicketId);
+            ViewBag.TicketId = new SelectList(db.TicketsData, "Id", "Title", ticketCommentsModel.TicketId);
             return View(ticketCommentsModel);
         }
 
@@ -58,11 +58,11 @@ namespace BugTracker.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TicketCommentsModel ticketCommentsModel = await db.TicketCommentsModels.FindAsync(id);
+            TicketCommentsModel ticketCommentsModel = await db.TicketCommentsData.FindAsync(id);
             if (ticketCommentsModel == null) {
                 return HttpNotFound();
             }
-            ViewBag.TicketId = new SelectList(db.TicketsModels, "Id", "Title", ticketCommentsModel.TicketId);
+            ViewBag.TicketId = new SelectList(db.TicketsData, "Id", "Title", ticketCommentsModel.TicketId);
             return View(ticketCommentsModel);
         }
 
@@ -77,7 +77,7 @@ namespace BugTracker.Controllers {
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.TicketId = new SelectList(db.TicketsModels, "Id", "Title", ticketCommentsModel.TicketId);
+            ViewBag.TicketId = new SelectList(db.TicketsData, "Id", "Title", ticketCommentsModel.TicketId);
             return View(ticketCommentsModel);
         }
 
@@ -86,7 +86,7 @@ namespace BugTracker.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TicketCommentsModel ticketCommentsModel = await db.TicketCommentsModels.FindAsync(id);
+            TicketCommentsModel ticketCommentsModel = await db.TicketCommentsData.FindAsync(id);
             if (ticketCommentsModel == null) {
                 return HttpNotFound();
             }
@@ -97,8 +97,8 @@ namespace BugTracker.Controllers {
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id) {
-            TicketCommentsModel ticketCommentsModel = await db.TicketCommentsModels.FindAsync(id);
-            db.TicketCommentsModels.Remove(ticketCommentsModel);
+            TicketCommentsModel ticketCommentsModel = await db.TicketCommentsData.FindAsync(id);
+            db.TicketCommentsData.Remove(ticketCommentsModel);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

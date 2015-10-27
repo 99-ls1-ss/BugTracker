@@ -6,6 +6,14 @@
 
 <h2>List of Tickets</h2>
 
+@if (!Request.IsAuthenticated) {
+    <div>
+        You are not logged in.  Please login or create an account.  
+    </div>
+} 
+else { 
+
+
 <p>
     @if (User.IsInRole("Admin")) {
         @Html.ActionLink("Create New Ticket", "Create")
@@ -24,14 +32,8 @@
             @Html.DisplayNameFor(model => model.Project)
         </th>
         <th>
-        @Html.DisplayNameFor(model => model.TicketPriority)
-        </th>
-        @*<th>
-            @Html.DisplayNameFor(model => model.TicketStatus)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TicketType)
-        </th>*@        
+            @Html.DisplayNameFor(model => model.TicketPriority)
+        </th>  
         <th>
             @Html.DisplayNameFor(model => model.CreatedDate)
         </th>
@@ -44,7 +46,7 @@
         <th>
             @Html.DisplayNameFor(model => model.AssignedToUser)
         </th>
-        @if (User.IsInRole("Admin")) { 
+        @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager")) { 
         <th>
             Tools
         </th>
@@ -52,6 +54,7 @@
     </tr>
 
 @foreach (var item in Model) {
+    
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Title)
@@ -63,14 +66,8 @@
             @Html.DisplayFor(modelItem => item.Project.Name)
         </td>
        <td>
-        @Html.DisplayFor(modelItem => item.TicketPriority.Name)
-        </td>
-        @*<td>
-            @Html.DisplayFor(modelItem => item.TicketStatus.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TicketType.Name)
-        </td>*@         
+            @Html.DisplayFor(modelItem => item.TicketPriority.Name)
+        </td>     
         <td>
             @Html.DisplayFor(modelItem => item.CreatedDate)
         </td>
@@ -83,7 +80,7 @@
         <td>
             @Html.DisplayFor(modelItem => item.AssignedToUser.DisplayName)
         </td>
-        @if (User.IsInRole("Admin")) { 
+        @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager")) { 
         <td>
             @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |*@
             @Html.ActionLink("Details", "Details", new { id=item.Id }) |
@@ -94,3 +91,4 @@
 }
 
 </table>
+}

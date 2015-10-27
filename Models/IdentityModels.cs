@@ -21,9 +21,7 @@ namespace BugTracker.Models {
         }
 
         public virtual ICollection<TicketsModel> Ticket { get; set; }
-        public virtual DbSet<TicketCommentsModel> Comment { get; set; }
-        public virtual DbSet<ProjectsModel> Projects { get; set; }
-        public virtual ICollection<ProjectsModel> Project { get; set; }
+        public virtual ICollection<ProjectsModel> Projects { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager) {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -42,16 +40,17 @@ namespace BugTracker.Models {
             return new ApplicationDbContext();
         }
 
-        public System.Data.Entity.DbSet<BugTracker.Models.ProjectsModel> ProjectsModels { get; set; }
+        public System.Data.Entity.DbSet<BugTracker.Models.ProjectsModel> ProjectsData { get; set; }
 
-        public System.Data.Entity.DbSet<BugTracker.Models.TicketsModel> TicketsModels { get; set; }
+        public System.Data.Entity.DbSet<BugTracker.Models.TicketsModel> TicketsData { get; set; }
 
-        public System.Data.Entity.DbSet<BugTracker.Models.TicketPrioritiesModel> TicketPrioritiesModels { get; set; }
+        public System.Data.Entity.DbSet<BugTracker.Models.TicketPrioritiesModel> TicketPrioritiesData { get; set; }
 
-        public System.Data.Entity.DbSet<BugTracker.Models.TicketStatusesModel> TicketStatusesModels { get; set; }
+        public System.Data.Entity.DbSet<BugTracker.Models.TicketStatusesModel> TicketStatusesData { get; set; }
 
-        public System.Data.Entity.DbSet<BugTracker.Models.TicketTypesModel> TicketTypesModels { get; set; }
+        public System.Data.Entity.DbSet<BugTracker.Models.TicketTypesModel> TicketTypesData { get; set; }
 
-        public System.Data.Entity.DbSet<BugTracker.Models.TicketCommentsModel> TicketCommentsModels { get; set; }
+        public System.Data.Entity.DbSet<BugTracker.Models.TicketCommentsModel> TicketCommentsData { get; set; }
+
     }
 }

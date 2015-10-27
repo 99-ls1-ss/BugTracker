@@ -41,15 +41,10 @@ namespace BugTracker.Models {
 
 
         public virtual ProjectsModel Project { get; set; }
-        [Display(Name = "Ticket Type")]
         public virtual TicketTypesModel TicketType { get; set; }
-        [Display(Name = "Ticket Priority")]
         public virtual TicketPrioritiesModel TicketPriority { get; set; }
-        [Display(Name = "Ticket Status")]
         public virtual TicketStatusesModel TicketStatus { get; set; }
-        [Display(Name = "Owner")]
         public virtual ApplicationUser OwnerUser { get; set; }
-        [Display(Name = "Assigned To")]
         public virtual ApplicationUser AssignedToUser { get; set; }
         public virtual ICollection<TicketCommentsModel> Comments { get; set; }
         public virtual ICollection<TicketHistoriesModel> History { get; set; }

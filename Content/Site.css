@@ -31,3 +31,8 @@ textarea {
 .user-row:nth-child(even) {
     background-color:aliceblue;
 }
+
+#SelectedUsers{
+    min-height:110px;
+    max-height: 150px;
+}

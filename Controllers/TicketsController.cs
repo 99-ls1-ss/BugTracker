@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using BugTracker.Models;
 
 namespace BugTracker.Controllers {
@@ -15,7 +17,20 @@ namespace BugTracker.Controllers {
 
         // GET: Tickets
         public async Task<ActionResult> Index() {
-            var ticketsModels = db.TicketsModels.Include(t => t.Project).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
+            var ticketsModels = db.TicketsData.Include(t => t.Project).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
+
+            var ticket = new List<TicketsModel>();
+            var user = db.Users.Find(User.Identity.GetUserId());
+            if (User.IsInRole("ProjectManager")) {
+                ticket = user.Projects.SelectMany(p => p.Tickets).ToList();
+            }
+            else if (User.IsInRole("Developer")) {
+                ticket = user.Projects.SelectMany(p => p.Tickets).ToList();
+            }
+            else if (User.IsInRole("Submitter"))  {
+                ticket = user.Projects.SelectMany(p => p.Tickets).ToList();
+            } 
+
             return View(await ticketsModels.ToListAsync());
         }
 
@@ -24,7 +39,7 @@ namespace BugTracker.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TicketsModel ticketsModel = await db.TicketsModels.FindAsync(id);
+            TicketsModel ticketsModel = await db.TicketsData.FindAsync(id);
             if (ticketsModel == null) {
                 return HttpNotFound();
             }
@@ -37,10 +52,10 @@ namespace BugTracker.Controllers {
             ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "Name");
             ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "Name");
 
-            ViewBag.ProjectId = new SelectList(db.ProjectsModels, "Id", "Name");
-            ViewBag.TicketPriorityId = new SelectList(db.TicketPrioritiesModels, "Id", "Name");
-            ViewBag.TicketStatusId = new SelectList(db.TicketStatusesModels, "Id", "Name");
-            ViewBag.TicketTypeId = new SelectList(db.TicketTypesModels, "Id", "Name");
+            ViewBag.ProjectId = new SelectList(db.ProjectsData, "Id", "Name");
+            ViewBag.TicketPriorityId = new SelectList(db.TicketPrioritiesData, "Id", "Name");
+            ViewBag.TicketStatusId = new SelectList(db.TicketStatusesData, "Id", "Name");
+            ViewBag.TicketTypeId = new SelectList(db.TicketTypesData, "Id", "Name");
             return View(ticketsModel);
         }
 
@@ -54,15 +69,15 @@ namespace BugTracker.Controllers {
 
                 ticketsModel.CreatedDate = DateTimeOffset.Now;
                 ticketsModel.UpdatedDate = null;
-                db.TicketsModels.Add(ticketsModel);
+                db.TicketsData.Add(ticketsModel);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ProjectId = new SelectList(db.ProjectsModels, "Id", "Name", ticketsModel.ProjectId);
-            ViewBag.TicketPriorityId = new SelectList(db.TicketPrioritiesModels, "Id", "Name", ticketsModel.TicketPriorityId);
-            ViewBag.TicketStatusId = new SelectList(db.TicketStatusesModels, "Id", "Name", ticketsModel.TicketStatusId);
-            ViewBag.TicketTypeId = new SelectList(db.TicketTypesModels, "Id", "Name", ticketsModel.TicketTypeId);
+            ViewBag.ProjectId = new SelectList(db.ProjectsData, "Id", "Name", ticketsModel.ProjectId);
+            ViewBag.TicketPriorityId = new SelectList(db.TicketPrioritiesData, "Id", "Name", ticketsModel.TicketPriorityId);
+            ViewBag.TicketStatusId = new SelectList(db.TicketStatusesData, "Id", "Name", ticketsModel.TicketStatusId);
+            ViewBag.TicketTypeId = new SelectList(db.TicketTypesData, "Id", "Name", ticketsModel.TicketTypeId);
             ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "Name", ticketsModel.AssignedToUserId);
             return View(ticketsModel);
         }
@@ -72,14 +87,15 @@ namespace BugTracker.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TicketsModel ticketsModel = await db.TicketsModels.FindAsync(id);
+            TicketsModel ticketsModel = await db.TicketsData.FindAsync(id);
             if (ticketsModel == null) {
                 return HttpNotFound();
             }
-            ViewBag.ProjectId = new SelectList(db.ProjectsModels, "Id", "Name", ticketsModel.ProjectId);
-            ViewBag.TicketPriorityId = new SelectList(db.TicketPrioritiesModels, "Id", "Name", ticketsModel.TicketPriorityId);
-            ViewBag.TicketStatusId = new SelectList(db.TicketStatusesModels, "Id", "Name", ticketsModel.TicketStatusId);
-            ViewBag.TicketTypeId = new SelectList(db.TicketTypesModels, "Id", "Name", ticketsModel.TicketTypeId);
+
+            ViewBag.ProjectId = new SelectList(db.ProjectsData, "Id", "Name", ticketsModel.ProjectId);
+            ViewBag.TicketPriorityId = new SelectList(db.TicketPrioritiesData, "Id", "Name", ticketsModel.TicketPriorityId);
+            ViewBag.TicketStatusId = new SelectList(db.TicketStatusesData, "Id", "Name", ticketsModel.TicketStatusId);
+            ViewBag.TicketTypeId = new SelectList(db.TicketTypesData, "Id", "Name", ticketsModel.TicketTypeId);
             return View(ticketsModel);
         }
 
@@ -94,10 +110,10 @@ namespace BugTracker.Controllers {
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.ProjectId = new SelectList(db.ProjectsModels, "Id", "Name", ticketsModel.ProjectId);
-            ViewBag.TicketPriorityId = new SelectList(db.TicketPrioritiesModels, "Id", "Name", ticketsModel.TicketPriorityId);
-            ViewBag.TicketStatusId = new SelectList(db.TicketStatusesModels, "Id", "Name", ticketsModel.TicketStatusId);
-            ViewBag.TicketTypeId = new SelectList(db.TicketTypesModels, "Id", "Name", ticketsModel.TicketTypeId);
+            ViewBag.ProjectId = new SelectList(db.ProjectsData, "Id", "Name", ticketsModel.ProjectId);
+            ViewBag.TicketPriorityId = new SelectList(db.TicketPrioritiesData, "Id", "Name", ticketsModel.TicketPriorityId);
+            ViewBag.TicketStatusId = new SelectList(db.TicketStatusesData, "Id", "Name", ticketsModel.TicketStatusId);
+            ViewBag.TicketTypeId = new SelectList(db.TicketTypesData, "Id", "Name", ticketsModel.TicketTypeId);
             return View(ticketsModel);
         }
 
@@ -106,7 +122,7 @@ namespace BugTracker.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TicketsModel ticketsModel = await db.TicketsModels.FindAsync(id);
+            TicketsModel ticketsModel = await db.TicketsData.FindAsync(id);
             if (ticketsModel == null) {
                 return HttpNotFound();
             }
@@ -117,8 +133,8 @@ namespace BugTracker.Controllers {
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id) {
-            TicketsModel ticketsModel = await db.TicketsModels.FindAsync(id);
-            db.TicketsModels.Remove(ticketsModel);
+            TicketsModel ticketsModel = await db.TicketsData.FindAsync(id);
+            db.TicketsData.Remove(ticketsModel);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

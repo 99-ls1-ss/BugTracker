@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using BugTracker.Models;
+using System.Web.Mvc;
 
 namespace BugTracker.Models {
     public class ProjectUsersModel {
 
-        public int Id { get; set; }
-        public int ProjectId { get; set; }
-        public int UserId { get; set; }
-
-        public virtual ProjectsModel Project { get; set; }
-        public virtual ApplicationUser User { get; set; }
+        
+        public ProjectsModel Project { get; set; }
+        public MultiSelectList Users { get; set; }
+        public string[] SelectedUsers { get; set; }
+        public string[] userRoles { get; set; }
 
     }
 }

@@ -390,3 +390,6 @@
 /// <reference path="../plugins/widget.jflickr/colorbox/jquery.colorbox-min.js" />
 /// <reference path="../plugins/widget.jflickr/cycle/jquery.cycle.all.min.js" />
 /// <reference path="../plugins/widget.twittie/twittie.min.js" />
+/// <reference path="jquery.themepunch.tools.min.js" />
+/// <reference path="jquery.themepunch.enablelog.js" />
+/// <reference path="jquery.themepunch.revolution.js" />

@@ -15,7 +15,7 @@ namespace BugTracker.Controllers {
 
         // GET: TicketStatuses
         public async Task<ActionResult> Index() {
-            return View(await db.TicketStatusesModels.ToListAsync());
+            return View(await db.TicketStatusesData.ToListAsync());
         }
 
         // GET: TicketStatuses/Details/5
@@ -23,7 +23,7 @@ namespace BugTracker.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TicketStatusesModel ticketStatusesModel = await db.TicketStatusesModels.FindAsync(id);
+            TicketStatusesModel ticketStatusesModel = await db.TicketStatusesData.FindAsync(id);
             if (ticketStatusesModel == null) {
                 return HttpNotFound();
             }
@@ -42,7 +42,7 @@ namespace BugTracker.Controllers {
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id,Name")] TicketStatusesModel ticketStatusesModel) {
             if (ModelState.IsValid) {
-                db.TicketStatusesModels.Add(ticketStatusesModel);
+                db.TicketStatusesData.Add(ticketStatusesModel);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -55,7 +55,7 @@ namespace BugTracker.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TicketStatusesModel ticketStatusesModel = await db.TicketStatusesModels.FindAsync(id);
+            TicketStatusesModel ticketStatusesModel = await db.TicketStatusesData.FindAsync(id);
             if (ticketStatusesModel == null) {
                 return HttpNotFound();
             }
@@ -81,7 +81,7 @@ namespace BugTracker.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TicketStatusesModel ticketStatusesModel = await db.TicketStatusesModels.FindAsync(id);
+            TicketStatusesModel ticketStatusesModel = await db.TicketStatusesData.FindAsync(id);
             if (ticketStatusesModel == null) {
                 return HttpNotFound();
             }
@@ -92,8 +92,8 @@ namespace BugTracker.Controllers {
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id) {
-            TicketStatusesModel ticketStatusesModel = await db.TicketStatusesModels.FindAsync(id);
-            db.TicketStatusesModels.Remove(ticketStatusesModel);
+            TicketStatusesModel ticketStatusesModel = await db.TicketStatusesData.FindAsync(id);
+            db.TicketStatusesData.Remove(ticketStatusesModel);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

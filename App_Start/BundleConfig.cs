@@ -34,12 +34,15 @@ namespace BugTracker {
                       "~/Content/site.css",
                       "~/Content/layout.css",
                       "~/Content/header-1.css",
-                      "~/Content/essentials.css"));
+                      "~/Content/essentials.css",
+                      "~/plugins/slider.revolution/css/settings.css",
+                      "~/plugins/slider.revolution/css/settings-ie8.css",
+                      "~/plugins/slider.revolution/css/extralayers.css"));
 
-            bundles.Add(new StyleBundle("~/plugins/css").Include(
-                "~/plugins/slider.revolution/css/settings.css",
-                "~/plugins/slider.revolution/css/settings-ie8.css",
-                "~/plugins/slider.revolution/css/extralayers.css"));
+            //bundles.Add(new StyleBundle("~/plugins").Include(
+            //    "~/plugins/slider.revolution/css/settings.css",
+            //    "~/plugins/slider.revolution/css/settings-ie8.css",
+            //    "~/plugins/slider.revolution/css/extralayers.css"));
         }
     }
 }

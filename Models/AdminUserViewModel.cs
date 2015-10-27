@@ -9,10 +9,11 @@ namespace BugTracker.Models {
 
         public ApplicationUser User { get; set; }
         public MultiSelectList Roles { get; set; }
+
         public SelectList UserList { get; set; }
+
         public string[] SelectedRoles { get; set; }
         public string[] SelectedUser { get; set; }
-        public string[] SelectedUserList { get; set; }
 
     }
 }

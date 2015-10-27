@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400%7CRaleway:300,400,500,600,700%7CLato:300,400,400italic,600,700" rel="stylesheet" type="text/css" />
 
     <!-- PAGE LEVEL SCRIPTS -->
-    @Styles.Render("~/plugins/css")
+    @*@Styles.Render("~/plugins")*@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
@@ -74,13 +74,11 @@
                                 <li>@Html.ActionLink("Home", "Index", "Home")</li>
                                 @if(User.IsInRole("Admin")) {
                                     <li>@Html.ActionLink("User Admin", "Index", "Admin")</li>
-                                    <li>@Html.ActionLink("Projects", "Index", "Projects")</li>
-                                    <li>@Html.ActionLink("Priorities", "Index", "TicketPriorities")</li>
-                                    }
+                                    <li>@Html.ActionLink("Project Admin", "Index", "Projects")</li>
+                                }
+                                @if (Request.IsAuthenticated) { 
                                     <li>@Html.ActionLink("Tickets", "Index", "Tickets")</li>
-
-                                    @*<li>@Html.ActionLink("About", "About", "Home")</li>
-                <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
+                                }
                                 </ul>
 
                             @Html.Partial("_LoginPartial")
