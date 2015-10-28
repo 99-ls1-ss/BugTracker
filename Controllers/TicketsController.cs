@@ -17,21 +17,18 @@ namespace BugTracker.Controllers {
 
         // GET: Tickets
         public async Task<ActionResult> Index() {
-            var ticketsModels = db.TicketsData.Include(t => t.Project).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
+            var tickets = db.TicketsData.Include(t => t.Project).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
+            var userId = User.Identity.GetUserId();
+            var user = await db.Users.Include(p=>p.Projects).FirstOrDefaultAsync(u=> u.Id == userId);
 
-            var ticket = new List<TicketsModel>();
-            var user = db.Users.Find(User.Identity.GetUserId());
-            if (User.IsInRole("ProjectManager")) {
-                ticket = user.Projects.SelectMany(p => p.Tickets).ToList();
+            if (User.IsInRole("Admin")) {
+                tickets = tickets;
             }
-            else if (User.IsInRole("Developer")) {
-                ticket = user.Projects.SelectMany(p => p.Tickets).ToList();
+            else if ((User.IsInRole("ProjectManager")) || (User.IsInRole("Developer")) || (User.IsInRole("Submitter"))) {
+                tickets = db.TicketsData.Where(t => db.Users.FirstOrDefault(u => u.Id == userId).Projects.Any(p => p.Id == t.ProjectId) || t.OwnerUserId == userId);
             }
-            else if (User.IsInRole("Submitter"))  {
-                ticket = user.Projects.SelectMany(p => p.Tickets).ToList();
-            } 
 
-            return View(await ticketsModels.ToListAsync());
+            return View(await tickets.ToListAsync());
         }
 
         // GET: Tickets/Details/5
@@ -78,7 +75,10 @@ namespace BugTracker.Controllers {
             ViewBag.TicketPriorityId = new SelectList(db.TicketPrioritiesData, "Id", "Name", ticketsModel.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatusesData, "Id", "Name", ticketsModel.TicketStatusId);
             ViewBag.TicketTypeId = new SelectList(db.TicketTypesData, "Id", "Name", ticketsModel.TicketTypeId);
-            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "Name", ticketsModel.AssignedToUserId);
+            ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "DisplayName", ticketsModel.OwnerUserId);
+            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "DisplayName", ticketsModel.AssignedToUserId);
+            ViewBag.Comments = new SelectList(db.Users, "Id", "Comment", ticketsModel.Comments);
+
             return View(ticketsModel);
         }
 
@@ -96,6 +96,10 @@ namespace BugTracker.Controllers {
             ViewBag.TicketPriorityId = new SelectList(db.TicketPrioritiesData, "Id", "Name", ticketsModel.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatusesData, "Id", "Name", ticketsModel.TicketStatusId);
             ViewBag.TicketTypeId = new SelectList(db.TicketTypesData, "Id", "Name", ticketsModel.TicketTypeId);
+            ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "DisplayName", ticketsModel.OwnerUserId);
+            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "DisplayName", ticketsModel.AssignedToUserId);
+            ViewBag.Comments = new SelectList(db.Users, "Id", "Comment", ticketsModel.Comments);
+
             return View(ticketsModel);
         }
 
@@ -107,6 +111,9 @@ namespace BugTracker.Controllers {
         public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Description,CreatedDate,UpdatedDate,ProjectId,TicketTypeId,TicketPriorityId,TicketStatusId,OwnerUserId,AssignedToUserId")] TicketsModel ticketsModel) {
             if (ModelState.IsValid) {
                 db.Entry(ticketsModel).State = EntityState.Modified;
+                db.Entry(ticketsModel).Property(p => p.UpdatedDate).IsModified = true;
+                ticketsModel.UpdatedDate = DateTimeOffset.Now;
+
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }

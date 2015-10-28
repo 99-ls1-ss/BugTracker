@@ -36,3 +36,11 @@ textarea {
     min-height:110px;
     max-height: 150px;
 }
+
+textarea.ticket-textarea, input.ticket-input, select.ticket-select{
+    max-width:100%;
+}
+
+.display-for-padding {
+    padding-top:7px;
+}

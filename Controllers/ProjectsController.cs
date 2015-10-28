@@ -22,10 +22,21 @@ namespace BugTracker.Controllers {
         // GET: Projects/Details/5
         // the "?" within the () is to allow you to catch any errors so you can give a friendly error instead.  
         // it tells the request to go through the action anyway
-        public async Task<ActionResult> Details(int? id) {
+        public async Task<ActionResult> Details(int? id, ProjectUsersModel projectUsersModel) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            var project = db.ProjectsData.Find(projectUsersModel.Project.Id);
+
+            UserProjectRolesHelper helper = new UserProjectRolesHelper();
+            project.Users.Clear();
+
+            foreach (var UserId in projectUsersModel.SelectedUsers) {
+
+                helper.AddUserToProject(UserId, project.Id);
+            }
+
             ProjectsModel projectsModel = await db.ProjectsData.FindAsync(id);
 
             ViewBag.AssignedUsers = new MultiSelectList(db.Users, "Id", "DisplayName", projectsModel.Users.Select(p => p.Id));
@@ -51,12 +62,6 @@ namespace BugTracker.Controllers {
 
             if (ModelState.IsValid) {
 
-                //projectsModel.Users.Clear();
-
-                //db.Users.ToList();
-
-                //ViewBag.AssignedProjects = new SelectList(db.Users, "Id", "DisplayName", projectsModel.Id);
-
                 db.ProjectsData.Add(projectsModel);
                 
                 await db.SaveChangesAsync();
@@ -74,8 +79,6 @@ namespace BugTracker.Controllers {
 
             var project = db.ProjectsData.Find(id);
             var selected = project.Users.Select(u => u.Id);
-            //var userRole = selected()
-            //var userRole = project.Users.Select(r => r.Roles);
 
             ProjectUsersModel projectUsersModel = new ProjectUsersModel() {
                 Users = new MultiSelectList(db.Users, "Id", "DisplayName", selected),

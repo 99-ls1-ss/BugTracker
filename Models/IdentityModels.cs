@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace BugTracker.Models {
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
@@ -13,7 +14,9 @@ namespace BugTracker.Models {
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string DisplayName { get; set; }
+        [DisplayFormat(DataFormatString = "{0:MMM dd yyyy}")]
         public DateTimeOffset CreatedDate { get; set; }
+        [DisplayFormat(DataFormatString = "{0:MMM dd yyyy}")]
         public Nullable<DateTimeOffset> ModifiedDate { get; set; }
 
         public ApplicationUser() {

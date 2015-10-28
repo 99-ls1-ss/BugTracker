@@ -14,6 +14,7 @@ namespace BugTracker.Models {
         [Display(Name = "Attachment Description")]
         public string Description { get; set; }
         [Display(Name = "Date Added")]
+        [DisplayFormat(DataFormatString = "{0:MMM dd yyyy}")]
         public DateTimeOffset CreatedDate { get; set; }
         public int UserId { get; set; }
         public string FileUrl { get; set; }

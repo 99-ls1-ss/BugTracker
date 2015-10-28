@@ -4,91 +4,107 @@
     ViewBag.Title = "Index";
 }
 
-<h2>List of Tickets</h2>
 
-@if (!Request.IsAuthenticated) {
-    <div>
-        You are not logged in.  Please login or create an account.  
-    </div>
-} 
-else { 
-
-
-<p>
-    @if (User.IsInRole("Admin")) {
-        @Html.ActionLink("Create New Ticket", "Create")
+<section>
+    @if (!Request.IsAuthenticated) {
+        <div class="container">
+            <div class="row">
+                You are not logged in.  Please login or create an account.
+            </div>
+        </div>
     }
-</p>
+    else {
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9">
+                    <h2>List of Tickets</h2>
+                </div>
+                <div class="col-md-3 text-right">
+                    @Html.ActionLink("Create New Ticket", "Create")
+                </div>
+            </div>
+        </div>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Project)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TicketPriority)
-        </th>  
-        <th>
-            @Html.DisplayNameFor(model => model.CreatedDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UpdatedDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OwnerUser)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AssignedToUser)
-        </th>
-        @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager")) { 
-        <th>
-            Tools
-        </th>
-        }
-    </tr>
+        <div class="container">
+            <div class="row">
+                <table class="table" id="ticketTable">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Title)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Project.Name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.TicketPriority.Name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CreatedDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.UpdatedDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.OwnerUserId)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.AssignedToUserId)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model) {
+                            <tr>
+                                <td>
+                                    <a href="@Url.Action("Details", "Tickets", new { id = item.Id })">
+                                        @Html.DisplayFor(modelItem => item.Title)
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Details", "Tickets", new { id = item.Id })">
+                                        @Html.DisplayFor(modelItem => item.Project.Name)
+                                    </a>
 
-@foreach (var item in Model) {
-    
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Project.Name)
-        </td>
-       <td>
-            @Html.DisplayFor(modelItem => item.TicketPriority.Name)
-        </td>     
-        <td>
-            @Html.DisplayFor(modelItem => item.CreatedDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UpdatedDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OwnerUser.DisplayName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AssignedToUser.DisplayName)
-        </td>
-        @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager")) { 
-        <td>
-            @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |*@
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-        }
-    </tr>
-}
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Details", "Tickets", new { id = item.Id })">
+                                        @Html.DisplayFor(modelItem => item.TicketPriority.Name)
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Details", "Tickets", new { id = item.Id })">
+                                        @Html.DisplayFor(modelItem => item.CreatedDate, new { Value = item.CreatedDate.ToString("MM-dd-yyyy"), @class = "" })
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Details", "Tickets", new { id = item.Id })">
+                                        @Html.DisplayFor(modelItem => item.UpdatedDate)
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Details", "Tickets", new { id = item.Id })">
+                                        @Html.DisplayFor(modelItem => item.OwnerUser.DisplayName)
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Details", "Tickets", new { id = item.Id })">
+                                        @Html.DisplayFor(modelItem => item.AssignedToUser.DisplayName)
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</section>
 
-</table>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#ticketTable').DataTable();
+        });
+    </script>
 }

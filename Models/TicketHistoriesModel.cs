@@ -17,6 +17,7 @@ namespace BugTracker.Models {
         [Display(Name = "New Value")]
         public string NewValue { get; set; }
         [Display(Name = "Date Changed")]
+        [DisplayFormat(DataFormatString = "{0:MMM dd yyyy}")]
         public DateTimeOffset ChangedDate { get; set; }
         public int UserId { get; set; }
 

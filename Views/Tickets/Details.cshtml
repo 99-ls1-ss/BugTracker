@@ -9,7 +9,46 @@
 <div>
     <h4>TicketsModel</h4>
     <hr />
+    <div class="row">
+        <div class="col-md-2">
+            @Html.ActionLink("Back to List", "Index", new { @class = "text-right" })
+        </div>
+        <div class="col-md-7"></div>
+        @if (User.IsInRole("Admin")) {
+            <div class="col-md-3 text-right">
+                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = Model.Id })
+            </div>
+        }
+        else if (User.IsInRole("ProjectManager") || User.IsInRole("Developer")) {
+            <div class="col-md-3 text-right">
+                @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+            </div>
+        }
+        else if (User.IsInRole("Submitter")){
+            <div class="col-md-3 text-right">
+            </div>
+        }
+
+    </div>
     <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.Project.Name)
         </dt>
@@ -43,22 +82,6 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.CreatedDate)
         </dt>
 
@@ -75,7 +98,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.OwnerUser)
+            @Html.DisplayNameFor(model => model.OwnerUserId)
         </dt>
 
         <dd>
@@ -83,16 +106,13 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.AssignedToUser)
+            @Html.DisplayNameFor(model => model.AssignedToUserId)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.AssignedToUserId)
+            @Html.DisplayFor(model => model.AssignedToUser.DisplayName)
         </dd>
 
     </dl>
 </div>
-<p>
-    @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |*@
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
