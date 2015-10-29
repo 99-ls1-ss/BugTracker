@@ -1,0 +1,280 @@
+﻿.modal-header {
+    background-color: #2c3e50;
+}
+
+.modal-header h4, .modal-header h5, .close, .close:hover, .close:focus {
+    color:#fff;
+}
+
+.modal-dialog.numbersGame {
+    width:auto;
+    max-width: 1000px;
+}
+
+.modal-dialog.numberChanger, .modal-dialog.palindromeChecker {
+    width:auto;
+    max-width: 990px;
+}
+
+.modal-dialog.findFact {
+    width:auto;
+    max-width: 1100px;
+}
+
+.numberChanger input {
+    max-width:4em;
+    margin-top:1%;
+    margin-bottom:10%; 
+}
+
+.numbersGame input {
+    max-width: 97.5%;
+    margin: 1% .5% 10% .5%;
+}
+
+.findFact input {
+    max-width:5em;
+    margin-top:10%;
+    margin-bottom:10%; 
+}
+
+#palindromeChecker input {
+    max-width:6.5em;
+    margin-top:10%;
+    margin-bottom:10%; 
+}
+
+.numbersGame .col-xs-2 {
+    width: 20%;
+}
+
+.inputSpan {
+    margin:0 auto;
+}
+
+.inputSpan div.col-xs-2 {
+    padding:0;
+    text-align: center;
+}
+
+
+.numbersGame label, .numberChanger label {
+    text-align:right;
+    padding:.75% 1% 0;
+    color: #2c3e50;    
+}
+
+.numbersGame span, #displayMagic {
+    color: #2c3e50;
+}
+
+#displayFactorial, #palindromeResults {
+    color: #2c3e50;
+    font-weight:bold;
+}
+
+.numbersGame span.col-xs-7 {
+    color: #2c3e50;
+    padding-right:1%;
+}
+
+.spacer {
+    height:.75em;
+}
+
+.rowSpacer {
+    margin:.25em 0;
+}
+
+#displayMagic span {
+    padding-right:.2em;
+}
+
+.section {
+    padding: 24px 0;
+}
+
+#resume li {
+    line-height:1.75;
+}
+
+#resume li p {
+    line-height:initial;
+}
+
+.borderClass {
+    border:1px solid;
+}
+
+.center-text {
+    text-align:center;
+}
+
+.resume-head {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    margin-right:-1px;
+    margin-left:-1px;
+}
+
+.resume-head h2, .resume-head h5 a {
+    color: #ecf0f1;
+}
+
+.javascriptExamples {
+    background-color:#000;
+}
+
+.javascriptExamples h4 {
+    color:#fff;
+}
+
+.photoshopExamples {
+    background-color: #5F9EA0;
+}
+
+.photoshopExamples h4, .photoshopExamples h5,.photoshopExamples p {
+    color: #fff;
+}
+
+.photoshopExamples .subpage-title:before {
+    content: "";
+    width: 35px;
+    height: 3px;
+    background-color: #fff;
+    display: block;
+    position: absolute;
+    bottom: -15px;
+    left: 0;
+}
+
+.portfolio-item .portfolio-content {
+    padding: 10px 20px;
+}
+
+.blogAccount a {
+    display:inline-block;
+    margin:0 4%;
+}
+
+#blog-posts .editDeleteLink {
+    float:left;
+    margin:0 8% 0 0;
+}
+.meta-list.row li {
+    padding-left:0;
+}
+
+#blog-posts .col-md-10 textarea {
+    width:100%;
+    height:14em;
+}
+
+.blogBody {
+    min-height:58px;
+    padding:6px 4px;
+}
+
+.subText {
+    font-size:.75em;
+}
+
+.post-thumb img {
+    max-height:13em;
+    margin:0 auto;
+}
+
+.post-meta {
+    margin-top:10px;
+}
+
+.bottomLogin .hideBottom {
+    display:none;
+}
+
+.media-list {
+    margin-bottom: .5em;
+}
+
+#blog-posts .media-body img {
+    margin:0 auto;
+    max-height:500px;
+}
+
+.commentIsHidden {
+    /*border: 1px solid #bab7ff;*/
+    background-color: #edeef9;
+}
+
+.removedMessage {
+    color:#FBC0C0;
+}
+
+.hiddenMessage {
+    color:#a6a2ff;
+}
+
+.comment-reply.pull-right {
+    margin-left:.75em;
+}
+
+input.btn{
+    margin:1%;
+}
+
+.post-comments .media-body {
+    border: 1px solid #efefef;
+    /*background-color: #fff;*/
+    padding: .25em;
+    background-color:#F5F5F5;
+}
+
+.blogSearchButton {
+    background-image: url('Images/search-icon-white.png');
+    background-size: 80% 80%;
+    background-repeat: no-repeat;
+    background-position: 2px;
+    height: 33px;
+    width: 30px;
+    border-bottom-right-radius:.5em;
+    border-top-right-radius:.5em;
+    display:inline-block;
+    margin-left:0;
+    padding-left:0;
+    vertical-align:middle;
+    background-color: #34495E;
+    border-color:#34495E;
+}
+
+.blogSearchButton:hover {
+    background-color: transparent;
+    background-image: url('Images/search-icon-md.png');
+    background-size: 80% 80%;
+    background-repeat: no-repeat;
+    background-position: 2px;
+}
+
+.form-control.blogSearchBox{
+    display:inline-block;
+    margin-right:-3px;
+    padding-right:0;
+    width:224px;
+    margin-bottom: 0;
+}
+
+.comment-form.blogSearch {
+    padding:26px 0 0 0;
+    float:right;
+}
+
+.formattedContent {
+    white-space:pre;
+    padding: .45em .25em;
+    border-top: 1px solid #efefef;
+    border-bottom: 1px solid #efefef;
+    background-color:#fff;
+}
+
+.mediaUrl {
+    padding:4px 12px 4px 4px;
+}

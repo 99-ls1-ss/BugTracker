@@ -1,118 +1,300 @@
 ﻿@model BugTracker.Models.TicketsModel
 
 @{
+    ViewBag.Menu = "Tickets";
     ViewBag.Title = "Details";
+    ViewBag.Message = "Ticket Details";
 }
 
-<h2>Details</h2>
+<section>
+    <h2>@ViewBag.Ticket</h2>
 
-<div>
-    <h4>TicketsModel</h4>
-    <hr />
-    <div class="row">
-        <div class="col-md-2">
-            @Html.ActionLink("Back to List", "Index", new { @class = "text-right" })
+    <div>
+        <h4>@ViewBag.Message</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-2">
+                @Html.ActionLink("Back to List", "Index", new { @class = "text-right" })
+            </div>
+            <div class="col-md-7"></div>
+            @if (User.IsInRole("Admin")) {
+                <div class="col-md-3 text-right">
+                    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = Model.Id })
+                </div>
+            }
+            else if (User.IsInRole("ProjectManager") || User.IsInRole("Developer")) {
+                <div class="col-md-3 text-right">
+                    @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+                </div>
+            }
+            else if (User.IsInRole("Submitter")) {
+                <div class="col-md-3 text-right">
+                </div>
+            }
+
         </div>
-        <div class="col-md-7"></div>
-        @if (User.IsInRole("Admin")) {
-            <div class="col-md-3 text-right">
-                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = Model.Id })
+        <div class="div-horizontal">
+            <div>
+                @Html.DisplayNameFor(model => model.Title)
             </div>
-        }
-        else if (User.IsInRole("ProjectManager") || User.IsInRole("Developer")) {
-            <div class="col-md-3 text-right">
-                @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
-            </div>
-        }
-        else if (User.IsInRole("Submitter")){
-            <div class="col-md-3 text-right">
-            </div>
-        }
 
+            <div>
+                @Html.DisplayFor(model => model.Title)
+            </div>
+
+            <div>
+                @Html.DisplayNameFor(model => model.Description)
+            </div>
+
+            <div>
+                @Html.DisplayFor(model => model.Description)
+            </div>
+
+            <div>
+                @Html.DisplayNameFor(model => model.Attachments)
+            </div>
+
+            <div>
+                @Html.DisplayFor(model => model.Attachments)
+            </div>
+
+            <div>
+                @Html.DisplayNameFor(model => model.Project.Name)
+            </div>
+
+            <div>
+                @Html.DisplayFor(model => model.Project.Name)
+            </div>
+
+            <div>
+                @Html.DisplayNameFor(model => model.TicketPriority.Name)
+            </div>
+
+            <div>
+                @Html.DisplayFor(model => model.TicketPriority.Name)
+            </div>
+
+            <div>
+                @Html.DisplayNameFor(model => model.TicketStatus.Name)
+            </div>
+
+            <div>
+                @Html.DisplayFor(model => model.TicketStatus.Name)
+            </div>
+
+            <div>
+                @Html.DisplayNameFor(model => model.TicketType.Name)
+            </div>
+
+            <div>
+                @Html.DisplayFor(model => model.TicketType.Name)
+            </div>
+
+            <div>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </div>
+
+            <div>
+                @Html.DisplayFor(model => model.CreatedDate)
+            </div>
+
+            <div>
+                @Html.DisplayNameFor(model => model.UpdatedDate)
+            </div>
+
+            <div>
+                @Html.DisplayFor(model => model.UpdatedDate)
+            </div>
+
+            <div>
+                @Html.DisplayNameFor(model => model.OwnerUserId)
+            </div>
+
+            <div>
+                @Html.DisplayFor(model => model.OwnerUser.DisplayName)
+            </div>
+
+            <div>
+                @Html.DisplayNameFor(model => model.AssignedToUserId)
+            </div>
+
+            <div>
+                @Html.DisplayFor(model => model.AssignedToUser.DisplayName)
+            </div>
+
+        </div>
+
+        <div class="row">
+            @if (Request.IsAuthenticated) {
+                <div class="post-comments">
+                    <div class="col-md-12">
+                        <form class="comment-form" role="form" method="post" name="AddComment" action="@Url.Action("AddComment", "Tickets")">
+                            <input type="hidden" name="TicketId" value="@Model.Id" />
+                            <input type="hidden" name="CommentUserId" value="@Model.CommentUserId" />
+                            <input type="hidden" name="Author" value="" />
+
+                            <h5 class="subpage-title">Add Comment</h5>
+
+                            <textarea type="text" name="Comment" class="form-control" rows="5"></textarea>
+                            <input type="submit" class="btn btn-flat flat-color" value="Add Comment" />
+                        </form>
+                    </div>
+                </div>
+            }
+            else {
+                <div class="post-comments">
+                    <div class="col-md-12">
+                        <h5 class="subpage-title">Login to create a comment.</h5>
+                    </div>
+                </div>
+            }
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5 class="subpage-title">
+                            @if (Model.Comments.Count == 1) {
+                                <span>(1) Comment </span>
+                            }
+                            else if (Model.Comments.Count >= 2) {
+                                <span>(</span>@Model.Comments.Count<span>) Comments </span>
+                            }
+                            else {
+                                <span>Comments </span>
+                            }
+                        </h5>
+
+                        @foreach (var comment in Model.Comments) {
+
+                            if ((User.IsInRole("Admin") || User.IsInRole("Moderator"))) {
+                                <ul class="media-list">
+                                    <li class="media">
+                                        <div class="media-body">
+                                            <h5 class="media-heading">
+                                                @Html.DisplayTextFor(model => comment.User.DisplayName)
+                                                <span class="subText">Created: @comment.CreatedDate.ToString("g") </span>
+                                                <span>
+                                                    <a href="" class="jsCommentClass comment-reply pull-right"
+                                                       data-toggle="modal"
+                                                       data-target="#editComment"
+                                                       data-id="@comment.Id"
+                                                       data-body="@comment.Comment"
+                                                       data-updateddate="@comment.UpdatedDate"
+                                                       data-updatedby="@comment.UserId">Edit Comment</a>
+
+                                                    <a href="" class="jsCommentClass comment-reply pull-right"
+                                                       data-toggle="modal"
+                                                       data-target="#deleteComment"
+                                                       data-id="@comment.Id"
+                                                       data-body="@comment.Comment"
+                                                       data-updateddate="@comment.UpdatedDate"
+                                                       data-removedby="@comment.UserId">Delete Comment</a>
+                                                </span>
+                                            </h5>
+                                            <div class="formattedContent">@Html.Raw(comment.Comment)</div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            }
+                            else {
+
+                                <ul class="media-list">
+                                    <li class="media">
+                                        <div class="media-body">
+                                            <h5 class="media-heading">
+                                                @Html.DisplayTextFor(model => comment.User.DisplayName)
+                                                <span class="subText">Created: @comment.CreatedDate.ToString("g") </span>
+                                            </h5>
+
+                                            <div class="formattedContent">@Html.Raw(comment.Comment)</div>
+
+                                        </div>
+                                    </li>
+                                </ul>
+                            }
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <dl class="dl-horizontal">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
+</section>
 
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
+<div id="editComment" class="modal fade" role="dialog">
+    <div class="modal-dialog numbersGame">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="post-comments">
+                            <div class="col-md-12">
+                                <form class="comment-form" role="form" method="post" action="@Url.Action("EditComment", "Tickets")">
+                                    <input type="hidden" name="TicketId" value="@Model.Id" />
+                                    <input type="hidden" id="commentUpdateId" name="Id" value="" />
+                                    <input type="hidden" id="commentUpdatedById" name="UpdatedBy" value="" />
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+                                    <h5 class="subpage-title">Edit Comment</h5>
+                                    <label>Comment Body: </label>
+                                    <textarea type="text" id="commentUpdateBodyId" class="form-control tinyMceCommentEditor" name="Comment" value="" rows="5"></textarea>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Project.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Project.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TicketPriority.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TicketPriority.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TicketStatus.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TicketStatus.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TicketType.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TicketType.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreatedDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.UpdatedDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UpdatedDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.OwnerUserId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.OwnerUser.DisplayName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AssignedToUserId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AssignedToUser.DisplayName)
-        </dd>
-
-    </dl>
+                                    <input type="submit" class="btn btn-flat flat-color" value="Edit Comment" />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
+<div id="deleteComment" class="modal fade" role="dialog">
+    <div class="modal-dialog numbersGame">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="post-comments">
+                            <div class="col-md-12">
+                                <form class="comment-form" role="form" method="post" action="@Url.Action("DeleteComment", "Tickets")">
+                                    <input type="hidden" name="TicketId" value="@Model.Id" />
+                                    <input type="hidden" id="commentRemoveId" name="Id" value="" />
+                                    <input type="hidden" id="commentRemovedById" name="RemovedBy" value="" />
+                                    <input type="hidden" name="IsRemoved" value="true" />
+
+                                    <h5 class="subpage-title">Delete Comment</h5>
+                                    <label>Comment Body: </label>
+                                    <textarea type="text" id="commentRemoveBodyId" class="form-control tinyMceCommentEditor" name="Comment" value="" rows="5"></textarea>
+                                    <input type="submit" class="btn btn-flat flat-color" value="Delete Comment" />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $('.jsCommentClass').click(function () {
+            //Global comment variables
+            $('#commentUpdateId').val($(this).attr('data-id'));
+            $('#commentUpdateBodyId').val($(this).attr('data-body'));
+            $('#commentRemoveId').val($(this).attr('data-id'));
+            $('#commentRemoveBodyId').val($(this).attr('data-body'));
+            $('#commentRemovedById').val($(this).attr('data-removedby'));
+            $('#commentRemoveReasonId').val($(this).attr('data-removereason'));
+
+            //Updated variables
+            $('#commentUpdatedById').val($(this).attr('data-updatedby'));
+            $('#commentUpdatedDateId').val($(this).attr('data-updateddate'));
+            $('#commentUpdatedReasonId').val($(this).attr('data-updatedreason'));
+
+        });
+    </script>
+}

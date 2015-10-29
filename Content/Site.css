@@ -44,3 +44,7 @@ textarea.ticket-textarea, input.ticket-input, select.ticket-select{
 .display-for-padding {
     padding-top:7px;
 }
+
+.subText {
+    font-size: .75em;
+}

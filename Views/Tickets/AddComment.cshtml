@@ -1,0 +1,22 @@
+﻿@using BugTracker.Models
+@model TicketCommentsModel
+
+<form class="comment-form" method="post" action="@Url.Action("AddComment", "Tickets")">
+    @Html.HiddenFor(m => m.TicketId)
+    @Html.HiddenFor(m => m.User.Id)
+    @Html.HiddenFor(m => m.Ticket.OwnerUserId)
+    @Html.HiddenFor(m => m.Ticket.AssignedToUserId)
+
+    <h5 class="subpage-title">Add Comment</h5>
+    <div class="row">
+        <div class="col-md-6">
+            @Html.TextBoxFor(m => m.User, new { @class = "form-control", @placeholder = "Name (required)" })
+        </div>
+        <div class="col-md-6">
+            @Html.TextBoxFor(m => m.AuthorId, new { @class = "form-control", @placeholder = "Name (required)" })
+        </div>
+
+    </div>
+    @Html.TextAreaFor(m => m.Comment, new { @class = "form-control", rows = "3" })
+    <input type="submit" class="btn btn-flat flat-color" value="Post Comment" />
+</form>

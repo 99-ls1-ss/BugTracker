@@ -43,6 +43,8 @@ namespace BugTracker.Models {
             return new ApplicationDbContext();
         }
 
+        public System.Data.Entity.DbSet<BugTracker.Models.TicketAttachmentsModel> AttachmentData { get; set; }
+
         public System.Data.Entity.DbSet<BugTracker.Models.ProjectsModel> ProjectsData { get; set; }
 
         public System.Data.Entity.DbSet<BugTracker.Models.TicketsModel> TicketsData { get; set; }

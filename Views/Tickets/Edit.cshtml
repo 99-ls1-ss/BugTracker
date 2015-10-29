@@ -1,11 +1,12 @@
 ﻿@model BugTracker.Models.TicketsModel
 
 @{
+    ViewBag.Menu = "Tickets";
     ViewBag.Title = "Edit Ticket Details";
 }
 
 <section>
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm("Edit", "Tickets", FormMethod.Post, new { enctype = "multipart/form-data" })) {
         @Html.AntiForgeryToken()
 
         <div class="form-horizontal">
@@ -49,6 +50,20 @@
                             @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Attachments, htmlAttributes: new { @class = "control-label col-xs-3 col-sm-2 text-right" })
+                                <div class="col-xs-8 col-sm-9">
+                                    @*@Html.EditorFor(model => model.MediaURL, new { htmlAttributes = new { @class = "form-control" } })*@
+                                    @Html.ValidationMessageFor(model => model.Attachments, "", new { @class = "text-danger" })
+                                    <input name="file" type="file" class="form-control mediaUrl" id="fileUpload" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         @Html.LabelFor(model => model.ProjectId, "Project Name", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-4">

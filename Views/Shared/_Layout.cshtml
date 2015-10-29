@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity;
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -15,105 +16,92 @@
     @Styles.Render("~/plugins/css")
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+    <link href="~/Content/skins.css" rel="stylesheet" />
     <link href="~/Content/DataTables-1.10.9/media/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/stylesheet.css" rel="stylesheet" />
+    <link href="~/Content/myStyles.css" rel="stylesheet" />
 
     <meta name="description" content="The description of my page" />
 </head>
 <body class="smoothscroll enable-animation">
-
-    <!-- SLIDE TOP -->
-    <div id="slidetop">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <h6><i class="icon-heart"></i> WHY SMARTY?</h6>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas metus nulla, commodo a sodales sed, dignissim pretium nunc. Nam et lacus neque. Ut enim massa, sodales tempor convallis et, iaculis ac massa. </p>
-                </div>
-
-                <div class="col-md-4">
-                    <h6><i class="icon-attachment"></i> RECENTLY VISITED</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="#"><i class="fa fa-angle-right"></i> Consectetur adipiscing elit amet</a></li>
-                        <li><a href="#"><i class="fa fa-angle-right"></i> This is a very long text, very very very very very very very very very very very very </a></li>
-                        <li><a href="#"><i class="fa fa-angle-right"></i> Lorem ipsum dolor sit amet</a></li>
-                        <li><a href="#"><i class="fa fa-angle-right"></i> Dolor sit amet,consectetur adipiscing elit amet</a></li>
-                        <li><a href="#"><i class="fa fa-angle-right"></i> Consectetur adipiscing elit amet,consectetur adipiscing elit</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-md-4">
-                    <h6><i class="icon-envelope"></i> CONTACT INFO</h6>
-                    <ul class="list-unstyled">
-                        <li><b>Address:</b> PO Box 21132, Here Weare St, <br /> Melbourne, Vivas 2355 Australia</li>
-                        <li><b>Phone:</b> 1-800-565-2390</li>
-                        <li><b>Email:</b> <a href="mailto:support@yourname.com">support@yourname.com</a></li>
-                    </ul>
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-    <!-- /SLIDE TOP -->
     <!-- wrapper -->
     <div id="wrapper">
-        <div id="header" class="sticky shadow-after-3 clearfix fixed">
-            <header id="topNav">
-                <div class="navbar navbar-inverse navbar-fixed-top">
-                    <div class="container">
-                        <div class="navbar-header">
-                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                            @Html.ActionLink("PayneSolutions", "Index", "Tickets", new { area = "" }, new { @class = "navbar-brand" })
-                        </div>
-                        <div class="navbar-collapse collapse">
-                            <ul class="nav navbar-nav">
-                                <li>@Html.ActionLink("Tickets", "Index", "Tickets")</li>
-                                @if(User.IsInRole("Admin")) {
-                                    <li>@Html.ActionLink("User Admin", "Index", "Admin")</li>
-                                    <li>@Html.ActionLink("Project Admin", "Index", "Projects")</li>
-                                }
-                                @*@if (Request.IsAuthenticated) { 
-                                    <li>@Html.ActionLink("Tickets", "Index", "Tickets")</li>
-                                }*@
-                                </ul>
+        <header id="header-2" class="header">
+            <nav class="navbar navbar-default" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        @*@Html.ActionLink("PayneSolutions", "Index", "Tickets", new { area = "" }, new { @class = "navbar-brand" })*@
+                        <a class="navbar-brand" href="@Url.Action("Index","Tickets")">Payne<span>Solutions</span></a>
+                    </div>
+                    <div class="collapse navbar-collapse navbar-ex1-collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown  @(ViewBag.Menu == "Tickets" ? "active" : "")">@Html.ActionLink("Tickets", "Index", "Tickets")</li>
+                            @if (User.IsInRole("Admin")) {
+                                <li class="dropdown  @(ViewBag.Menu == "Users" ? "active" : "")">@Html.ActionLink("User Admin", "Index", "Admin")</li>
+                                <li class="dropdown  @(ViewBag.Menu == "Projects" ? "active" : "")">@Html.ActionLink("Project Admin", "Index", "Projects")</li>
+                            }
 
+                        </ul>
+
+                        @*@Html.Partial("_LoginPartial")*@
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-xs-12">
+                            <h2>@ViewBag.Title</h2>
+                            <h5 class="subpage-title">@ViewBag.Message</h5>
+                        </div>
+                        <div class="col-sm-6 col-xs-12 blogAccount">
                             @Html.Partial("_LoginPartial")
                         </div>
-
                     </div>
                 </div>
-            </header>
-        </div>
-        <div class="container body-content">
+            </nav>
+        </header>
 
+        @*<div class="container body-content">*@
+            
             @RenderBody()
+        @*</div>*@
 
-            <hr />
-            <footer>
-                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-            </footer>
-
-        </div>
-
-        <!-- SCROLL TO TOP -->
-        <a href="#" id="toTop"></a>
-
-
-        <!-- PRELOADER -->
-        <div id="preloader">
-            <div class="inner">
-                <span class="loader"></span>
+        <footer id="footer-2" class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 footer-info-wrapper">
+                        <span>Copyright © PayneSolutions @System.DateTime.Now.ToString("yyyy")</span>
+                    </div>
+                    <!-- /.footer-info-wrapper -->
+                    <div class="col-xs-12 col-sm-6 social-link-wrapper">
+                        <ul class="social-links">
+                            <li><a href="https://www.facebook.com/brandon.payne.374" target="_blank"><i class="icon-facebook"></i></a></li>
+                            <li><a href="https://plus.google.com/u/0/+BPayne/posts" target="_blank"><i class="icon-google-plus"></i></a></li>
+                            <li><a href="https://github.com/99-ls1-ss" target="_blank"><i class="icon-github"></i></a></li>
+                        </ul>
+                    </div>
+                    <!-- /.social-link-wrapper -->
+                </div>
+                <!-- /.row -->
             </div>
-        </div>
-        <!-- /PRELOADER -->
+            <!-- /.container -->
+        </footer>
 
-    </div>
+            <!-- SCROLL TO TOP -->
+            <a href="#" id="toTop"></a>
+
+
+            <!-- PRELOADER -->
+            <div id="preloader">
+                <div class="inner">
+                    <span class="loader"></span>
+                </div>
+            </div>
+            <!-- /PRELOADER -->
+
+</div>
     <!-- /wrapper -->
     <!-- JAVASCRIPT FILES -->
     <script type="text/javascript">var plugin_path = 'plugins/';</script>
@@ -126,13 +114,23 @@
     <script src="~/Scripts/contact.js"></script>
     <script src="~/Scripts/scripts.js"></script>
     <script src="~/Scripts/view/demo.revolution_slider.js"></script>
+    
+
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/plugins/scripts")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script src="~/Scripts/tinymce/tinymce.min.js"></script>
+    <script src="~/Scripts/tinymce/tinymce.js"></script>
+    <script src="~/Scripts/jquery.dotdotdot.js"></script>
+    @*<script>
+        $(document).ready(function () {
+            $("#tinyMceEditor").tinymce({});
+            $(".tinyMceCommentEditor").tinymce({});
+        });
+    </script>*@
+
 </body>
-
-
 
 </html>

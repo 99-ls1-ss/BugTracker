@@ -9,6 +9,7 @@ namespace BugTracker.Models {
     public class TicketsModel {
 
         public TicketsModel() {
+            this.Attachments = new HashSet<TicketAttachmentsModel>();
             this.Comments = new HashSet<TicketCommentsModel>();
             this.History = new HashSet<TicketHistoriesModel>();
             this.Notification = new HashSet<TicketNotificationsModel>();
@@ -51,12 +52,20 @@ namespace BugTracker.Models {
         [Display(Name = "Assigned To")]
         public string AssignedToUserId { get; set; }
 
+        [Display(Name = "Commenter")]
+        public string CommentUserId { get; set; }
+
+        //[Display(Name = "File URL")]
+        //public string FileUrl { get; set; }
+
         public virtual ProjectsModel Project { get; set; }
         public virtual TicketTypesModel TicketType { get; set; }
         public virtual TicketPrioritiesModel TicketPriority { get; set; }
         public virtual TicketStatusesModel TicketStatus { get; set; }
+        public virtual ApplicationUser CommentUser { get; set; }
         public virtual ApplicationUser OwnerUser { get; set; }
         public virtual ApplicationUser AssignedToUser { get; set; }
+        public virtual ICollection<TicketAttachmentsModel> Attachments { get; set; }
         public virtual ICollection<TicketCommentsModel> Comments { get; set; }
         public virtual ICollection<TicketHistoriesModel> History { get; set; }
         public virtual ICollection<TicketNotificationsModel> Notification { get; set; }
