@@ -152,9 +152,13 @@
     padding: 10px 20px;
 }
 
+.login-bar {
+    padding-top:20px;
+}
+
 .blogAccount a {
     display:inline-block;
-    margin:0 4%;
+    margin-left:4%;
 }
 
 #blog-posts .editDeleteLink {
@@ -277,4 +281,27 @@ input.btn{
 
 .mediaUrl {
     padding:4px 12px 4px 4px;
+}
+
+.label {
+    color:#95a5a6;
+    font-weight:700;
+}
+
+.ticket-content .row div {
+    font-size:14px;
+    padding: .4em .6em;
+    line-height:1.5;
+}
+
+
+/*----------  Datatables ------------*/
+
+.dataTable thead {
+    background-color: #2c3e50;
+    color: #fff;
+}
+
+.dataTable tbody tr:nth-child(even){
+    background-color:#F0FFF7;
 }

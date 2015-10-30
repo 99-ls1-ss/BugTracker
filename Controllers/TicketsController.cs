@@ -113,11 +113,11 @@ namespace BugTracker.Controllers {
         }
 
         // GET: Tickets/Edit/5
-        public async Task<ActionResult> Edit(int? id) {
-            if (id == null) {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            TicketsModel ticketsModel = await db.TicketsData.FindAsync(id);
+        public ActionResult Edit(int id) {
+            //if (id == null) {
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
+            TicketsModel ticketsModel = db.TicketsData.Find(id);
             if (ticketsModel == null) {
                 return HttpNotFound();
             }
@@ -126,8 +126,8 @@ namespace BugTracker.Controllers {
             ViewBag.TicketPriorityId = new SelectList(db.TicketPrioritiesData, "Id", "Name", ticketsModel.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatusesData, "Id", "Name", ticketsModel.TicketStatusId);
             ViewBag.TicketTypeId = new SelectList(db.TicketTypesData, "Id", "Name", ticketsModel.TicketTypeId);
-            ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "DisplayName", ticketsModel.OwnerUserId);
-            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "DisplayName", ticketsModel.AssignedToUserId);
+            //ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "DisplayName", ticketsModel.OwnerUserId);
+            //ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "DisplayName", ticketsModel.AssignedToUserId);
             ViewBag.Comments = new SelectList(db.Users, "Id", "Comment", ticketsModel.Comments);
 
             return View(ticketsModel);
@@ -170,10 +170,12 @@ namespace BugTracker.Controllers {
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.OwnerUser.Id = new SelectList(db.Users,"Id","DisplayName",ticketsModel.OwnerUser.Id);
             ViewBag.ProjectId = new SelectList(db.ProjectsData, "Id", "Name", ticketsModel.ProjectId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPrioritiesData, "Id", "Name", ticketsModel.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatusesData, "Id", "Name", ticketsModel.TicketStatusId);
             ViewBag.TicketTypeId = new SelectList(db.TicketTypesData, "Id", "Name", ticketsModel.TicketTypeId);
+
             return View(ticketsModel);
         }
 
