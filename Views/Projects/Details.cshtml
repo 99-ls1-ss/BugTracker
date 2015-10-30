@@ -1,4 +1,39 @@
-﻿@model BugTracker.Models.ProjectsModel
+﻿@using System.Collections
+@using BugTracker.Models
+@model ProjectUsersModel
+
+@{
+    ViewBag.Menu = "Projects";
+    ViewBag.Title = "Edit";
+}
+
+
+<div class="">
+
+
+</div>
+
+<h2>Edit Project</h2>
+
+
+
+<form method="post" action="@Url.Action("Edit")">
+
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => Model.Project.Id)
+
+    @Html.LabelFor(m => m.Project, Model.Project.Name, new { @class = "control-label col-md-2" })
+    @Html.ListBoxFor(m => m.SelectedUsers, Model.Users, new { @class = "form-control" })
+
+    <button type="submit">Submit</button>
+
+</form>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@*@model BugTracker.Models.ProjectsModel
 
 @{
     ViewBag.Title = "Project Details";
@@ -22,4 +57,4 @@
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
-</p>
+</p>*@

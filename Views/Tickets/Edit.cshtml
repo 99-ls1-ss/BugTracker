@@ -15,7 +15,7 @@
         <hr />
         <div class="row">
             <div class="col-md-2">
-                @Html.ActionLink("Back to List", "Index", new { @class = "text-right" })
+                @Html.ActionLink("Back to List", "Index", null, new { @class = "text-right" })
             </div>
             <div class="col-md-7"></div>
             @if (User.IsInRole("Admin")) {
@@ -32,7 +32,7 @@
             <div class="container">
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 @Html.HiddenFor(model => model.Id)
-                @Html.HiddenFor(model => model.Attachments)
+               
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -48,18 +48,7 @@
                         @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Attachments, htmlAttributes: new { @class = "control-label col-xs-3 col-sm-2 text-right" })
-                            <div class="col-xs-8 col-sm-9">
-                                @*@Html.EditorFor(model => model.MediaURL, new { htmlAttributes = new { @class = "form-control" } })*@
-                                @Html.ValidationMessageFor(model => model.Attachments, "", new { @class = "text-danger" })
-                                <input name="file" type="file" class="form-control mediaUrl" id="fileUpload" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
+               
                 <div class="form-group">
                     @Html.LabelFor(model => model.ProjectId, "Project Name", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-4">
@@ -87,13 +76,16 @@
                 @if (User.IsInRole("Admin") || (User.IsInRole("ProjectManager"))) {
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.OwnerUser, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.OwnerUserId, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-4">
-                            @Html.DropDownList("OwnerUser", null, htmlAttributes: new { @class = "form-control ticket-select" })
+                            @Html.HiddenFor(model=>model.OwnerUserId)
+                            @*@Html.DropDownList("OwnerUserId", null, htmlAttributes: new { @class = "form-control ticket-select" })*@
+                            @Html.DisplayFor(model => model.OwnerUser.DisplayName)
                             @Html.ValidationMessageFor(model => model.OwnerUserId, "", new { @class = "text-danger" })
                         </div>
                         @Html.LabelFor(model => model.AssignedToUserId, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-4">
+                            @Html.HiddenFor(model => model.AssignedToUserId)
                             @Html.DropDownList("AssignedToUserId", null, htmlAttributes: new { @class = "form-control ticket-select" })
                             @Html.ValidationMessageFor(model => model.AssignedToUser.DisplayName, "", new { @class = "text-danger" })
                         </div>

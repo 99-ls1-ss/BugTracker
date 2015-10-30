@@ -22,29 +22,19 @@ namespace BugTracker.Controllers {
         // GET: Projects/Details/5
         // the "?" within the () is to allow you to catch any errors so you can give a friendly error instead.  
         // it tells the request to go through the action anyway
-        public async Task<ActionResult> Details(int? id, ProjectUsersModel projectUsersModel) {
+        public ActionResult Details(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var project = db.ProjectsData.Find(projectUsersModel.Project.Id);
+            var projectId = db.ProjectsData.Find(id);
+            var selected = projectId.Users.Select(u => u.Id);
 
-            UserProjectRolesHelper helper = new UserProjectRolesHelper();
-            project.Users.Clear();
-
-            foreach (var UserId in projectUsersModel.SelectedUsers) {
-
-                helper.AddUserToProject(UserId, project.Id);
-            }
-
-            ProjectsModel projectsModel = await db.ProjectsData.FindAsync(id);
-
-            ViewBag.AssignedUsers = new MultiSelectList(db.Users, "Id", "DisplayName", projectsModel.Users.Select(p => p.Id));
-
-            if (projectsModel == null) {
-                return HttpNotFound();
-            }
-            return View(projectsModel);
+            ProjectUsersModel projectUsersModel = new ProjectUsersModel() {
+                Users = new MultiSelectList(db.Users, "Id", "DisplayName", selected),
+                Project = projectId
+            };
+            return View(projectUsersModel);
         }
 
         // GET: Projects/Create
@@ -77,12 +67,12 @@ namespace BugTracker.Controllers {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var project = db.ProjectsData.Find(id);
-            var selected = project.Users.Select(u => u.Id);
+            var projectId = db.ProjectsData.Find(id);
+            var selected = projectId.Users.Select(u => u.Id);
 
             ProjectUsersModel projectUsersModel = new ProjectUsersModel() {
                 Users = new MultiSelectList(db.Users, "Id", "DisplayName", selected),
-                Project = project
+                Project = projectId
             };
             return View(projectUsersModel);
         }

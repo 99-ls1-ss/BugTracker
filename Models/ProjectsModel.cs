@@ -8,6 +8,7 @@ using System.ComponentModel.DataAnnotations;
 namespace BugTracker.Models {
     public class ProjectsModel {
 
+        [Display(Name = "Project ID")]
         public int Id { get; set; }
         [Display(Name = "Project Name")]
         public string Name { get; set; }

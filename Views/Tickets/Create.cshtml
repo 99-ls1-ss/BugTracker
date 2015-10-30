@@ -67,7 +67,7 @@
                 @Html.ValidationMessageFor(model => model.TicketStatusId, "", new { @class = "text-danger" })
             </div>
         </div>
-        @if (User.IsInRole("Admin") || (User.IsInRole("ProjectManager"))) {
+        @*@if (User.IsInRole("Admin") || (User.IsInRole("ProjectManager"))) {
             <div class="form-group">
                 @Html.LabelFor(model => model.OwnerUserId, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-4">
@@ -80,7 +80,7 @@
                     @Html.ValidationMessageFor(model => model.AssignedToUser.DisplayName, "", new { @class = "text-danger" })
                 </div>
             </div>
-            }
+            }*@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

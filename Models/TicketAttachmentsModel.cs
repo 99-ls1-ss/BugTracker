@@ -18,6 +18,10 @@ namespace BugTracker.Models {
         [DisplayFormat(DataFormatString = "{0:MMM dd yyyy}")]
         public DateTimeOffset CreatedDate { get; set; }
 
+        [Display(Name = "Date Updated")]
+        [DisplayFormat(DataFormatString = "{0:MMM dd yyyy}")]
+        public Nullable<DateTimeOffset> UpdatedDate { get; set; }
+
         public string UserId { get; set; }
 
         [Display(Name = "File URL")]

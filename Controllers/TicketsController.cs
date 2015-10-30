@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using BugTracker.Models;
 using System.IO;
+using BugTracker.Helpers;
 
 namespace BugTracker.Controllers {
     public class TicketsController : Controller {
@@ -25,8 +26,12 @@ namespace BugTracker.Controllers {
             if (User.IsInRole("Admin")) {
                 tickets = tickets;
             }
-            else if ((User.IsInRole("ProjectManager")) || (User.IsInRole("Developer")) || (User.IsInRole("Submitter"))) {
-                tickets = db.TicketsData.Where(t => db.Users.FirstOrDefault(u => u.Id == userId).Projects.Any(p => p.Id == t.ProjectId) || t.OwnerUserId == userId);
+            else if ((User.IsInRole("ProjectManager")) || (User.IsInRole("Developer"))) {
+
+                tickets = user.Projects.SelectMany(p=>p.Tickets).AsQueryable();
+            }
+            else if (User.IsInRole("Submitter")) {
+                tickets = db.TicketsData.Where(t=>t.OwnerUserId == user.Id);
             }
 
             return View(tickets.ToList());
@@ -56,6 +61,7 @@ namespace BugTracker.Controllers {
             ViewBag.TicketPriorityId = new SelectList(db.TicketPrioritiesData, "Id", "Name");
             ViewBag.TicketStatusId = new SelectList(db.TicketStatusesData, "Id", "Name");
             ViewBag.TicketTypeId = new SelectList(db.TicketTypesData, "Id", "Name");
+            ViewBag.TicketAttachmentId = new SelectList(db.AttachmentData, "Id", "FileUrl");
             return View(ticketsModel);
         }
 
@@ -75,6 +81,7 @@ namespace BugTracker.Controllers {
                     ext != ".pdf" && ext != ".rtf" && ext != ".wps")
                     ModelState.AddModelError("image", "Invalid Image Type.");
             }
+
             TicketAttachmentsModel attachments = new TicketAttachmentsModel();
             if (ModelState.IsValid) {
 
@@ -85,11 +92,6 @@ namespace BugTracker.Controllers {
                     file.SaveAs(Path.Combine(absPath, file.FileName));
                 }
 
-                //if (ticketsModel.AssignedToUserId != null) {
-                //    ticketsModel.AssignedToUserId = ticketsModel.AssignedToUserId();
-                //}
-
-                //ticketsModel.OwnerUserId = User.Identity.GetUserId();
                 ticketsModel.CreatedDate = DateTimeOffset.Now;
                 ticketsModel.UpdatedDate = null;
                 attachments.CreatedDate = DateTimeOffset.Now;
@@ -114,20 +116,30 @@ namespace BugTracker.Controllers {
 
         // GET: Tickets/Edit/5
         public ActionResult Edit(int id) {
-            //if (id == null) {
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
+
             TicketsModel ticketsModel = db.TicketsData.Find(id);
             if (ticketsModel == null) {
                 return HttpNotFound();
             }
+            var projectId = db.ProjectsData.Find(ticketsModel.ProjectId);
+            var projectUser = projectId.Users.ToList();
+            var projUserList = new List<ApplicationUser>();
 
-            ViewBag.ProjectId = new SelectList(db.ProjectsData, "Id", "Name", ticketsModel.ProjectId);
+            List<ApplicationUser> projdevs = new List<ApplicationUser>();
+            UserRolesHelper helper = new UserRolesHelper();
+
+            foreach (var user in projectId.Users) {
+                if (helper.IsUserInRole(user.Id, "Developer")) {
+                    projdevs.Add(user);
+                }
+            }
+
+            ViewBag.ProjectId = new SelectList(db.TicketPrioritiesData, "Id", "Name", ticketsModel.ProjectId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPrioritiesData, "Id", "Name", ticketsModel.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatusesData, "Id", "Name", ticketsModel.TicketStatusId);
             ViewBag.TicketTypeId = new SelectList(db.TicketTypesData, "Id", "Name", ticketsModel.TicketTypeId);
-            //ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "DisplayName", ticketsModel.OwnerUserId);
-            //ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "DisplayName", ticketsModel.AssignedToUserId);
+            ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "DisplayName", ticketsModel.OwnerUserId);
+            ViewBag.AssignedToUserId = new SelectList(projdevs.ToList(), "Id", "DisplayName", ticketsModel.AssignedToUserId);
             ViewBag.Comments = new SelectList(db.Users, "Id", "Comment", ticketsModel.Comments);
 
             return View(ticketsModel);
@@ -138,39 +150,30 @@ namespace BugTracker.Controllers {
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(TicketsModel ticketsModel, HttpPostedFileBase file) {
-
-            if (file != null && file.ContentLength > 0) {
-                var ext = Path.GetExtension(file.FileName).ToLower();
-                if (ext != ".png" && ext != ".jpg" && ext != ".jpeg" && ext != ".gif" &&
-                    ext != ".bmp" && ext != ".txt" && ext != ".doc" && ext != ".docx" &&
-                    ext != ".pdf" && ext != ".rtf" && ext != ".wps")
-                    ModelState.AddModelError("image", "Invalid Image Type.");
-            }
-
-            TicketAttachmentsModel attachments = new TicketAttachmentsModel();
+        public ActionResult Edit(TicketsModel ticketsModel) {
+           
 
             if (ModelState.IsValid) {
-                if (file != null && file.ContentLength > 0) {
-                    var filePath = "/Uploads/";
-                    var absPath = Server.MapPath("~" + filePath);
-                    attachments.FileUrl = filePath + file.FileName;
-                    file.SaveAs(Path.Combine(absPath, file.FileName));
-                }
 
-                attachments.CreatedDate = DateTimeOffset.Now;
-                attachments.UserId = User.Identity.GetUserId();
-
-                //db.AttachmentData.Add(attachments);
-                db.Entry(attachments).State = EntityState.Modified;
-                db.Entry(ticketsModel).State = EntityState.Modified;
-                //db.Entry(ticketsModel).Property(p => p.UpdatedDate).IsModified = true;
                 ticketsModel.UpdatedDate = DateTimeOffset.Now;
+
+                db.TicketsData.Attach(ticketsModel);
+                
+                db.Entry(ticketsModel).Property(p => p.AssignedToUserId).IsModified = true;
+                db.Entry(ticketsModel).Property(p => p.Description).IsModified = true;
+                db.Entry(ticketsModel).Property(p => p.Title).IsModified = true;
+                db.Entry(ticketsModel).Property(p => p.TicketTypeId).IsModified = true;
+                db.Entry(ticketsModel).Property(p => p.TicketStatusId).IsModified = true;
+                db.Entry(ticketsModel).Property(p => p.TicketPriorityId).IsModified = true;
+                db.Entry(ticketsModel).Property(p => p.ProjectId).IsModified = true;
+                //db.Entry(ticketsModel).Property(p => p.OwnerUserId).IsModified = true;
+                db.Entry(ticketsModel).Property(p => p.UpdatedDate).IsModified = true;
 
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.OwnerUser.Id = new SelectList(db.Users,"Id","DisplayName",ticketsModel.OwnerUser.Id);
+            ViewBag.OwnerUserId = new SelectList(db.Users,"Id","DisplayName",ticketsModel.OwnerUserId);
+            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "DisplayName", ticketsModel.AssignedToUserId);
             ViewBag.ProjectId = new SelectList(db.ProjectsData, "Id", "Name", ticketsModel.ProjectId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPrioritiesData, "Id", "Name", ticketsModel.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatusesData, "Id", "Name", ticketsModel.TicketStatusId);
@@ -249,6 +252,72 @@ namespace BugTracker.Controllers {
                 db.SaveChanges();
             }
             return RedirectToAction("Details", new { id = deleteComment.TicketId });
+        }
+
+
+        //Add Attachment
+        [HttpPost]
+        public ActionResult AddAttachment(TicketAttachmentsModel newAttachment, HttpPostedFileBase file) {
+
+            if (file != null && file.ContentLength > 0) {
+                //Check the file name to make sure it's a image
+                var ext = Path.GetExtension(file.FileName).ToLower();
+
+                if (ext != ".png" && ext != ".jpg" && ext != ".jpeg" && ext != ".gif" && 
+                    ext != ".bmp" && ext != ".txt" && ext != ".doc" && ext != ".docx" && 
+                    ext != ".pdf" && ext != ".rtf" && ext != ".wps")
+                    ModelState.AddModelError("image", "Invalid Image Type.");
+            }
+
+           // TicketAttachmentsModel attachments = new TicketAttachmentsModel();
+            if (ModelState.IsValid) {
+
+                if (file != null && file.ContentLength > 0) {
+                    var filePath = "/Uploads/";
+                    var absPath = Server.MapPath("~" + filePath);
+                    newAttachment.FileUrl = filePath + file.FileName;
+                    file.SaveAs(Path.Combine(absPath, file.FileName));
+                }
+
+                db.AttachmentData.Add(newAttachment);
+
+                newAttachment.CreatedDate = System.DateTimeOffset.Now;
+                newAttachment.UpdatedDate = null;
+                newAttachment.UserId = User.Identity.GetUserId();
+                db.AttachmentData.Add(newAttachment);
+                db.SaveChanges();
+            }
+            return RedirectToAction("Details", new { id = newAttachment.TicketId });
+        }
+
+
+        [HttpPost]
+        public ActionResult EditAttachment(TicketAttachmentsModel editAttachment) {
+
+            if (ModelState.IsValid) {
+                // the Comments refers to the Model IdentityModels - public DbSet<Comment> Comments { get; set; }.
+                if (!db.TicketCommentsData.Local.Any(c => c.Id == editAttachment.Id))
+                    db.AttachmentData.Attach(editAttachment);
+
+                db.Entry(editAttachment).Property("Description").IsModified = true;
+                editAttachment.UpdatedDate = System.DateTimeOffset.Now;
+
+                db.SaveChanges();
+            }
+            return RedirectToAction("Details", new { id = editAttachment.TicketId });
+        }
+
+        [HttpPost]
+        public ActionResult DeleteAttachment(TicketAttachmentsModel deleteAttachment) {
+
+            if (ModelState.IsValid) {
+                if (!db.TicketCommentsData.Local.Any(c => c.Id == deleteAttachment.Id))
+                    db.AttachmentData.Attach(deleteAttachment);
+
+                db.AttachmentData.Remove(deleteAttachment);
+                db.SaveChanges();
+            }
+            return RedirectToAction("Details", new { id = deleteAttachment.TicketId });
         }
     }
 }

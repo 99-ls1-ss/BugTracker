@@ -115,16 +115,22 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/plugins/scripts")
     @Scripts.Render("~/bundles/bootstrap")
-        @RenderSection("scripts",required: false)
+    @RenderSection("scripts",required: false)
 
     <script src="~/Scripts/tinymce/jquery.tinymce.min.js"></script>
-    <script src="~/Scripts/tinymce/tinymce.min.js"></script>
     <script src="~/Scripts/tinymce/tinymce.js"></script>
     <script src="~/Scripts/jquery.dotdotdot.js"></script>
     <script>
         $(document).ready(function () {
             $("#tinyMceEditor").tinymce({});
             $(".tinyMceCommentEditor").tinymce({});
+
+            $('.jsBlogBody').dotdotdot({
+                wrap: 'word',
+                fallbackToLetter: true,
+                ellipsis: '... ',
+                height: 50
+            });
         });
     </script>
 

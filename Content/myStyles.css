@@ -294,6 +294,10 @@ input.btn{
     line-height:1.5;
 }
 
+.media-heading {
+    margin: 8px 0 -2px;
+}
+
 
 /*----------  Datatables ------------*/
 

@@ -7,28 +7,26 @@
 <section class="section colored-wrapper">
     <div class="container">
         <div class="wrapper-2">
-
-            <h2>@ViewBag.Ticket</h2>
             <div>
-                <h4>@ViewBag.Message</h4>
+                <h4><span>@ViewBag.Message</span></h4>
                 <hr />
                 <div class="row">
                     <div class="col-md-2">
                         @Html.ActionLink("Back to List", "Index", new { @class = "text-right" })
                     </div>
                     <div class="col-md-7"></div>
-                    @if(User.IsInRole("Admin")) {
+                    @if (User.IsInRole("Admin")) {
                         <div class="col-md-3 text-right">
                             @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
                             @Html.ActionLink("Delete", "Delete", new { id = Model.Id })
                         </div>
                     }
-                    else if(User.IsInRole("ProjectManager") || User.IsInRole("Developer")) {
+                    else if (User.IsInRole("ProjectManager") || User.IsInRole("Developer")) {
                         <div class="col-md-3 text-right">
                             @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
                         </div>
                     }
-                    else if(User.IsInRole("Submitter")) {
+                    else if (User.IsInRole("Submitter")) {
                         <div class="col-md-3 text-right">
                         </div>
                     }
@@ -50,14 +48,16 @@
                             @Html.DisplayFor(model => model.Description)
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="label text-right col-md-2">
-                            @Html.DisplayNameFor(model => model.Attachments)
+                    @*@if (Model.Attachments != null) {
+                        <div class="row">
+                            <div class="label text-right col-md-2">
+                                @Html.DisplayNameFor(model => model.Attachments)
+                            </div>
+                            <div class="col-md-10">
+                                @Html.DisplayFor(model => model.Attachments.)
+                            </div>
                         </div>
-                        <div class="col-md-10">
-                            @Html.DisplayFor(model => model.Attachments)
-                        </div>
-                    </div>
+                        }*@
                     <div class="row">
                         <div class="label text-right col-md-2">
                             @Html.DisplayNameFor(model => model.Project.Name)
@@ -123,8 +123,65 @@
                         </div>
                     </div>
                 </div>
+                <hr />
                 <div class="row">
-                    @if(Request.IsAuthenticated) {
+
+                    <div class="post-comments">
+                        <div class="col-md-12">
+                            <form class="comment-form" role="form" enctype="multipart/form-data" method="post" name="AddAttachment" action="@Url.Action("AddAttachment", "Tickets")">
+                                <input type="hidden" name="TicketId" value="@Model.Id" />
+                                <input type="hidden" name="CommentUserId" value="@Model.CommentUserId" />
+                                <input type="hidden" name="Author" value="" />
+                                <h5 class="subpage-title">Add Attachment</h5>
+                                <input name="file" type="file" class="form-control mediaUrl" id="fileUpload" />
+                                @*<textarea type="text" name="Comment" class="form-control" rows="5" id="tinyMceEditor"></textarea>*@
+                                <input type="submit" class="btn btn-flat flat-color" value="Add Attachment" />
+                            </form>
+                        </div>
+                    </div>
+
+                    @foreach (var attachment in Model.Attachments) {
+                        <ul class="media-list">
+                            <li class="media">
+                                <div class="media-body">
+                                    <h5 class="media-heading">
+                                        @Html.DisplayTextFor(model => attachment.User.DisplayName)
+                                        <span class="subText">Created: @attachment.CreatedDate.ToString("g") </span>
+                                        <span>
+                                            <a href="" class="jsCommentClass comment-reply pull-right"
+                                               data-toggle="modal"
+                                               data-target="#editComment"
+                                               data-id="@attachment.Id"
+                                               data-body="@attachment.FileUrl"
+                                               data-updateddate="@attachment.UpdatedDate"
+                                               data-updatedby="@attachment.UserId">Edit Attachment</a>
+                                            <a href="" class="jsCommentClass comment-reply pull-right"
+                                               data-toggle="modal"
+                                               data-target="#deleteComment"
+                                               data-id="@attachment.Id"
+                                               data-body="@attachment.FileUrl"
+                                               data-updateddate="@attachment.UpdatedDate"
+                                               data-removedby="@attachment.UserId">Delete Attachment</a>
+                                        </span>
+                                    </h5>
+                                    <div>@attachment.Description</div>
+                                    <div class="formattedContent">@attachment.FileUrl</div>
+                                </div>
+                            </li>
+
+                            @*<li class="media">
+                                <div class="media-body">
+                                    <h5 class="media-heading">
+                                        @Html.DisplayTextFor(model => attachment.User.DisplayName)
+                                        <span class="subText">Created: @attachment.CreatedDate.ToString("g") </span>
+                                    </h5>
+                                    <div class="formattedContent">@Html.Raw(attachment.FileUrl)</div>
+                                </div>
+                            </li>*@
+                        </ul>
+                    }
+
+                    @if (Request.IsAuthenticated) {
                         <div class="post-comments">
                             <div class="col-md-12">
                                 <form class="comment-form" role="form" method="post" name="AddComment" action="@Url.Action("AddComment", "Tickets")">
@@ -132,7 +189,7 @@
                                     <input type="hidden" name="CommentUserId" value="@Model.CommentUserId" />
                                     <input type="hidden" name="Author" value="" />
                                     <h5 class="subpage-title">Add Comment</h5>
-                                    <textarea type="text" name="Comment" class="form-control" rows="5"></textarea>
+                                    <textarea type="text" name="Comment" class="form-control" rows="5" id="tinyMceEditor"></textarea>
                                     <input type="submit" class="btn btn-flat flat-color" value="Add Comment" />
                                 </form>
                             </div>
@@ -149,19 +206,21 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <h5 class="subpage-title">
-                                    @if(Model.Comments.Count == 1) {
+                                    @if (Model.Comments.Count == 1) {
                                         <span>(1) Comment </span>
                                     }
-                                    else if(Model.Comments.Count >= 2) {
+                                    else if (Model.Comments.Count >= 2) {
                                         <span>(</span>@Model.Comments.Count<span>) Comments </span>
                                     }
                                     else {
                                         <span>Comments </span>
                                     }
                                 </h5>
-                                @foreach(var comment in Model.Comments) {
+                                
 
-                                    if((User.IsInRole("Admin") || User.IsInRole("Moderator"))) {
+                                @foreach (var comment in Model.Comments) {
+
+                                    if ((User.IsInRole("Admin") || User.IsInRole("Moderator"))) {
                                         <ul class="media-list">
                                             <li class="media">
                                                 <div class="media-body">
@@ -253,7 +312,7 @@
                                     <input type="hidden" name="IsRemoved" value="true" />
                                     <h5 class="subpage-title">Delete Comment</h5>
                                     <label>Comment Body: </label>
-                                    <textarea type="text" id="commentRemoveBodyId" class="form-control tinyMceCommentEditor" name="Comment" value="" rows="5"></textarea>
+                                    <textarea type="text" id="commentRemoveBodyId" class="form-control" name="Comment" value="" rows="5"></textarea>
                                     <input type="submit" class="btn btn-flat flat-color" value="Delete Comment" />
                                 </form>
                             </div>
