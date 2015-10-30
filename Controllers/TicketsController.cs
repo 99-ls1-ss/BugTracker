@@ -164,7 +164,7 @@ namespace BugTracker.Controllers {
                 //db.AttachmentData.Add(attachments);
                 db.Entry(attachments).State = EntityState.Modified;
                 db.Entry(ticketsModel).State = EntityState.Modified;
-                db.Entry(ticketsModel).Property(p => p.UpdatedDate).IsModified = true;
+                //db.Entry(ticketsModel).Property(p => p.UpdatedDate).IsModified = true;
                 ticketsModel.UpdatedDate = DateTimeOffset.Now;
 
                 db.SaveChanges();
