@@ -21,6 +21,8 @@
     <link href="~/Content/stylesheet.css" rel="stylesheet" />
     <link href="~/Content/myStyles.css" rel="stylesheet" />
 
+    <link href="~/assets/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
     <meta name="description" content="The description of my page" />
 </head>
 <body class="smoothscroll enable-animation">
@@ -50,23 +52,16 @@
 
                         @*@Html.Partial("_LoginPartial")*@
                     </div>
-                    <div class="row">
-                        <div class="col-sm-6 col-xs-12">
-                            <h2>@ViewBag.Title</h2>
-                            <h5 class="subpage-title">@ViewBag.Message</h5>
-                        </div>
-                        <div class="col-sm-6 col-xs-12 blogAccount">
+                    <div class="row login-bar">                        
+                        <div class="col-md-offset-6 col-sm-6 col-xs-12 blogAccount">
                             @Html.Partial("_LoginPartial")
                         </div>
                     </div>
                 </div>
             </nav>
         </header>
-
-        @*<div class="container body-content">*@
             
-            @RenderBody()
-        @*</div>*@
+        @RenderBody()
 
         <footer id="footer-2" class="footer">
             <div class="container">
@@ -120,16 +115,18 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/plugins/scripts")
     @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+        @RenderSection("scripts",required: false)
+
+    <script src="~/Scripts/tinymce/jquery.tinymce.min.js"></script>
     <script src="~/Scripts/tinymce/tinymce.min.js"></script>
     <script src="~/Scripts/tinymce/tinymce.js"></script>
     <script src="~/Scripts/jquery.dotdotdot.js"></script>
-    @*<script>
+    <script>
         $(document).ready(function () {
             $("#tinyMceEditor").tinymce({});
             $(".tinyMceCommentEditor").tinymce({});
         });
-    </script>*@
+    </script>
 
 </body>
 

@@ -119,7 +119,8 @@ textarea {
 }
 
 .navbar-brand span {
-    font-weight: 300;
+    /*font-weight: 300;*/
+    font-weight:500;
     color: #2ecc71;
 }
 

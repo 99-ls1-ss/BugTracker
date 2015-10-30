@@ -59,3 +59,36 @@ C:\Users\Brandon\Documents\School Source\BugTracker\BugTracker\bin\PagedList.dll
 C:\Users\Brandon\Documents\School Source\BugTracker\BugTracker\bin\PagedList.Mvc.dll
 C:\Users\Brandon\Documents\School Source\BugTracker\BugTracker\bin\PagedList.xml
 C:\Users\Brandon\Documents\School Source\BugTracker\BugTracker\bin\PagedList.Mvc.xml
+E:\School Items\School Source\BugTracker\bin\BugTracker.dll.config
+E:\School Items\School Source\BugTracker\bin\BugTracker.dll
+E:\School Items\School Source\BugTracker\bin\BugTracker.pdb
+E:\School Items\School Source\BugTracker\bin\Microsoft.Web.Infrastructure.dll
+E:\School Items\School Source\BugTracker\bin\PagedList.xml
+E:\School Items\School Source\BugTracker\bin\PagedList.Mvc.xml
+E:\School Items\School Source\BugTracker\bin\Microsoft.Web.Infrastructure.xml
+E:\School Items\School Source\BugTracker\bin\System.Web.Helpers.xml
+E:\School Items\School Source\BugTracker\bin\System.Web.Mvc.xml
+E:\School Items\School Source\BugTracker\bin\System.Web.Optimization.xml
+E:\School Items\School Source\BugTracker\bin\System.Web.Razor.xml
+E:\School Items\School Source\BugTracker\bin\System.Web.WebPages.xml
+E:\School Items\School Source\BugTracker\bin\System.Web.WebPages.Deployment.xml
+E:\School Items\School Source\BugTracker\bin\System.Web.WebPages.Razor.xml
+E:\School Items\School Source\BugTracker\bin\Antlr3.Runtime.pdb
+E:\School Items\School Source\BugTracker\bin\Newtonsoft.Json.xml
+E:\School Items\School Source\BugTracker\bin\EntityFramework.xml
+E:\School Items\School Source\BugTracker\bin\EntityFramework.SqlServer.xml
+E:\School Items\School Source\BugTracker\bin\Microsoft.AspNet.Identity.Core.xml
+E:\School Items\School Source\BugTracker\bin\Microsoft.AspNet.Identity.Owin.xml
+E:\School Items\School Source\BugTracker\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+E:\School Items\School Source\BugTracker\bin\Microsoft.Owin.xml
+E:\School Items\School Source\BugTracker\bin\Microsoft.Owin.Host.SystemWeb.xml
+E:\School Items\School Source\BugTracker\bin\Microsoft.Owin.Security.xml
+E:\School Items\School Source\BugTracker\bin\Microsoft.Owin.Security.Facebook.xml
+E:\School Items\School Source\BugTracker\bin\Microsoft.Owin.Security.Cookies.xml
+E:\School Items\School Source\BugTracker\bin\Microsoft.Owin.Security.OAuth.xml
+E:\School Items\School Source\BugTracker\bin\Microsoft.Owin.Security.Google.xml
+E:\School Items\School Source\BugTracker\bin\Microsoft.Owin.Security.Twitter.xml
+E:\School Items\School Source\BugTracker\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+E:\School Items\School Source\BugTracker\obj\Debug\BugTracker.csprojResolveAssemblyReference.cache
+E:\School Items\School Source\BugTracker\obj\Debug\BugTracker.dll
+E:\School Items\School Source\BugTracker\obj\Debug\BugTracker.pdb

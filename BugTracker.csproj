@@ -20,6 +20,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -210,6 +211,11 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\font-awesome\css\font-awesome-ie7.css" />
+    <Content Include="assets\font-awesome\css\font-awesome-ie7.min.css" />
+    <Content Include="assets\font-awesome\css\font-awesome.css" />
+    <Content Include="assets\font-awesome\css\font-awesome.min.css" />
+    <Content Include="assets\font-awesome\font\fontawesome-webfont.svg" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -313,6 +319,11 @@
     <Content Include="Content\DataTables-1.10.9\media\css\jquery.dataTables.css" />
     <Content Include="Content\DataTables-1.10.9\media\css\jquery.dataTables.min.css" />
     <Content Include="Content\DataTables-1.10.9\media\css\jquery.dataTables_themeroller.css" />
+    <Content Include="Content\DataTables-1.10.9\media\images\Backup\sort_asc.png" />
+    <Content Include="Content\DataTables-1.10.9\media\images\Backup\sort_asc_disabled.png" />
+    <Content Include="Content\DataTables-1.10.9\media\images\Backup\sort_both.png" />
+    <Content Include="Content\DataTables-1.10.9\media\images\Backup\sort_desc.png" />
+    <Content Include="Content\DataTables-1.10.9\media\images\Backup\sort_desc_disabled.png" />
     <Content Include="Content\DataTables-1.10.9\media\images\favicon.ico" />
     <Content Include="Content\DataTables-1.10.9\media\images\sort_asc.png" />
     <Content Include="Content\DataTables-1.10.9\media\images\sort_asc_disabled.png" />
@@ -320,6 +331,8 @@
     <Content Include="Content\DataTables-1.10.9\media\images\sort_desc.png" />
     <Content Include="Content\DataTables-1.10.9\media\images\sort_desc_disabled.png" />
     <Content Include="Content\essentials.css" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\header-1.css" />
     <Content Include="Content\images\1x1.png" />
     <Content Include="Content\images\avatar.png" />
@@ -1734,6 +1747,8 @@
     <Content Include="fonts\font-icons.svg" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\revicons.svg" />
+    <Content Include="fonts\revicons1.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="plugins\bootstrap.datepicker\css\bootstrap-datepicker.css" />
@@ -2943,6 +2958,36 @@
     <Content Include="Content\DataTables-1.10.9\media\images\Sorting icons.psd" />
     <Content Include="Content\DataTables-1.10.9\extensions\Buttons\css\mixins.scss" />
     <Content Include="Content\DataTables-1.10.9\extensions\Buttons\css\common.scss" />
+    <Content Include="fonts\backups\fontawesome-webfont.ttf" />
+    <Content Include="fonts\backups\fontawesome-webfont.woff" />
+    <Content Include="assets\font-awesome\font\fontawesome-webfont.eot" />
+    <Content Include="assets\font-awesome\font\fontawesome-webfont.ttf" />
+    <Content Include="assets\font-awesome\font\fontawesome-webfont.woff" />
+    <Content Include="assets\font-awesome\font\FontAwesome.otf" />
+    <Content Include="assets\font-awesome\less\bootstrap.less" />
+    <Content Include="assets\font-awesome\less\core.less" />
+    <Content Include="assets\font-awesome\less\extras.less" />
+    <Content Include="assets\font-awesome\less\font-awesome-ie7.less" />
+    <Content Include="assets\font-awesome\less\font-awesome.less" />
+    <Content Include="assets\font-awesome\less\icons.less" />
+    <Content Include="assets\font-awesome\less\mixins.less" />
+    <Content Include="assets\font-awesome\less\path.less" />
+    <Content Include="assets\font-awesome\less\variables.less" />
+    <Content Include="assets\font-awesome\scss\font-awesome-ie7.scss" />
+    <Content Include="assets\font-awesome\scss\font-awesome.scss" />
+    <Content Include="assets\font-awesome\scss\_bootstrap.scss" />
+    <Content Include="assets\font-awesome\scss\_core.scss" />
+    <Content Include="assets\font-awesome\scss\_extras.scss" />
+    <Content Include="assets\font-awesome\scss\_icons.scss" />
+    <Content Include="assets\font-awesome\scss\_mixins.scss" />
+    <Content Include="assets\font-awesome\scss\_path.scss" />
+    <Content Include="assets\font-awesome\scss\_variables.scss" />
+    <Content Include="fonts\revicons.eot" />
+    <Content Include="fonts\revicons.ttf" />
+    <Content Include="fonts\revicons.woff" />
+    <Content Include="fonts\revicons1.eot" />
+    <Content Include="fonts\revicons1.ttf" />
+    <Content Include="fonts\revicons1.woff" />
     <None Include="Properties\PublishProfiles\brandonpayne-bugtracker - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\brandonpayne-bugtracker - Web Deploy.pubxml" />
     <Content Include="Scripts\contact.js" />
@@ -3030,6 +3075,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\scripts.js" />
+    <Content Include="Scripts\tinymce\jquery.tinymce.min.js" />
     <Content Include="Scripts\tinymce\license.txt" />
     <Content Include="Scripts\tinymce\plugins\advlist\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\advlist\plugin.min.js" />
