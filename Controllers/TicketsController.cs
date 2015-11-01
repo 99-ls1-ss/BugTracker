@@ -260,26 +260,20 @@ namespace BugTracker.Controllers {
         public ActionResult AddAttachment(TicketAttachmentsModel newAttachment, HttpPostedFileBase file) {
 
             if (file != null && file.ContentLength > 0) {
-                //Check the file name to make sure it's a image
                 var ext = Path.GetExtension(file.FileName).ToLower();
-
                 if (ext != ".png" && ext != ".jpg" && ext != ".jpeg" && ext != ".gif" && 
                     ext != ".bmp" && ext != ".txt" && ext != ".doc" && ext != ".docx" && 
                     ext != ".pdf" && ext != ".rtf" && ext != ".wps")
                     ModelState.AddModelError("image", "Invalid Image Type.");
             }
-
-           // TicketAttachmentsModel attachments = new TicketAttachmentsModel();
             if (ModelState.IsValid) {
-
                 if (file != null && file.ContentLength > 0) {
                     var filePath = "/Uploads/";
                     var absPath = Server.MapPath("~" + filePath);
                     newAttachment.FileUrl = filePath + file.FileName;
                     file.SaveAs(Path.Combine(absPath, file.FileName));
                 }
-
-                db.AttachmentData.Add(newAttachment);
+                //db.AttachmentData.Add(newAttachment);
 
                 newAttachment.CreatedDate = System.DateTimeOffset.Now;
                 newAttachment.UpdatedDate = null;
@@ -292,26 +286,51 @@ namespace BugTracker.Controllers {
 
 
         [HttpPost]
-        public ActionResult EditAttachment(TicketAttachmentsModel editAttachment) {
+        public ActionResult EditAttachment(TicketAttachmentsModel editAttachment, HttpPostedFileBase file) {
+            
+            if(!db.AttachmentData.Local.Any(c => c.Id == editAttachment.Id))
+                db.AttachmentData.Attach(editAttachment);
 
             if (ModelState.IsValid) {
-                // the Comments refers to the Model IdentityModels - public DbSet<Comment> Comments { get; set; }.
-                if (!db.TicketCommentsData.Local.Any(c => c.Id == editAttachment.Id))
-                    db.AttachmentData.Attach(editAttachment);
+                if(db.Entry(editAttachment).Property("FileUrl").IsModified == true) {
+
+                    if(file != null && file.ContentLength > 0) {
+                        var ext = Path.GetExtension(file.FileName).ToLower();
+
+                        if(ext != ".png" && ext != ".jpg" && ext != ".jpeg" && ext != ".gif" &&
+                            ext != ".bmp" && ext != ".txt" && ext != ".doc" && ext != ".docx" &&
+                            ext != ".pdf" && ext != ".rtf" && ext != ".wps")
+                            ModelState.AddModelError("image","Invalid Image Type.");
+                    }
+
+                    if(file != null && file.ContentLength > 0) {
+                        var filePath = "/Uploads/";
+                        var absPath = Server.MapPath("~" + filePath);
+                        editAttachment.FileUrl = filePath + file.FileName;
+                        file.SaveAs(Path.Combine(absPath,file.FileName));
+                    }
+
+                }                
+
+                if(editAttachment.FileUrl == null) {
+                    editAttachment.CreatedDate = System.DateTimeOffset.Now;
+                }                
 
                 db.Entry(editAttachment).Property("Description").IsModified = true;
-                editAttachment.UpdatedDate = System.DateTimeOffset.Now;
-
+                db.Entry(editAttachment).Property("FileUrl").IsModified = true;
+                editAttachment.UpdatedDate = System.DateTimeOffset.Now;                
+                editAttachment.UserId = User.Identity.GetUserId();                
                 db.SaveChanges();
             }
             return RedirectToAction("Details", new { id = editAttachment.TicketId });
         }
 
+
         [HttpPost]
         public ActionResult DeleteAttachment(TicketAttachmentsModel deleteAttachment) {
 
             if (ModelState.IsValid) {
-                if (!db.TicketCommentsData.Local.Any(c => c.Id == deleteAttachment.Id))
+                if (!db.AttachmentData.Local.Any(c => c.Id == deleteAttachment.Id))
                     db.AttachmentData.Attach(deleteAttachment);
 
                 db.AttachmentData.Remove(deleteAttachment);

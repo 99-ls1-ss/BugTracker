@@ -37,8 +37,13 @@ textarea {
     max-height: 150px;
 }
 
-textarea.ticket-textarea, input.ticket-input, select.ticket-select{
+textarea.ticket-textarea, input.ticket-input, select.ticket-select, input#attachmentEditDescriptionId, input#attachmentEditUrl, input#fileUploadEdit,
+input#attachmentDeleteDescription,input#attachmentDeleteUrl{
     max-width:100%;
+}
+
+textarea.attachmentDescription, input.attachmentFileUrl {
+    max-width:80%;
 }
 
 .display-for-padding {
@@ -47,4 +52,9 @@ textarea.ticket-textarea, input.ticket-input, select.ticket-select{
 
 .subText {
     font-size: .75em;
+}
+
+.modal.in .modal-dialog {
+    background-color:#fff;
+    margin-top: 40px;
 }
