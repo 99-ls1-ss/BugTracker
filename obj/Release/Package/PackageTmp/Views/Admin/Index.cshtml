@@ -2,45 +2,62 @@
 @model IEnumerable<BugTracker.Models.ApplicationUser>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "User List";
 }
-
-
-<div class="container">
-    <div class="row">
-        <h2>User List</h2>
-    </div>
-    <div class="row user-header-row">
-        <div class="col-xs-3">
-            <label>User Name</label>
-        </div>
-        <div class="col-xs-3">
-            <label>User Role</label>
-        </div>
-        <div class="col-xs-3">
-            <label>User Email</label>
-        </div>
-        <div class="col-xs-3">
-            <label>Change User Role</label>
+<section class="section colored-wrapper">
+    <div class="container">
+        <div class="wrapper-2">
+            <div class="row">
+                <div class="col-md-9 content-wrapper">
+                    <h2><span>@ViewBag.Title</span></h2>
+                </div>
+                <div class="col-md-3 text-right">
+                    @*@Html.ActionLink("Create New User", "Create")*@
+                </div>
+            </div>
         </div>
     </div>
-    @foreach (var user in Model) {
-        <div class="row user-row">
-            <div class="col-xs-3">
-                @user.DisplayName
-            </div>
-            <div class="col-xs-3">
-                @foreach (var role in user.Roles) {
-                    <div>@ViewBag.Roles[role.RoleId]</div>
-                }
-            </div>
-            <div class="col-xs-3">
-                @user.UserName
-            </div>
-            <div class="col-xs-3">
-                @Html.ActionLink("Edit User", "EditUser", new { id = user.Id })
-            </div>
+    <div class="container">
+        <div class="wrapper-2">
+            <table class="table" id="ticketTable">
+                <thead>
+                    <tr>
+                        <th>User Name</th>
+                        <th>Assigned Roles</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model) {
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("EditUser", new { id = user.Id })">
+                                    @user.DisplayName
+                                </a>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Edit User", "EditUser", new { id = user.Id })">
+                                    @foreach (var role in user.Roles) {
+                                        <div>@ViewBag.Roles[role.RoleId]</div>
+                                    }
+                                </a>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Edit User", "EditUser", new { id = user.Id })">
+                                    @user.UserName
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
+    </div>
+</section>
+    @section scripts{
+        <script>
+            $(document).ready(function () {
+                $('#ticketTable').DataTable();
+            });
+        </script>
     }
-</div>
-

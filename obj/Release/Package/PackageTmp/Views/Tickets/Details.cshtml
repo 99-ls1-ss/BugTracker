@@ -1,98 +1,413 @@
 ﻿@model BugTracker.Models.TicketsModel
-
 @{
+    ViewBag.Menu = "Tickets";
     ViewBag.Title = "Details";
+    ViewBag.Message = "Ticket Details";
 }
+<section class="section colored-wrapper">
+    <div class="container">
+        <div class="wrapper-2">
+            <div>
+                <h4><span>@ViewBag.Message</span></h4>
+                <hr />
+                <div class="row">
+                    <div class="col-md-2">
+                        @Html.ActionLink("Back to List", "Index", new { @class = "text-right" })
+                    </div>
+                    <div class="col-md-7"></div>
+                    @if (User.IsInRole("Admin")) {
+                        <div class="col-md-3 text-right">
+                            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = Model.Id })
+                        </div>
+                    }
+                    else if (User.IsInRole("ProjectManager") || User.IsInRole("Developer")) {
+                        <div class="col-md-3 text-right">
+                            @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+                        </div>
+                    }
+                    else if (User.IsInRole("Submitter")) {
+                        <div class="col-md-3 text-right">
+                        </div>
+                    }
+                </div>
+                <div class="container ticket-content">
+                    <div class="row">
+                        <div class="label text-right col-md-2">
+                            @Html.DisplayNameFor(model => model.Title)
+                        </div>
+                        <div class="col-md-10">
+                            @Html.DisplayFor(model => model.Title)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="label text-right col-md-2">
+                            @Html.DisplayNameFor(model => model.Description)
+                        </div>
+                        <div class="col-md-10">
+                            @Html.DisplayFor(model => model.Description)
+                        </div>
+                    </div>
+                    @*@if (Model.Attachments != null) {
+                        <div class="row">
+                            <div class="label text-right col-md-2">
+                                @Html.DisplayNameFor(model => model.Attachments)
+                            </div>
+                            <div class="col-md-10">
+                                @Html.DisplayFor(model => model.Attachments.)
+                            </div>
+                        </div>
+                        }*@
+                    <div class="row">
+                        <div class="label text-right col-md-2">
+                            @Html.DisplayNameFor(model => model.Project.Name)
+                        </div>
+                        <div class="col-md-10">
+                            @Html.DisplayFor(model => model.Project.Name)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="label text-right col-md-2">
+                            @Html.DisplayNameFor(model => model.TicketPriority.Name)
+                        </div>
+                        <div class="col-md-10">
+                            @Html.DisplayFor(model => model.TicketPriority.Name)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="label text-right col-md-2">
+                            @Html.DisplayNameFor(model => model.TicketStatus.Name)
+                        </div>
+                        <div class="col-md-10">
+                            @Html.DisplayFor(model => model.TicketStatus.Name)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="label text-right col-md-2">
+                            @Html.DisplayNameFor(model => model.TicketType.Name)
+                        </div>
+                        <div class="col-md-10">
+                            @Html.DisplayFor(model => model.TicketType.Name)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="label text-right col-md-2">
+                            @Html.DisplayNameFor(model => model.CreatedDate)
+                        </div>
+                        <div class="col-md-10">
+                            @Html.DisplayFor(model => model.CreatedDate)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="label text-right col-md-2">
+                            @Html.DisplayNameFor(model => model.UpdatedDate)
+                        </div>
+                        <div class="col-md-10">
+                            @Html.DisplayFor(model => model.UpdatedDate)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="label text-right col-md-2">
+                            @Html.DisplayNameFor(model => model.OwnerUserId)
+                        </div>
+                        <div class="col-md-10">
+                            @Html.DisplayFor(model => model.OwnerUser.DisplayName)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="label text-right col-md-2">
+                            @Html.DisplayNameFor(model => model.AssignedToUserId)
+                        </div>
+                        <div class="col-md-10">
+                            @Html.DisplayFor(model => model.AssignedToUser.DisplayName)
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
 
-<h2>Details</h2>
+                    <div class="post-comments">
+                        <div class="col-md-12">
+                            <form class="comment-form" role="form" enctype="multipart/form-data" method="post" name="AddAttachment" action="@Url.Action("AddAttachment", "Tickets")">
+                                <input type="hidden" name="TicketId" value="@Model.Id" />
+                                <input type="hidden" name="CommentUserId" value="@Model.CommentUserId" />
+                                <input type="hidden" name="Author" value="" />
+                                
+                                <h5 class="subpage-title">Add Description</h5>
+                                <textarea type="text" name="Description" class="form-control attachmentDescription"></textarea>
 
-<div>
-    <h4>TicketsModel</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Project.Name)
-        </dt>
+                                <h5 class="subpage-title">Add Attachment</h5>
+                                <input name="file" type="file" class="form-control mediaUrl attachmentFileUrl" id="fileUpload" />
+                                
+                                <input type="submit" class="btn btn-flat flat-color" value="Add Attachment" />
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        @foreach(var attachment in Model.Attachments) {
+                            <ul class="media-list">
+                                <li class="media">
+                                    <div class="media-body">
+                                        <h5 class="media-heading">
+                                            @Html.DisplayTextFor(model => attachment.User.DisplayName)
+                                            <span class="subText">Created: @attachment.CreatedDate.ToString("g") </span>
+                                            <span>
+                                                <a href="" class="jsCommentClass comment-reply pull-right"
+                                                   data-toggle="modal"
+                                                   data-target="#editAttachment"
+                                                   data-attachmentid="@attachment.Id"
+                                                   data-description="@attachment.Description"
+                                                   data-url="@attachment.FileUrl"
+                                                   data-updateddate="@attachment.UpdatedDate"
+                                                   data-attachmentupdatedby="@attachment.UserId">Edit Attachment</a>
+                                                <a href="" class="jsCommentClass comment-reply pull-right"
+                                                   data-toggle="modal"
+                                                   data-target="#deleteAttachment"
+                                                   data-attachmentid="@attachment.Id"
+                                                   data-description="@attachment.Description"
+                                                   data-url="@attachment.FileUrl"
+                                                   data-updateddate="@attachment.UpdatedDate"
+                                                   data-removedby="@attachment.UserId">Delete Attachment</a>
+                                            </span>
+                                        </h5>
+                                        <div class="formattedContent">@attachment.Description</div>
+                                        <div class=""><a href="@attachment.FileUrl" target="_blank">@attachment.FileUrl</a></div>
+                                    </div>
+                                </li>
+                            </ul>
+                        }
 
-        <dd>
-            @Html.DisplayFor(model => model.Project.Name)
-        </dd>
+                    </div>
+                    @if (Request.IsAuthenticated) {
+                        <div class="post-comments">
+                            <div class="col-md-12">
+                                <form class="comment-form" role="form" method="post" name="AddComment" action="@Url.Action("AddComment", "Tickets")">
+                                    <input type="hidden" name="TicketId" value="@Model.Id" />
+                                    <input type="hidden" name="CommentUserId" value="@Model.CommentUserId" />
+                                    <input type="hidden" name="Author" value="" />
+                                    <h5 class="subpage-title">Add Comment</h5>
+                                    <textarea type="text" name="Comment" class="form-control" rows="5" id="tinyMceEditor"></textarea>
+                                    <input type="submit" class="btn btn-flat flat-color" value="Add Comment" />
+                                </form>
+                            </div>
+                        </div>
+                    }
+                    else {
+                        <div class="post-comments">
+                            <div class="col-md-12">
+                                <h5 class="subpage-title">Login to create a comment.</h5>
+                            </div>
+                        </div>
+                    }
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h5 class="subpage-title">
+                                    @if (Model.Comments.Count == 1) {
+                                        <span>(1) Comment </span>
+                                    }
+                                    else if (Model.Comments.Count >= 2) {
+                                        <span>(</span>@Model.Comments.Count<span>) Comments </span>
+                                    }
+                                    else {
+                                        <span>Comments </span>
+                                    }
+                                </h5>
+                                
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TicketPriority.Name)
-        </dt>
+                                @foreach (var comment in Model.Comments) {
 
-        <dd>
-            @Html.DisplayFor(model => model.TicketPriority.Name)
-        </dd>
+                                    if ((User.IsInRole("Admin") || User.IsInRole("Moderator"))) {
+                                        <ul class="media-list">
+                                            <li class="media">
+                                                <div class="media-body">
+                                                    <h5 class="media-heading">
+                                                        @Html.DisplayTextFor(model => comment.User.DisplayName)
+                                                        <span class="subText">Created: @comment.CreatedDate.ToString("g") </span>
+                                                        <span>
+                                                            <a href="" class="jsCommentClass comment-reply pull-right"
+                                                               data-toggle="modal"
+                                                               data-target="#editComment"
+                                                               data-id="@comment.Id"
+                                                               data-body="@comment.Comment"
+                                                               data-updateddate="@comment.UpdatedDate"
+                                                               data-updatedby="@comment.UserId">Edit Comment</a>
+                                                            <a href="" class="jsCommentClass comment-reply pull-right"
+                                                               data-toggle="modal"
+                                                               data-target="#deleteComment"
+                                                               data-id="@comment.Id"
+                                                               data-body="@comment.Comment"
+                                                               data-updateddate="@comment.UpdatedDate"
+                                                               data-removedby="@comment.UserId">Delete Comment</a>
+                                                        </span>
+                                                    </h5>
+                                                    <div class="formattedContent">@Html.Raw(comment.Comment)</div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    }
+                                    else {
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TicketStatus.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TicketStatus.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TicketType.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TicketType.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreatedDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.UpdatedDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UpdatedDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.OwnerUser)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.OwnerUser.DisplayName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AssignedToUser)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AssignedToUserId)
-        </dd>
-
-    </dl>
+                                        <ul class="media-list">
+                                            <li class="media">
+                                                <div class="media-body">
+                                                    <h5 class="media-heading">
+                                                        @Html.DisplayTextFor(model => comment.User.DisplayName)
+                                                        <span class="subText ">Created: @comment.CreatedDate.ToString("g") </span>
+                                                    </h5>
+                                                    <div class="formattedContent">@Html.Raw(comment.Comment)</div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div id="editComment" class="modal fade" role="dialog">
+    <div class="modal-dialog numbersGame">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="post-comments">
+                            <div class="col-md-12">
+                                <form class="comment-form" role="form" method="post" action="@Url.Action("EditComment", "Tickets")">
+                                    <input type="hidden" name="TicketId" value="@Model.Id" />
+                                    <input type="hidden" id="commentUpdateId" name="Id" value="" />
+                                    <input type="hidden" id="commentUpdatedById" name="UpdatedBy" value="" />
+                                    <h5 class="subpage-title">Edit Comment</h5>
+                                    <label>Comment Body: </label>
+                                    <textarea type="text" id="commentUpdateBodyId" class="form-control tinyMceCommentEditor" name="Comment" value="" rows="5"></textarea>
+                                    <input type="submit" class="btn btn-flat flat-color" value="Edit Comment" />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<p>
-    @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |*@
-    @Html.ActionLink("Back to List", "Index")
-</p>
+<div id="deleteComment" class="modal fade" role="dialog">
+    <div class="modal-dialog numbersGame">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="post-comments">
+                            <div class="col-md-12">
+                                <form class="comment-form" role="form" method="post" action="@Url.Action("DeleteComment", "Tickets")">
+                                    <input type="hidden" name="TicketId" value="@Model.Id" />
+                                    <input type="hidden" id="commentRemoveId" name="Id" value="" />
+                                    <input type="hidden" id="commentRemovedById" name="RemovedBy" value="" />
+                                    <input type="hidden" name="IsRemoved" value="true" />
+                                    <h5 class="subpage-title">Delete Comment</h5>
+                                    <label>Comment Body: </label>
+                                    <textarea type="text" id="commentRemoveBodyId" class="form-control" name="Comment" value="" rows="5"></textarea>
+                                    <input type="submit" class="btn btn-flat flat-color" value="Delete Comment" />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*Edit Attachment*@
+<div id="editAttachment" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="post-comments">
+                            <div class="col-md-12">
+                                <form class="comment-form" role="form" method="post" name="EditAttachment" enctype="multipart/form-data" action="@Url.Action("EditAttachment", "Tickets")">
+                                    <input type="hidden" name="TicketId" value="@Model.Id" />
+                                    <input type="hidden" id="attachmentEditId" name="Id" value="" />
+                                    <input type="hidden" id="attachmentEditUrlId" name="FileUrl" value="" />
+                                    <h5 class="subpage-title">Edit Attachment</h5>
+                                    <label class="">Attachment Description: </label>
+                                    <input type="text" id="attachmentEditDescriptionId" class="form-control" name="Description" value="" />
+                                    <label class="col-md-4">Current Attachment: </label>
+                                    <input type="text" class="form-control mediaUrl col-md-8" id="attachmentEditUrl" name="FileUrl" value="" />                          
+                                    @*<input type="file" class="form-control mediaUrl" id="fileUploadEdit" name="FileUrl" value="" />*@
+                                    <input type="submit" class="btn btn-flat flat-color" value="Edit Attachment" />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*Delete Attachment*@
+<div id="deleteAttachment" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="post-comments">
+                            <div class="col-md-12">
+                                <form class="comment-form" role="form" method="post" name="DeleteAttachment" enctype="multipart/form-data" action="@Url.Action("DeleteAttachment", "Tickets")">
+                                    <input type="hidden" name="TicketId" value="@Model.Id" />
+                                    <input type="hidden" id="attachmentDeleteId" name="Id" value="" />
+                                    <input type="hidden" id="attachmentDeleteDescriptionId" name="Description" value="" />
+                                    
+                                    <h5 class="subpage-title">Delete Attachment</h5>
+                                    <label class="">Attachment Description: </label>
+                                    <input type="text" id="attachmentDeleteDescription" class="form-control" name="Description" value="" />
+                                    <label class="col-md-4">Attachment Url: </label>
+                                    <input type="text" class="form-control mediaUrl col-md-8" id="attachmentDeleteUrl" name="FileUrl" value="" />
+                                    <input type="submit" class="btn btn-flat flat-color" value="Delete Attachment" />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $('.jsCommentClass').click(function () {
+            //Global comment variables
+            $('#attachmentEditId').val($(this).attr('data-attachmentid'));
+            $('#attachmentEditDescription').val($(this).attr('data-description'));
+            $('#attachmentEditDescriptionId').val($(this).attr('data-description'));
+            $('#attachmentEditUrl').val($(this).attr('data-url'));
+            $('#attachmentEditUrlId').val($(this).attr('data-url'));
+            $('#fileUploadEdit').val($(this).attr('data-url'));
+            $('#attachmentUpdatedById').val($(this).attr('data-attachmentupdatedby'));
+
+            $('#attachmentDeleteId').val($(this).attr('data-attachmentid'));
+            $('#attachmentDeleteDescriptionId').val($(this).attr('data-description'));
+            $('#attachmentDeleteDescription').val($(this).attr('data-description'));
+            $('#attachmentDeleteUrl').val($(this).attr('data-url'));
+            $('#attachmentDeleteUrlId').val($(this).attr('data-url'));
+
+            $('#commentUpdateId').val($(this).attr('data-id'));
+            $('#commentUpdateBodyId').val($(this).attr('data-body'));            
+            $('#commentRemoveId').val($(this).attr('data-id'));
+            $('#commentRemoveBodyId').val($(this).attr('data-body'));
+            $('#commentRemovedById').val($(this).attr('data-removedby'));
+            $('#commentRemoveReasonId').val($(this).attr('data-removereason'));
+
+            //Updated variables
+            $('#commentUpdatedById').val($(this).attr('data-updatedby'));
+            $('#commentUpdatedDateId').val($(this).attr('data-updateddate'));
+            $('#commentUpdatedReasonId').val($(this).attr('data-updatedreason'));
+
+        });
+    </script>
+}

@@ -1,95 +1,98 @@
 ﻿@model BugTracker.Models.TicketsModel
 @using Microsoft.AspNet.Identity
-
 @{
+    ViewBag.Menu = "Tickets";
     ViewBag.Title = "Create";
 }
+<section class="section colored-wrapper">
+    <div class="container">
+        <div class="wrapper-2">
 
-<h2>Create</h2>
-
-@using (Html.BeginForm()) {
+                @using(Html.BeginForm("Create", "Tickets", FormMethod.Post, new { enctype = "multipart/form-data" })) {
     @Html.AntiForgeryToken()
 
     <input type="hidden" name="OwnerUserId" value="@User.Identity.GetUserId()" />
 
     <div class="form-horizontal">
-        <h4>TicketsModel</h4>
+        <h4>Create Ticket</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control ticket-input", @placeholder = "Title is required" } })
                 @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.Description, new { @class = "form-control ticket-textarea", @rows = 10, @cols = 30, @id = "tinyMceEditor" })
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             </div>
         </div>
-
-        @*<div class="form-group">
-                @Html.LabelFor(model => model.CreatedDate, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.CreatedDate, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.CreatedDate, "", new { @class = "text-danger" })
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Attachments, htmlAttributes: new { @class = "control-label col-xs-3 col-sm-2 text-right" })
+                    <div class="col-xs-8 col-sm-9">
+                        @*@Html.EditorFor(model => model.MediaURL, new { htmlAttributes = new { @class = "form-control" } })*@
+                        @Html.ValidationMessageFor(model => model.Attachments, "", new { @class = "text-danger" })
+                        <input name="file" type="file" class="form-control mediaUrl" id="fileUpload" />
+                    </div>
                 </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.UpdatedDate, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.UpdatedDate, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.UpdatedDate, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ProjectId, "ProjectId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("ProjectId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
-            @Html.LabelFor(model => model.TicketTypeId, "TicketTypeId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("TicketTypeId", null, htmlAttributes: new { @class = "form-control" })
+            @Html.LabelFor(model => model.Project.Name, "Project", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.DropDownList("ProjectId", null, htmlAttributes: new { @class = "form-control ticket-select" })
+                @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
+            </div>
+            @Html.LabelFor(model => model.TicketType.Name, "Ticket Type", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.DropDownList("TicketTypeId", null, htmlAttributes: new { @class = "form-control ticket-select" })
                 @Html.ValidationMessageFor(model => model.TicketTypeId, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
-            @Html.LabelFor(model => model.TicketPriorityId, "TicketPriority", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("TicketPriorityId", null, htmlAttributes: new { @class = "form-control" })
+            @Html.LabelFor(model => model.TicketPriority.Name, "Ticket Priority", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.DropDownList("TicketPriorityId", null, htmlAttributes: new { @class = "form-control ticket-select" })
                 @Html.ValidationMessageFor(model => model.TicketPriorityId, "", new { @class = "text-danger" })
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.TicketStatusId, "TicketStatusId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("TicketStatusId", null, htmlAttributes: new { @class = "form-control" })
+            @Html.LabelFor(model => model.TicketStatus.Name, "Ticket Status", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.DropDownList("TicketStatusId", null, htmlAttributes: new { @class = "form-control ticket-select" })
                 @Html.ValidationMessageFor(model => model.TicketStatusId, "", new { @class = "text-danger" })
             </div>
         </div>
-
-
+        @*@if (User.IsInRole("Admin") || (User.IsInRole("ProjectManager"))) {
+            <div class="form-group">
+                @Html.LabelFor(model => model.OwnerUserId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.DropDownList("OwnerUserId", null, htmlAttributes: new { @class = "form-control ticket-select" })
+                    @Html.ValidationMessageFor(model => model.OwnerUser.DisplayName, "", new { @class = "text-danger" })
+                </div>
+                @Html.LabelFor(model => model.AssignedToUserId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.DropDownList("AssignedToUserId", null, htmlAttributes: new { @class = "form-control ticket-select" })
+                    @Html.ValidationMessageFor(model => model.AssignedToUser.DisplayName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            }*@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-flat flat-color" />
             </div>
         </div>
     </div>
-}
+    }
+                <div>
+                    @Html.ActionLink("Back to List", "Index")
+                </div>
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+        </div>
+    </div>
+</section>
