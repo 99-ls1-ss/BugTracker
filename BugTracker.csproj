@@ -342,6 +342,8 @@
     <Content Include="Content\images\backgrounds\blue.jpg" />
     <Content Include="Content\images\backgrounds\default.jpg" />
     <Content Include="Content\images\backgrounds\grey-noise-min.jpg" />
+    <Content Include="Content\images\blue-beach-vw-beetle-wallpaper.jpg" />
+    <Content Include="Content\images\blue-beach-vw-beetle-wallpaper.png" />
     <Content Include="Content\images\bluebar.png" />
     <Content Include="Content\images\buttons\btn-appstore-dark.png" />
     <Content Include="Content\images\buttons\btn-appstore.png" />
@@ -3246,7 +3248,9 @@
     <Content Include="Scripts\view\demo.swiper_slider.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Uploads\2015_gmc_sierra_sierra_2500hd_denali.png" />
+    <Content Include="Uploads\6819071700_8ea2f78b29.jpg" />
     <Content Include="Uploads\pokemon-list.png" />
+    <Content Include="Uploads\sBaqtkZ.jpg" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

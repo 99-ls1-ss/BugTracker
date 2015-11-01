@@ -309,3 +309,16 @@ input.btn{
 .dataTable tbody tr:nth-child(even){
     background-color:#F0FFF7;
 }
+
+.home-landing {
+    min-height:600px
+}
+
+.landing-page {
+    background-image:url('images/blue-beach-vw-beetle-wallpaper.png');
+    background-position:bottom center;
+    background-repeat:no-repeat;
+    height:600px;
+    width: 116%;
+    margin: 0 -8%;
+}

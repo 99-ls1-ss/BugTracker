@@ -6,60 +6,67 @@
 }
 
 
-<section class="section colored-wrapper">
-    @if (!Request.IsAuthenticated) {
-        <div class="container">
-            <div class="row">
-                You are not logged in.  Please login or create an account.
-            </div>
-        </div>
-    }
-    else {
-        <div class="container">
-            <div class="wrapper-2">
-                <div class="row">
-                    <div class="col-md-9 content-wrapper">
-                        <h2><span>@ViewBag.Title</span></h2>
-                    </div>
-                    <div class="col-md-3 text-right">
-                        @Html.ActionLink("Create New Ticket", "Create")
+
+    @if(!Request.IsAuthenticated) {
+        <section class="section colored-wrapper">
+            <div class="container home-landing">
+                <div class="wrapper-2">
+                    <div class="row">
+                        <h1><span>Welcome to The Bugtracker</span></h1>
+                        @*<h3>You are not logged in.  Please login or create an account.</h3>*@
+                        <div class="landing-page"></div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
+    }
+    else {
+        <section class="section colored-wrapper">
+            <div class="container">
+                <div class="wrapper-2">
+                    <div class="row">
+                        <div class="col-md-9 content-wrapper">
+                            <h2><span>@ViewBag.Title</span></h2>
+                        </div>
+                        <div class="col-md-3 text-right">
+                            @Html.ActionLink("Create New Ticket", "Create")
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <div class="container">
-            <div class="wrapper-2">
-                <div class="row">
-                    <div id="site_content">
-                        <table class="table" id="ticketTable">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Title)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Project.Name)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.TicketPriority.Name)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.CreatedDate)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.UpdatedDate)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.OwnerUserId)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.AssignedToUserId)
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model) {
+            <div class="container">
+                <div class="wrapper-2">
+                    <div class="row">
+                        <div id="site_content">
+                            <table class="table" id="ticketTable">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Title)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Project.Name)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.TicketPriority.Name)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.CreatedDate)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.UpdatedDate)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.OwnerUserId)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.AssignedToUserId)
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model) {
                                     <tr>
                                         <td>
                                             <a href="@Url.Action("Details", "Tickets", new { id = item.Id })">
@@ -94,23 +101,24 @@
                                         <td>
                                             <a href="@Url.Action("Details", "Tickets", new { id = item.Id })">
                                                 @if (item.AssignedToUserId != null) {
-                                                    @Html.DisplayFor(modelItem => item.AssignedToUser.DisplayName)
+                                            @Html.DisplayFor(modelItem => item.AssignedToUser.DisplayName)
                                         }
                                         else {
-                                                    <span>Unassigned</span>
+                                            <span>Unassigned</span>
                                         }
                                             </a>
                                         </td>
                                     </tr>
                         }
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     }
-</section>
+        
 
 @section scripts{
     <script>
