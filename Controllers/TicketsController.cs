@@ -287,21 +287,17 @@ namespace BugTracker.Controllers {
 
         [HttpPost]
         public ActionResult EditAttachment(TicketAttachmentsModel editAttachment, HttpPostedFileBase file) {
-            
-            if(!db.AttachmentData.Local.Any(c => c.Id == editAttachment.Id))
-                db.AttachmentData.Attach(editAttachment);
+
+            if (file != null && file.ContentLength > 0) {
+                var ext = Path.GetExtension(file.FileName).ToLower();
+
+                if (ext != ".png" && ext != ".jpg" && ext != ".jpeg" && ext != ".gif" &&
+                    ext != ".bmp" && ext != ".txt" && ext != ".doc" && ext != ".docx" &&
+                    ext != ".pdf" && ext != ".rtf" && ext != ".wps")
+                    ModelState.AddModelError("image", "Invalid Image Type.");
+            }
 
             if (ModelState.IsValid) {
-                if(db.Entry(editAttachment).Property("FileUrl").IsModified == true) {
-
-                    if(file != null && file.ContentLength > 0) {
-                        var ext = Path.GetExtension(file.FileName).ToLower();
-
-                        if(ext != ".png" && ext != ".jpg" && ext != ".jpeg" && ext != ".gif" &&
-                            ext != ".bmp" && ext != ".txt" && ext != ".doc" && ext != ".docx" &&
-                            ext != ".pdf" && ext != ".rtf" && ext != ".wps")
-                            ModelState.AddModelError("image","Invalid Image Type.");
-                    }
 
                     if(file != null && file.ContentLength > 0) {
                         var filePath = "/Uploads/";
@@ -310,16 +306,14 @@ namespace BugTracker.Controllers {
                         file.SaveAs(Path.Combine(absPath,file.FileName));
                     }
 
-                }                
-
-                if(editAttachment.FileUrl == null) {
-                    editAttachment.CreatedDate = System.DateTimeOffset.Now;
-                }                
-
+                editAttachment.UpdatedDate = System.DateTimeOffset.Now;
+                editAttachment.UserId = User.Identity.GetUserId();     
+                db.AttachmentData.Attach(editAttachment);
                 db.Entry(editAttachment).Property("Description").IsModified = true;
                 db.Entry(editAttachment).Property("FileUrl").IsModified = true;
-                editAttachment.UpdatedDate = System.DateTimeOffset.Now;                
-                editAttachment.UserId = User.Identity.GetUserId();                
+                db.Entry(editAttachment).Property("UpdatedDate").IsModified = true;
+                db.Entry(editAttachment).Property("UserId").IsModified = true;
+                          
                 db.SaveChanges();
             }
             return RedirectToAction("Details", new { id = editAttachment.TicketId });
