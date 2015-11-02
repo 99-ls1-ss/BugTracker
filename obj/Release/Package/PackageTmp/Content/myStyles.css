@@ -318,7 +318,7 @@ input.btn{
     background-image:url('images/blue-beach-vw-beetle-wallpaper.png');
     background-position:bottom center;
     background-repeat:no-repeat;
-    height:600px;
+    min-height:575px;
     width: 116%;
     margin: 0 -8%;
 }
