@@ -29,6 +29,9 @@ namespace BugTracker.Controllers {
 
             var projectId = db.ProjectsData.Find(id);
             var selected = projectId.Users.Select(u => u.Id);
+            var projectAssigned = projectId.Tickets.Where(t => t.TicketStatus.Name == "Assigned").Count();
+            var projectUnassigned = projectId.Tickets.Where(t => t.TicketStatus.Name == "Unassigned").Count();
+            var projectNeedsTesting = projectId.Tickets.Where(t => t.TicketStatus.Name == "Needs Testing").Count();
 
             ProjectUsersModel projectUsersModel = new ProjectUsersModel() {
                 Users = new MultiSelectList(db.Users, "Id", "DisplayName", selected),

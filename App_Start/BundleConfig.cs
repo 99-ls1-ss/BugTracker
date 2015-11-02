@@ -21,13 +21,13 @@ namespace BugTracker {
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
-            bundles.Add(new ScriptBundle("~/plugins/scripts").Include(
-                        "~/plugins/jquery/jquery-2.1.4.min.js",
-                        "~/plugins/slider.revolution/js/jquery.themepunch.tools.min.js",
-                        "~/plugins/slider.revolution/js/jquery.themepunch.revolution.min.js",
-                        "~/plugins/slider.revolution.v5/js/extensions/revolution.extension.migration.min.js",
-                        "~/plugins/slider.revolution.v5/js/extensions/source/revolution.extension.migration.js",
-                        "~/plugins/datatables/js/jquery.dataTables.min.js"));
+            //bundles.Add(new ScriptBundle("~/plugins/scripts").Include(
+            //            "~/plugins/jquery/jquery-2.1.4.min.js",
+            //            "~/plugins/slider.revolution/js/jquery.themepunch.tools.min.js",
+            //            "~/plugins/slider.revolution/js/jquery.themepunch.revolution.min.js",
+            //            "~/plugins/slider.revolution.v5/js/extensions/revolution.extension.migration.min.js",
+            //            "~/plugins/slider.revolution.v5/js/extensions/source/revolution.extension.migration.js",
+            //            "~/plugins/datatables/js/jquery.dataTables.min.js"));
 
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
@@ -37,10 +37,10 @@ namespace BugTracker {
                       "~/Content/header-1.css",
                       "~/Content/essentials.css"));
 
-            bundles.Add(new StyleBundle("~/plugins/css").Include(
-                "~/plugins/slider.revolution/css/settings.css",
-                "~/plugins/slider.revolution/css/settings-ie8.css",
-                "~/plugins/slider.revolution/css/extralayers.css"));
+            //bundles.Add(new StyleBundle("~/plugins/css").Include(
+            //    "~/plugins/slider.revolution/css/settings.css",
+            //    "~/plugins/slider.revolution/css/settings-ie8.css",
+            //    "~/plugins/slider.revolution/css/extralayers.css"));
         }
     }
 }

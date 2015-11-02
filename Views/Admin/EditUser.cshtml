@@ -20,7 +20,7 @@
                 <div class="col-md-12">
                     <form method="post" action="@Url.Action("EditUser", new { Model.User.Id })">
                         @Html.AntiForgeryToken()
-                        @Html.ListBoxFor(m => m.SelectedRoles, Model.Roles, new { @class = "form-control" })
+                        @Html.ListBoxFor(m => m.SelectedRoles, Model.Roles, new { @class = "form-control", id = "userMultiSelect", multiple = "multiple" })
                         <button type="submit" class="btn btn-flat flat-color">Submit</button>
                     </form>
                 </div>
@@ -29,3 +29,4 @@
     </div>
 
 </section>
+

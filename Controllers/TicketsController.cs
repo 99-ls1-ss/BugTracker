@@ -321,12 +321,10 @@ namespace BugTracker.Controllers {
 
 
         [HttpPost]
-        public ActionResult DeleteAttachment(TicketAttachmentsModel deleteAttachment) {
+        public ActionResult DeleteAttachment(TicketAttachmentsModel deleteAttachment, HttpPostedFileBase file) {
 
             if (ModelState.IsValid) {
-                if (!db.AttachmentData.Local.Any(c => c.Id == deleteAttachment.Id))
-                    db.AttachmentData.Attach(deleteAttachment);
-
+                db.AttachmentData.Attach(deleteAttachment);
                 db.AttachmentData.Remove(deleteAttachment);
                 db.SaveChanges();
             }
