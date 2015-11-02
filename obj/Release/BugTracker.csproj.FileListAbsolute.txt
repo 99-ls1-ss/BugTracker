@@ -91,3 +91,4 @@ E:\School Items\School Source\BugTracker\bin\Microsoft.Owin.Security.MicrosoftAc
 E:\School Items\School Source\BugTracker\obj\Release\BugTracker.csprojResolveAssemblyReference.cache
 E:\School Items\School Source\BugTracker\obj\Release\BugTracker.dll
 E:\School Items\School Source\BugTracker\obj\Release\BugTracker.pdb
+C:\Users\Brandon\Documents\School Source\BugTracker\BugTracker\obj\Release\BugTracker.csprojResolveAssemblyReference.cache

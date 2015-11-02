@@ -2993,8 +2993,10 @@
     <Content Include="fonts\revicons1.ttf" />
     <Content Include="fonts\revicons1.woff" />
     <None Include="Properties\PublishProfiles\brandonpayne-bugtracker - FTP %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\brandonpayne-bugtracker - FTP %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\brandonpayne-bugtracker - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\brandonpayne-bugtracker - Web Deploy %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\brandonpayne-bugtracker - Web Deploy %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\brandonpayne-bugtracker - Web Deploy.pubxml" />
     <Content Include="Scripts\contact.js" />
     <Content Include="Scripts\DataTables-1.10.9\extensions\AutoFill\js\autoFill.bootstrap.js" />

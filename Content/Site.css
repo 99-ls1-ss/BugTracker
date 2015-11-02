@@ -43,7 +43,11 @@ input#attachmentDeleteDescription,input#attachmentDeleteUrl{
 }
 
 textarea.attachmentDescription, input.attachmentFileUrl {
-    max-width:80%;
+    max-width:100%;
+    min-height:100px;
+}
+input.attachmentFileUrl{
+    border:0;
 }
 
 .display-for-padding {
