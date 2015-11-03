@@ -2,24 +2,31 @@
 @using Microsoft.AspNet.Identity;
 @model AdminUserViewModel
 
-    @{
-        ViewBag.Title = "EditUser";
-    }
+@{
+    ViewBag.Menu = "Users";
+    ViewBag.Title = "Edit User Details";
+    //ViewBag.User = Model.SelectedUser.ToString();
+}
 
-
-<div class="container">
-    <div class="row">
-        <h2>Edit User Roles</h2>
+<section class="section colored-wrapper">
+    <div class="container">
+        <div class="wrapper-2">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4><span>@ViewBag.Title for @Html.DisplayFor(m=>m.User.DisplayName) </span></h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <form method="post" action="@Url.Action("EditUser", new { Model.User.Id })">
+                        @Html.AntiForgeryToken()
+                        @Html.ListBoxFor(m => m.SelectedRoles, Model.Roles, new { @class = "form-control", id = "userMultiSelect", multiple = "multiple" })
+                        <button type="submit" class="btn btn-flat flat-color">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <div>
-        <form method="post" action="@Url.Action("EditUser", new { Model.User.Id })">
-            @Html.AntiForgeryToken()
-            @Html.LabelFor(m => m.SelectedUser, Model.User.DisplayName)
-            @Html.ListBoxFor(m => m.SelectedRoles, Model.Roles)
-            <button type="submit">Submit</button>
 
-        </form>
-
-    </div>
-</div>
+</section>
 

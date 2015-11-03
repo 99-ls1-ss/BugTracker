@@ -306,9 +306,9 @@ input.btn{
     color: #fff;
 }
 
-.dataTable tbody tr:nth-child(even){
+/*.dataTable tbody tr:nth-child(even){
     background-color:#F0FFF7;
-}
+}*/
 
 .home-landing {
     min-height:600px
@@ -342,4 +342,49 @@ input.btn{
 }
 .tab-content {
     background-color:#fff;
+}
+
+/*Background color for Even Blocker Rows*/
+.row-priority-1.even {
+    background-color:rgba(255, 0, 0, 0.065);
+}
+/*Background color for Odd Blocker Rows*/
+.row-priority-1.odd {
+    background-color:rgba(255, 0, 0, 0.046);
+}
+
+/*Background color for Even Critical Rows*/
+.row-priority-2.even {
+    background-color:rgba(255, 175, 0, 0.17);
+}
+/*Background color for Odd Critical Rows*/
+.row-priority-2.odd {
+    background-color:rgba(255, 175, 0, 0.135);
+}
+
+/*Background color for Even Minor Rows*/
+.row-priority-3.even {
+    background-color:rgba(255, 255, 0, 0.22);
+}
+/*Background color for Odd Minor Rows*/
+.row-priority-3.odd {
+    background-color:rgba(255, 255, 0, 0.17);
+}
+
+/*Background color for Even Enhancement Rows*/
+.row-priority-1002.even {
+    background-color:rgba(90, 0, 255, 0.07);
+}
+/*Background color for Odd Enhancement Rows*/
+.row-priority-1002.odd {
+    background-color:rgba(90, 0, 255, 0.035);
+}
+
+/*Background color for Even Wish List Rows*/
+.row-priority-1003.even {
+    background-color:rgba(4, 255, 0, 0.07);
+}
+/*Background color for Odd Wish List Rows*/
+.row-priority-1003.odd {
+    background-color:rgba(4, 255, 0, 0.025);
 }

@@ -11,10 +11,10 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using BugTracker.Models;
-using System.Configuration;
-using SendGrid;
-using System.Net.Mail;
 using System.Net;
+using System.Net.Mail;
+using SendGrid;
+using System.Configuration;
 
 namespace BugTracker {
     public class EmailService : IIdentityMessageService {

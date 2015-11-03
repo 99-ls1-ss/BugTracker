@@ -38,12 +38,16 @@ textarea {
 }
 
 textarea.ticket-textarea, input.ticket-input, select.ticket-select, input#attachmentEditDescriptionId, input#attachmentEditUrl, input#fileUploadEdit,
-input#attachmentDeleteDescription,input#attachmentDeleteUrl{
+input#attachmentDeleteDescription,input#attachmentDeleteUrl, textarea#commentUpdateBodyId, textarea#commentRemoveBodyId{
     max-width:100%;
 }
 
 textarea.attachmentDescription, input.attachmentFileUrl {
-    max-width:80%;
+    max-width:100%;
+    min-height:100px;
+}
+input.attachmentFileUrl{
+    border:0;
 }
 
 .display-for-padding {

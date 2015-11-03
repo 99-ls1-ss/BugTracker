@@ -36,14 +36,14 @@
                                 </a>
                             </td>
                             <td>
-                                <a href="@Url.Action("Edit User", "EditUser", new { id = user.Id })">
+                                <a href="@Url.Action("EditUser", new { id = user.Id })">
                                     @foreach (var role in user.Roles) {
                                         <div>@ViewBag.Roles[role.RoleId]</div>
                                     }
                                 </a>
                             </td>
                             <td>
-                                <a href="@Url.Action("Edit User", "EditUser", new { id = user.Id })">
+                                <a href="@Url.Action("EditUser", new { id = user.Id })">
                                     @user.UserName
                                 </a>
                             </td>
