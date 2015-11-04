@@ -76,7 +76,6 @@
                     </div>
                 </div>
                 @if (User.IsInRole("Admin") || (User.IsInRole("ProjectManager"))) {
-
                     <div class="form-group">
                         @Html.LabelFor(model => model.OwnerUserId, "Ticket Owner", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-4">
@@ -87,21 +86,22 @@
 
                         @Html.LabelFor(model => model.AssignedToUserId, "Assigned To", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-4">
-                            @*@Html.HiddenFor(model => model.AssignedToUserId)*@
+                            @Html.HiddenFor(model => model.AssignedToUserId)
                             @Html.DropDownList("AssignedToUserId", null, htmlAttributes: new { @class = "form-control ticket-select" })
                             @Html.ValidationMessageFor(model => model.AssignedToUserId, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
                     }
                     else {
                     <div class="form-group">
                         @Html.LabelFor(model => model.OwnerUserId, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-4 display-for-padding">
+                            @Html.HiddenFor(model => model.OwnerUserId)
                             @Html.DisplayFor(model => model.OwnerUser.DisplayName, new { @class = "form-control ticket-input" })
                         </div>
                         @Html.LabelFor(model => model.AssignedToUserId, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-4 display-for-padding">
+                            @Html.HiddenFor(model => model.AssignedToUserId)
                             @Html.DisplayFor(model => model.AssignedToUser.DisplayName, new { @class = "form-control ticket-input" })
                         </div>
                     </div>

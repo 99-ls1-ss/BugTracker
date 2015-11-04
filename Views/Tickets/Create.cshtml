@@ -36,7 +36,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Attachments, htmlAttributes: new { @class = "control-label col-xs-3 col-sm-2 text-right" })
                     <div class="col-xs-8 col-sm-9">
-                        @*@Html.EditorFor(model => model.MediaURL, new { htmlAttributes = new { @class = "form-control" } })*@
+                        @*@Html.EditorFor(model => model.Attachments, new { htmlAttributes = new { @class = "form-control" } })*@
                         @Html.ValidationMessageFor(model => model.Attachments, "", new { @class = "text-danger" })
                         <input name="file" type="file" class="form-control mediaUrl" id="fileUpload" />
                     </div>
@@ -67,21 +67,7 @@
                 @Html.ValidationMessageFor(model => model.TicketStatusId, "", new { @class = "text-danger" })
             </div>
         </div>
-        @*@if (User.IsInRole("Admin") || (User.IsInRole("ProjectManager"))) {
-            <div class="form-group">
-                @Html.LabelFor(model => model.OwnerUserId, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-4">
-                    @Html.DropDownList("OwnerUserId", null, htmlAttributes: new { @class = "form-control ticket-select" })
-                    @Html.ValidationMessageFor(model => model.OwnerUser.DisplayName, "", new { @class = "text-danger" })
-                </div>
-                @Html.LabelFor(model => model.AssignedToUserId, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-4">
-                    @Html.DropDownList("AssignedToUserId", null, htmlAttributes: new { @class = "form-control ticket-select" })
-                    @Html.ValidationMessageFor(model => model.AssignedToUser.DisplayName, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            }*@
-
+       
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-flat flat-color" />

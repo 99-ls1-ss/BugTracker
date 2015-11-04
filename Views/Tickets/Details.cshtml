@@ -115,21 +115,23 @@
                 <hr />
                 <div class="container">
                     <div class="row">
-                        <h4><span>Tabs</span></h4>
+                        <h4><span>Ticket Information</span></h4>
 
                         <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
                             <li class="active">
-                                <a href="#commentTab" data-toggle="tab">Comments</a>
+                                <a href="#commentTab" data-toggle="tab">Comments <span class="weight-300">(@Model.Comments.Count())</span></a>
                             </li>
                             <li>
-                                <a href="#attachmentTab" data-toggle="tab">Attachments</a>
+                                <a href="#attachmentTab" data-toggle="tab">Attachments <span class="weight-300">(@Model.Attachments.Count())</span></a>
                             </li>
+                            @if (Model.History.Count() > 0) { 
                             <li>
-                                <a href="#historyTab" data-toggle="tab">History</a>
-                            </li>
+                                <a href="#historyTab" data-toggle="tab">History <span class="weight-300">(@Model.History.Count())</span></a>
+                            </li>                            
                             <li>
-                                <a href="#notificationsTab" data-toggle="tab">Notifications</a>
+                                <a href="#notificationsTab" data-toggle="tab">Notifications <span class="weight-300">(@Model.Notification.Count())</span></a>
                             </li>
+                            }
                         </ul>
 
                         <div class="tab-content">
@@ -180,7 +182,9 @@
                                                         </span>
                                                     </h5>
                                                     <div class="formattedContent">@attachment.Description</div>
-                                                    <div class=""><a href="@attachment.FileUrl" target="_blank">@attachment.FileUrl</a></div>
+                                                    <div class="">
+                                                        <a href="@attachment.FileUrl" target="_blank">@attachment.FileUrl</a>
+                                                    </div>
                                                 </div>
                                             </li>
                                         </ul>
