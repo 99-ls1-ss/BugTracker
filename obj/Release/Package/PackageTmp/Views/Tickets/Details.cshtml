@@ -123,11 +123,14 @@
                             </li>
                             <li>
                                 <a href="#attachmentTab" data-toggle="tab">Attachments</a>
-                            </li>                            
+                            </li>
+                            <li>
+                                <a href="#historyTab" data-toggle="tab">History</a>
+                            </li> 
                         </ul>
 
                         <div class="tab-content">
-                            <div id="attachmentTab" class="tab-pane fade">
+                           <div id="attachmentTab" class="tab-pane fade">
                                 <div class="post-attachments">
                                     <div class="col-md-12">
                                         <form class="comment-form" role="form" enctype="multipart/form-data" method="post" name="AddAttachment" action="@Url.Action("AddAttachment", "Tickets")">
@@ -224,6 +227,59 @@
                                                             </span>
                                                         </h5>
                                                         <div class="formattedContent">@Html.Raw(comment.Comment)</div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                            <div id="commentTab" class="tab-pane fade in active">
+                                <div class="post-comments">
+                                    <div class="col-md-12">
+                                        <form class="comment-form" role="form" method="post" name="AddComment" action="@Url.Action("AddComment", "Tickets")">
+                                            <input type="hidden" name="TicketId" value="@Model.Id" />
+                                            <input type="hidden" name="CommentUserId" value="@Model.CommentUserId" />
+                                            <input type="hidden" name="Author" value="" />
+                                            <h5 class="subpage-title">Add Comment</h5>
+                                            <textarea type="text" name="Comment" class="form-control" rows="5" id="tinyMceEditor"></textarea>
+                                            <input type="submit" class="btn btn-flat flat-color" value="Add Comment" />
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    @foreach (var history in Model.History) {
+                                        if ((User.IsInRole("Admin") || User.IsInRole("Moderator"))) {
+                                            <ul class="media-list">
+                                                <li class="media">
+                                                    <div class="media-body">
+                                                        <h5 class="media-heading">
+                                                            @Html.DisplayTextFor(model => history.User.DisplayName)
+                                                            <span class="subText">Created: @history.ChangedDate.ToString("g") </span>
+                                                            <span>
+                                                                <a href="" class="jsCommentClass comment-reply pull-right"
+                                                                   data-toggle="modal"
+                                                                   data-target="#editComment"
+                                                                   data-historyid="@history.Id"
+                                                                   data-oldvalue="@history.OldValue"
+                                                                   data-newvalue="@history.NewValue"
+                                                                   data-changeddate="@history.ChangedDate"
+                                                                   data-historyuser="@history.UserId">Edit History</a>
+
+                                                                @*<a href="" class="jsCommentClass comment-reply pull-right"
+                                                                   data-toggle="modal"
+                                                                   data-target="#deleteComment"
+                                                                   data-id="@comment.Id"
+                                                                   data-body="@comment.Comment"
+                                                                   data-updateddate="@comment.UpdatedDate"
+                                                                   data-removedby="@comment.UserId">Delete Comment</a>*@
+                                                            </span>
+                                                        </h5>
+                                                        <div class="">@Html.Raw(history.ChangedDate)</div>
+                                                        <div class="">@Html.Raw(history.OldValue)</div>
+                                                        <div class="">@Html.Raw(history.NewValue)</div>
+                                                        <div class="">@Html.Raw(history.User.DisplayName)</div>                                                        
+                                                        <div class="">@Html.Raw(history.UserId)</div>
                                                     </div>
                                                 </li>
                                             </ul>

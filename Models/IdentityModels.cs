@@ -59,5 +59,7 @@ namespace BugTracker.Models {
 
         public System.Data.Entity.DbSet<BugTracker.Models.TicketHistoriesModel> TicketHistoriesData { get; set; }
 
+        public System.Data.Entity.DbSet<BugTracker.Models.TicketNotificationsModel> TicketNotificationsData { get; set; }
+
     }
 }
