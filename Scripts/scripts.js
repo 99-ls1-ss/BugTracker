@@ -38,24 +38,24 @@
 
 	/* Init */
 	jQuery(window).ready(function () {
-		//jQuery.browserDetect();
+		jQuery.browserDetect();
 
-		//// Load Bootstrap JS
-		//loadScript(plugin_path + 'bootstrap/js/bootstrap.min.js', function () {
+		// Load Bootstrap JS
+		loadScript('../Scripts/bootstrap.min.js', function () {
 
-		//    Init(false);
+		    Init(false);
 
-		//    console.log(loadScript);
+		    //console.log(loadScript);
 
-		//});
+		});
 
 
 		/* --- */
-		if(jQuery("html").hasClass("chrome") && jQuery("body").hasClass("smoothscroll")) {
-			loadScript(plugin_path + 'smoothscroll.js', function() {
-				jQuery.smoothScroll();
-			});
-		}
+		//if(jQuery("html").hasClass("chrome") && jQuery("body").hasClass("smoothscroll")) {
+		//	loadScript(plugin_path + 'smoothscroll.js', function() {
+		//		jQuery.smoothScroll();
+		//	});
+		//}
 		/* --- */
 	});
 
@@ -2296,8 +2296,8 @@
 
 		if(_container.length > 0) {
 
-			loadScript(plugin_path + 'chart.easypiechart/dist/jquery.easypiechart.min.js', function() {
-
+			loadScript('../plugins/chart.easypiechart/dist/jquery.easypiechart.min.js', function() {
+			    
 				jQuery(".piechart").each(function() {
 					var _t = jQuery(this),
 						_size 		= _t.attr('data-size') || 150,
@@ -2319,7 +2319,7 @@
 					// jQuery("i", this).css({"line-height":_size+"px", "height":_size+"px", "width":_size+"px"});
 
 				});
-		
+				
 			});
 
 		}

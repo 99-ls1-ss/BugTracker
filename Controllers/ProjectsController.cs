@@ -97,6 +97,7 @@ namespace BugTracker.Controllers {
                     helper.AddUserToProject(UserId, project.Id);              
             }
 
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

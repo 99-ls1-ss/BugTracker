@@ -44,8 +44,13 @@ input#attachmentDeleteDescription,input#attachmentDeleteUrl, textarea#commentUpd
 
 textarea.attachmentDescription, input.attachmentFileUrl {
     max-width:100%;
-    min-height:100px;
+    /*min-height:100px;*/
 }
+
+.attachmentHeight {
+    min-height:121px;
+}
+
 input.attachmentFileUrl{
     border:0;
 }

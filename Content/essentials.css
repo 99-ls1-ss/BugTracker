@@ -1612,19 +1612,21 @@ ul.list-icons>li>i {
 		text-align:center;
 		font-size: 42px;
 	}
-	.piechart > span {
+	.piechart > span, .piechart > b {
 		position:absolute;
 		display:block;
 		text-align:center;
 		font-size:17px;
 		font-weight:bold;
 	}
-	.piechart > span.countTo {
+	.piechart > span.countTo, .piechart > b.countTo {
 		font-size:30px;
 	}
 	
 	.piechart > span[class^="size-"], 
-	.piechart > span[class*=" size-"] {
+	.piechart > span[class*=" size-"],
+    .piechart > b[class^="size-"], 
+	.piechart > b[class*=" size-"] {
 		line-height:inherit;
 	}
 

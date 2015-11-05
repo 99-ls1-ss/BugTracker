@@ -22,18 +22,29 @@ namespace BugTracker.Controllers {
             var tickets = db.TicketsData.Include(t => t.Project).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
             var userId = User.Identity.GetUserId();
             var user = db.Users.Include(p => p.Projects).FirstOrDefault(u => u.Id == userId);
+            //var projDevProjects = user.Projects.SelectMany(p => p.Tickets).AsQueryable();
+            //var projDevOwner = db.TicketsData.Where(t => t.OwnerUserId == user.Id);
 
             if (User.IsInRole("Admin")) {
                 tickets = tickets;
             }
             else if ((User.IsInRole("ProjectManager")) || (User.IsInRole("Developer"))) {
+
                 tickets = user.Projects.SelectMany(p => p.Tickets).AsQueryable();
+
+                //tickets = projDevOwner;
+                //tickets = projDevProjects;                
             }
             else if (User.IsInRole("Submitter")) {
                 tickets = db.TicketsData.Where(t => t.OwnerUserId == user.Id);
             }
 
             return View(tickets.ToList());
+        }
+
+        public ActionResult Dashboard() {
+            TicketsModel dashboard = new TicketsModel();
+            return View();
         }
 
         // GET: Tickets/Details/5
@@ -140,7 +151,7 @@ namespace BugTracker.Controllers {
             UserRolesHelper helper = new UserRolesHelper();
 
             foreach (var user in projectId.Users) {
-                if (helper.IsUserInRole(user.Id, "Developer")) {
+                if ((helper.IsUserInRole(user.Id, "Developer")) || (helper.IsUserInRole(user.Id, "ProjectManager"))) {
                     projdevs.Add(user);
                 }
             }
@@ -150,7 +161,7 @@ namespace BugTracker.Controllers {
             ViewBag.TicketStatusId = new SelectList(db.TicketStatusesData, "Id", "Name", ticketsModel.TicketStatusId);
             ViewBag.TicketTypeId = new SelectList(db.TicketTypesData, "Id", "Name", ticketsModel.TicketTypeId);
             ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "DisplayName", ticketsModel.OwnerUserId);
-            ViewBag.AssignedToUserId = new SelectList(projdevs.ToList(), "Id", "DisplayName", ticketsModel.AssignedToUserId);
+            ViewBag.AssignedToUserId = new SelectList(projectUser.ToList(), "Id", "DisplayName", ticketsModel.AssignedToUserId);
             ViewBag.Comments = new SelectList(db.Users, "Id", "Comment", ticketsModel.Comments);
             ViewBag.Historys = new SelectList(db.TicketHistoriesData, "Id", "Property", ticketsModel.History);
 
@@ -316,6 +327,11 @@ namespace BugTracker.Controllers {
                 db.Entry(ticketsModel).Property(p => p.TicketTypeId).IsModified = true;
                 db.Entry(ticketsModel).Property(p => p.TicketStatusId).IsModified = true;
                 db.Entry(ticketsModel).Property(p => p.TicketPriorityId).IsModified = true;
+
+                if ((ticketsModel.TicketStatusId == 4) && (ticketsModel.TicketPriorityId != 1004)) {
+                    ticketsModel.TicketPriorityId = 1004;
+                }
+
                 db.Entry(ticketsModel).Property(p => p.UpdatedDate).IsModified = true;
 
                 db.SaveChanges();
