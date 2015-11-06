@@ -6,151 +6,196 @@
 
 }
 
-@*<section class="section colored-wrapper">
-    <div class="container">
-        <h3 class="text-center">Circle Counter</h3>
-        <div class="text-center">
-            <div class="piechart" data-color="#D9534F" data-size="175" data-percent="78" data-width="2" data-animate="2000">
-                <span class="countTo font-raleway timer" id="ticketCount2" style="line-height:175px !important; height:200px; width:175px"></span>
-                <canvas height="200" width="200"></canvas>
-            </div>
-            <div class="piechart" data-color="#F0AD4E" data-size="150" data-percent="70" data-width="2" data-animate="1700">
-                <span class="countTo font-raleway timer" id="commentCount2" style="line-height:150px !important; height:150px; width:150px">4555</span>
-                <canvas height="150" width="150"></canvas>
-            </div>
-            <div class="piechart" data-color="#337AB7" data-size="150" data-percent="89" data-width="2" data-animate="1700">
-                <span class="countTo font-raleway timer" style="line-height:150px !important; height:150px; width:150px">8766</span>
-                <canvas height="150" width="150"></canvas>
-            </div>
-            <div class="piechart" data-color="#86B530" data-size="200" data-percent="93" data-width="2" data-animate="1700">
-                <span class="countTo font-raleway timer" style="line-height:200px !important; height:200px; width:200px">5612</span>
-                <canvas height="200" width="200"></canvas>
+@if (!Request.IsAuthenticated) {
+    <section class="section colored-wrapper">
+        <div class="container home-landing">
+            <div class="wrapper-2">
+                <div class="row">
+                    <h1><span>Welcome to The Bugtracker</span></h1>
+                    @*<h3>You are not logged in.  Please login or create an account.</h3>*@
+                    <div class="landing-page"></div>
+                </div>
             </div>
         </div>
-    </div>
-</section>*@
-<!-- COLOR BOXES -->
+    </section>
+}
+else {
 
 
-<!-- HTML -->
-<div id="flot-pie" class="flot-chart height-300"><!-- FLOT CONTAINER --></div>
-
-<!-- JAVASCRIPT -->
-For javascript code example, see assets/js/view/demo.graphs.flot.js
-
-<!-- JS LOAD -->
-<script>
-    loadScript(plugin_path + "chart.flot/jquery.flot.min.js", function(){
-        loadScript(plugin_path + "chart.flot/jquery.flot.resize.min.js", function(){
-            loadScript(plugin_path + "chart.flot/jquery.flot.time.min.js", function(){
-                loadScript(plugin_path + "chart.flot/jquery.flot.fillbetween.min.js", function(){
-                    loadScript(plugin_path + "chart.flot/jquery.flot.orderBars.min.js", function(){
-                        loadScript(plugin_path + "chart.flot/jquery.flot.pie.min.js", function(){
-                            loadScript(plugin_path + "chart.flot/jquery.flot.tooltip.min.js", function(){
-
-                            // demo js script - or add js code directly here!
-                            loadScript("assets/js/view/demo.graphs.flot.js");
-
-                            });
-                        });
-                    });
-                });
-            });
-        });
-    });
-</script>
-<section class="section colored-wrapper">
-    @*
-        .box-pink
-        .box-blue
-        .box-orange
-        .box-yellow
-        .box-purple
-        .box-red
-        .box-brown
-        .box-green
-        .box-black
-        .box-gray
-        .box-teal
-    *@
-    <div class="container">
+    <!-- Tickets -->
+    <section class="section colored-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    @if (User.IsInRole("Admin")) {
+                        <h4><span>CURRENT NUMBER OF ACTIVE TICKETS: @Model.Tickets.Where(s => s.TicketStatusId != 4).Count()</span></h4>
+                    }
+                    else {
+                        <h4><span>CURRENT NUMBER OF TICKETS ASSIGNED TO YOU: @Model.Tickets.Where(s => (s.TicketStatusId != 4 && s.AssignedToUserId == User.Identity.GetUserId())).Count()</span></h4>
+                    }
+                    
+                </div>
+            </div>
+            <div class="row box-gradient box-red">
+                <div class="col-xs-6 col-sm-2-5">
+                    <a href="@Url.Action("Index","Tickets",new {priorityId = 1})">
+                        <i class="fa fa-bomb fa-4x"></i>
+                        <h2 class="countTo font-raleway timer" id="myBlockerCount">0</h2>
+                        <p>BLOCKER TICKETS</p>
+                    </a>
+                </div>
+                <div class="col-xs-6 col-sm-2-5">
+                    <a href="@Url.Action("Index","Tickets",new {priorityId = 2})">
+                        <i class="fa fa-ambulance fa-4x"></i>
+                        <h2 class="countTo font-raleway timer" id="myCriticalCount">0</h2>
+                        <p>CRITICAL TICKETS</p>
+                    </a>
+                </div>
+                <div class="col-xs-6 col-sm-2-5">
+                    <a href="@Url.Action("Index","Tickets",new {priorityId = 3})">
+                        <i class="fa fa-search-minus fa-4x"></i>
+                        <h2 class="countTo font-raleway timer" id="myMinorCount">0</h2>
+                        <p>MINOR TICKETS</p>
+                    </a>
+                </div>
+                <div class="col-xs-6 col-sm-2-5">
+                    <a href="@Url.Action("Index","Tickets",new {priorityId = 1002})">
+                        <i class="fa fa-adjust fa-4x"></i>
+                        <h2 class="countTo font-raleway timer" id="myWishListCount">0</h2>
+                        <p>WISHLIST TICKETS</p>
+                    </a>
+                </div>
+                <div class="col-xs-6 col-sm-2-5">
+                    <a href="@Url.Action("Index","Tickets",new {priorityId = 1003})">
+                        <i class="fa fa-pencil fa-4x"></i>
+                        <h2 class="countTo font-raleway timer" id="enhancementCount">0</h2>
+                        <p>ENHANCEMENT TICKETS</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /COLOR BOXES -->
+    <script src="~/Scripts/jquery-1.11.3.min.js"></script>
+    <script src="~/Scripts/jquery.countTo.js"></script>
+    
+       
+    if(User.IsInRole("Admin")){
         
-        <div class="row box-gradient box-red">
-            <div class="col-xs-6 col-sm-3">
-                <i class="fa fa-child fa-4x"></i>
-                <h2 class="countTo font-raleway timer" id="ticketCount">0</h2>
-                <p>NUMBER OF TICKETS</p>
-            </div>
-            <div class="col-xs-6 col-sm-3">
-                <i class="fa fa-smile-o fa-4x"></i>
-                <h2 class="countTo font-raleway timer" id="blockerCount">0</h2>
-                <p>NUMBER OF BLOCKERS</p>
-            </div>
-            <div class="col-xs-6 col-sm-3">
-                <i class="fa fa-heart fa-4x"></i>
-                <h2 class="countTo font-raleway timer" id="criticalCount">0</h2>
-                <p>NUMBER OF Critcal</p>
-            </div>
-            <div class="col-xs-6 col-sm-3">
-                <i class="fa fa-female fa-4x"></i>
-                <h2 class="countTo font-raleway timer" id="">0</h2>
-                <p>NUMBER OF OTHER THINGS</p>
-            </div>
-        </div>
-
-    </div>
-</section>
-<!-- /COLOR BOXES -->
-<script src="~/Scripts/jquery-1.11.3.min.js"></script>
-<script src="~/Scripts/jquery.countTo.js"></script>
-<script type="text/javascript">
+        
+    <script type="text/javascript">
 
     jQuery(function ($) {
-        // custom formatting example
-        //$('#earth').data('countToOptions', {
-        //    formatter: function (value, options) {
-        //        return value.toFixed(options.decimals).replace(/\B(?=(?:\d{3})+(?!\d))/g, ',');
-        //    }
-        //});
-
-        //$('#earth').data('countToOptions', {
-        //    onComplete: function (value) {
-        //        return value.toFixed(options.decimals).replace(/\B(?=(?:\d{3})+(?!\d))/g, ',');
-        //    }
-        //});
-
-        // custom callback when counting completes
-        $('#countdown').data('countToOptions', {
-            onComplete: function (value) {
-                $(this).text('BLAST OFF!').addClass('red');
-            }
-        });
-
-        // another custom callback for counting to infinity
-        $('#ticketCount').data('countToOptions', {
+        $('#myBlockerCount').data('countToOptions', {
             onComplete: function (value) {
                 count.call(this, {
                     from: value,
-                    to: @Model.Tickets.Count(),
-                    speed: 1500
+                    to: @Model.Tickets.Where(s => s.TicketPriorityId == 1).Count(),
+                    speed: 1000
                 });
             }
         });
-        $('#blockerCount').data('countToOptions', {
+        $('#myCriticalCount').data('countToOptions', {
             onComplete: function (value) {
                 count.call(this, {
                     from: value,
-                    to: @Model.Tickets.Count(t => t.TicketPriorityId == 1),
+                    to: @Model.Tickets.Where(s => s.TicketPriorityId == 2).Count(),
+                    speed: 1000
+                });
+            }
+        });
+        $('#myMinorCount').data('countToOptions', {
+            onComplete: function (value) {
+                count.call(this, {
+                    from: value,
+                    to: @Model.Tickets.Where(s => s.TicketPriorityId == 3).Count(),
+                    speed: 1000
+                });
+            }
+        });
+        $('#enhancementCount').data('countToOptions', {
+            onComplete: function (value) {
+                count.call(this, {
+                    from: value,
+                    to: @Model.Tickets.Where(s => s.TicketPriorityId == 1002).Count(),
+                    speed: 1000
+                });
+            }
+        });
+        $('#myWishListCount').data('countToOptions', {
+            onComplete: function (value) {
+                count.call(this, {
+                    from: value,
+                    to: @Model.Tickets.Where(s => s.TicketPriorityId == 1003).Count(),
+                    speed: 1000
+                });
+            }
+        });
+        $('.timer').each(count);
+        // restart a timer when a button is clicked
+        $('.restart').click(function (event) {
+            event.preventDefault();
+            var target = $(this).data('target');
+            $(target).countTo('restart');
+        });
+
+        function count(options) {
+            var $this = $(this);
+            options = $.extend({}, options || {}, $this.data('countToOptions') || {});
+            $this.countTo(options);
+        }
+    });
+</script>
+        }
+        else { 
+    <script type="text/javascript">
+
+    jQuery(function ($) {
+        $('#myBlockerCount').data('countToOptions', {
+            onComplete: function (value) {
+                count.call(this, {
+                    from: value,
+                    to: @Model.Tickets.Where(s => (s.TicketPriorityId == 1 && s.TicketStatusId != 4 && s.AssignedToUserId == User.Identity.GetUserId())).Count(),
                     speed: 1000
                 });
             }
         });
 
-        $('#criticalCount').data('countToOptions', {
+        $('#myCriticalCount').data('countToOptions', {
             onComplete: function (value) {
                 count.call(this, {
                     from: value,
-                    to: @Model.Tickets.Count(t => t.TicketPriorityId == 2),
+                    to: @Model.Tickets.Where(s => (s.TicketPriorityId == 2 && s.TicketStatusId != 4 && s.AssignedToUserId == User.Identity.GetUserId())).Count(),
+                    speed: 1000
+                });
+            }
+        });
+
+        $('#myMinorCount').data('countToOptions', {
+            onComplete: function (value) {
+                count.call(this, {
+                    from: value,
+                    to: @Model.Tickets.Where(s => (s.TicketPriorityId == 3 && s.TicketStatusId != 4 && s.AssignedToUserId == User.Identity.GetUserId())).Count(),
+                    speed: 1000
+                });
+            }
+        });
+
+        $('#enhancementCount').data('countToOptions', {
+            onComplete: function (value) {
+                count.call(this, {
+                    from: value,
+                    to: @Model.Tickets.Where(s => (s.TicketPriorityId == 1002 && s.TicketStatusId != 4 && s.AssignedToUserId == User.Identity.GetUserId())).Count(),
+                    speed: 1000
+                });
+            }
+        });
+
+        $('#myWishListCount').data('countToOptions', {
+            onComplete: function (value) {
+                count.call(this, {
+                    from: value,
+                    to: @Model.Tickets.Where(s => (s.TicketPriorityId == 1003 && s.TicketStatusId != 4 && s.AssignedToUserId == User.Identity.GetUserId())).Count(),
                     speed: 1000
                 });
             }
@@ -166,13 +211,10 @@ For javascript code example, see assets/js/view/demo.graphs.flot.js
             }
         });
 
-        //$('#blockerCount').data('countToOptions', {
-        //    onComplete: function (value) {
-        //        count.call(this, {
-        //            from: value,
-        //            to: 100,
-        //            speed: 2000
-        //        });
+        // custom formatting example
+        //$('#earth').data('countToOptions', {
+        //    formatter: function (value, options) {
+        //        return value.toFixed(options.decimals).replace(/\B(?=(?:\d{3})+(?!\d))/g, ',');
         //    }
         //});
 
@@ -192,4 +234,6 @@ For javascript code example, see assets/js/view/demo.graphs.flot.js
             $this.countTo(options);
         }
     });
-</script>
+    </script>
+        }
+}

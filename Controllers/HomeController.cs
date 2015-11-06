@@ -7,7 +7,7 @@ using System.Web.Mvc;
 namespace BugTracker.Controllers {
     public class HomeController : Controller {
         public ActionResult Index() {
-            return RedirectToAction("Index","Tickets");
+            return RedirectToAction("Dashboard","Tickets");
         }
 
         public ActionResult About() {

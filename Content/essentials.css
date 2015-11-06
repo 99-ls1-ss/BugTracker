@@ -5641,7 +5641,7 @@ section.dark .box-inner h6>a:hover {
 		 -o-transition: all .400s;
 			transition: all .400s;
 }
-.box-gradient>div>p {
+.box-gradient>div>p, .box-gradient>div>a>p {
 	font-size:15px;
 	margin:0;
 	height:50px;
@@ -5661,6 +5661,10 @@ section.dark .box-inner h6>a:hover {
 	font-size:50px;
 	line-height:50px;
 	font-weight:300;
+}
+
+.box-gradient>div>a {
+    color:#fff;
 }
 
 	/* pink */
@@ -5749,6 +5753,9 @@ section.dark .box-inner h6>a:hover {
 	}
 	.box-red>div:nth-child(4) {
 		background-color:#e17673;
+	}
+    .box-red>div:nth-child(5) {
+		background-color:#e59593;
 	}
 
 

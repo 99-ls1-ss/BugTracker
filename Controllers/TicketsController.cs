@@ -18,12 +18,12 @@ namespace BugTracker.Controllers {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Tickets
-        public ActionResult Index() {
+        public ActionResult Index(int? priorityId) {
+            
             var tickets = db.TicketsData.Include(t => t.Project).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
             var userId = User.Identity.GetUserId();
             var user = db.Users.Include(p => p.Projects).FirstOrDefault(u => u.Id == userId);
-            //var projDevProjects = user.Projects.SelectMany(p => p.Tickets).AsQueryable();
-            //var projDevOwner = db.TicketsData.Where(t => t.OwnerUserId == user.Id);
+           
 
             if (User.IsInRole("Admin")) {
                 tickets = tickets;
@@ -35,7 +35,9 @@ namespace BugTracker.Controllers {
             else if (User.IsInRole("Submitter")) {
                 tickets = db.TicketsData.Where(t => t.OwnerUserId == user.Id);
             }
-
+            if (priorityId != null) {
+                tickets = tickets.Where(t => t.TicketPriorityId == priorityId);
+            }
             return View(tickets.ToList());
         }
 
