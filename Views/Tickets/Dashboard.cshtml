@@ -2,6 +2,7 @@
 @using Microsoft.AspNet.Identity;
 @{
     ViewBag.Title = "Dashboard";
+    ViewBag.Menu = "Dashboard";
 }
 
 <section class="section colored-wrapper">
@@ -141,6 +142,12 @@
         //    }
         //});
 
+        //$('#earth').data('countToOptions', {
+        //    onComplete: function (value) {
+        //        return value.toFixed(options.decimals).replace(/\B(?=(?:\d{3})+(?!\d))/g, ',');
+        //    }
+        //});
+
         // custom callback when counting completes
         $('#countdown').data('countToOptions', {
             onComplete: function (value) {
@@ -153,7 +160,9 @@
             onComplete: function (value) {
                 count.call(this, {
                     from: value,
-                    to: 100
+                    to: 100,
+                    refreshInterval: 100,
+                    speed: 2000
                 });
             }
         });
