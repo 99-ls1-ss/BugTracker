@@ -42,6 +42,7 @@
                     </div>
                     <div class="collapse navbar-collapse navbar-ex1-collapse">
                         <ul class="nav navbar-nav">
+                            <li class="dropdown  @(ViewBag.Menu == "Dashboard" ? "active" : "")">@Html.ActionLink("Dashboard","Dashboard","Tickets")</li>
                             <li class="dropdown  @(ViewBag.Menu == "Tickets" ? "active" : "")">@Html.ActionLink("Tickets", "Index", "Tickets")</li>
                             @if (User.IsInRole("Admin")) {
                                 <li class="dropdown  @(ViewBag.Menu == "Users" ? "active" : "")">@Html.ActionLink("User Admin", "Index", "Admin")</li>
@@ -52,7 +53,7 @@
 
                         @*@Html.Partial("_LoginPartial")*@
                     </div>
-                    <div class="row login-bar">                        
+                    <div class="row login-bar">
                         <div class="col-md-offset-6 col-sm-6 col-xs-12 blogAccount">
                             @Html.Partial("_LoginPartial")
                         </div>
@@ -60,7 +61,7 @@
                 </div>
             </nav>
         </header>
-            
+
         @RenderBody()
 
         <footer id="footer-2" class="footer">
@@ -84,37 +85,43 @@
             <!-- /.container -->
         </footer>
 
-            <!-- SCROLL TO TOP -->
-            <a href="#" id="toTop"></a>
+        <!-- SCROLL TO TOP -->
+        <a href="#" id="toTop"></a>
 
 
-            <!-- PRELOADER -->
-            <div id="preloader">
-                <div class="inner">
-                    <span class="loader"></span>
-                </div>
+        <!-- PRELOADER -->
+        <div id="preloader">
+            <div class="inner">
+                <span class="loader"></span>
             </div>
-            <!-- /PRELOADER -->
+        </div>
+        <!-- /PRELOADER -->
 
-</div>
+    </div>
     <!-- /wrapper -->
     <!-- JAVASCRIPT FILES -->
-    @*<script type="text/javascript">var plugin_path = 'plugins/';</script>*@
-    @*<script src="~/Scripts/jquery-1.10.2.js"></script>*@
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-
-    
-
-    <script src="~/Scripts/contact.js"></script>
-    <script src="~/Scripts/scripts.js"></script>
-    <script src="~/Scripts/view/demo.revolution_slider.js"></script>
-    
-
 
     @Scripts.Render("~/bundles/jquery")
     @*@Scripts.Render("~/plugins/scripts")*@
     @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts",required: false)
+    
+    <script>
+        var plugin_path = '~/plugins/';
+        //console.log(plugin_path);
+    </script>
+    @*<script src="~/Scripts/jquery-1.10.2.js"></script>*@
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>*@
+
+
+
+    <script src="~/Scripts/contact.js"></script>
+    <script src="~/Scripts/jquery.countTo.js"></script>
+    <script src="~/Scripts/scripts.js"></script>
+    <script src="~/Scripts/view/demo.revolution_slider.js"></script>
+
+
+
+    @RenderSection("scripts", required: false)
 
     <script src="~/Scripts/DataTables-1.10.9/media/js/jquery.dataTables.min.js"></script>
     <script src="~/Scripts/DataTables-1.10.9/extensions/Responsive/js/dataTables.responsive.min.js"></script>
@@ -137,5 +144,7 @@
     </script>
 
 </body>
+
+
 
 </html>

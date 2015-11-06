@@ -1,8 +1,10 @@
 ﻿@model BugTracker.Models.TicketsModel
+@using Microsoft.AspNet.Identity;
 @{
     ViewBag.Menu = "Tickets";
     ViewBag.Title = "Details";
     ViewBag.Message = "Ticket Details";
+ 
 }
 <section class="section colored-wrapper">
     <div class="container">
@@ -13,24 +15,23 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-2">
-                            @Html.ActionLink("Back to List", "Index", new { @class = "text-right" })
+                            @Html.ActionLink("Back to List", "Index")
                         </div>
                         <div class="col-md-7"></div>
                         @if (User.IsInRole("Admin")) {
-                        <div class="col-md-3 text-right">
-                            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-                            @Html.ActionLink("Delete", "Delete", new { id = Model.Id })
-                        </div>
-                    }
-                    else if (User.IsInRole("ProjectManager") || User.IsInRole("Developer")) {
-                        <div class="col-md-3 text-right">
-                            @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
-                        </div>
-                    }
-                    else if (User.IsInRole("Submitter")) {
-                        <div class="col-md-3 text-right">
-                        </div>
-                    }
+                            <div class="col-md-3 text-right">
+                                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = Model.Id })
+                            </div>
+                        }
+                        else if (User.IsInRole("ProjectManager") || User.IsInRole("Developer")) {
+                            <div class="col-md-3 text-right">
+                                @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+                            </div>
+                        }
+                        else {
+                            <div class="col-md-3 text-right"></div>
+                        }
                     </div>
                 </div>
                 <div class="container ticket-content">
@@ -124,21 +125,24 @@
                             <li>
                                 <a href="#attachmentTab" data-toggle="tab">Attachments <span class="weight-300">(@Model.Attachments.Count())</span></a>
                             </li>
-                            @if (Model.History.Count() > 0) { 
-                            <li>
-                                <a href="#historyTab" data-toggle="tab">History <span class="weight-300">(@Model.History.Count())</span></a>
-                            </li>                            
-                            <li>
-                                <a href="#notificationsTab" data-toggle="tab">Notifications <span class="weight-300">(@Model.Notification.Count())</span></a>
-                            </li>
+                            @if (Model.History.Count() > 0) {
+                                <li>
+                                    <a href="#historyTab" data-toggle="tab">History <span class="weight-300">(@Model.History.Count())</span></a>
+                                </li>
+                                <li>
+                                    <a href="#notificationsTab" data-toggle="tab">Notifications <span class="weight-300">(@Model.Notification.Count())</span></a>
+                                </li>
                             }
                         </ul>
 
                         <div class="tab-content">
                             <div id="attachmentTab" class="tab-pane fade">
+                                @if ((Model.AssignedToUser.UserName == User.Identity.Name) ||
+                                (User.IsInRole("Admin")) ||
+                                ((Model.OwnerUser.UserName == User.Identity.Name) && (User.IsInRole("Submitter")))) {
                                 <div class="post-attachments">
                                     <div class="col-md-12">
-                                        <form class="comment-form" role="form" enctype="multipart/form-data" method="post" name="AddAttachment" action="@Url.Action("AddAttachment", "Tickets")">
+                                        <form class="comment-form" role="form" enctype="multipart/form-data" method="post" name="AddAttachment" action="@Url.Action("addattachment", "Tickets" )">
                                             <input type="hidden" name="TicketId" value="@Model.Id" />
                                             <input type="hidden" name="CommentUserId" value="@Model.CommentUserId" />
                                             <input type="hidden" name="Author" value="" />
@@ -156,6 +160,7 @@
                                         </form>
                                     </div>
                                 </div>
+                                }
                                 <div class="col-md-12">
                                     @foreach (var attachment in Model.Attachments) {
                                         <ul class="media-list">
@@ -193,49 +198,54 @@
                                 </div>
                             </div>
                             <div id="commentTab" class="tab-pane fade in active">
-                                <div class="post-comments">
-                                    <div class="col-md-12">
-                                        <form class="comment-form" role="form" method="post" name="AddComment" action="@Url.Action("AddComment", "Tickets")">
-                                            <input type="hidden" name="TicketId" value="@Model.Id" />
-                                            <input type="hidden" name="CommentUserId" value="@Model.CommentUserId" />
-                                            <input type="hidden" name="Author" value="" />
-                                            <h5 class="subpage-title">Add Comment</h5>
-                                            <textarea type="text" name="Comment" class="form-control comments" id=""></textarea>
-                                            <input type="submit" class="btn btn-flat flat-color" value="Add Comment" />
-                                        </form>
+                                @if ((Model.AssignedToUser.UserName == User.Identity.Name) ||
+                                (User.IsInRole("Admin")) ||
+                                ((Model.OwnerUser.UserName == User.Identity.Name) && (User.IsInRole("Submitter")))) {
+                                    <div class="post-comments">
+                                        <div class="col-md-12">
+                                            <form class="comment-form" role="form" method="post" name="AddComment" action="@Url.Action("addcomment", "Tickets" )">
+                                                <input type="hidden" name="TicketId" value="@Model.Id" />
+                                                <input type="hidden" name="CommentUserId" value="@Model.CommentUserId" />
+                                                <input type="hidden" name="Author" value="" />
+                                                <h5 class="subpage-title">Add Comment</h5>
+                                                <textarea type="text" name="Comment" class="form-control comments" id=""></textarea>
+                                                <input type="submit" class="btn btn-flat flat-color" value="Add Comment" />
+                                            </form>
+                                        </div>
                                     </div>
-                                </div>
+                                }
+
                                 <div class="col-md-12">
-                                    @foreach (var comment in Model.Comments) {                                        
-                                    <ul class="media-list">
-                                        <li class="media">
-                                            <div class="media-body">
-                                                <h5 class="media-heading">
-                                                    @Html.DisplayTextFor(model => comment.User.DisplayName)
-                                                    <span class="subText">Created: @comment.CreatedDate.ToString("g") </span>
-                                                    @if ((User.IsInRole("Admin") || User.IsInRole("Moderator"))) {
-                                                    <span>
-                                                        <a href="" class="jsCommentClass comment-reply pull-right"
-                                                           data-toggle="modal"
-                                                           data-target="#editComment"
-                                                           data-id="@comment.Id"
-                                                           data-body="@comment.Comment"
-                                                           data-updateddate="@comment.UpdatedDate"
-                                                           data-updatedby="@comment.UserId">Edit Comment</a>
-                                                        <a href="" class="jsCommentClass comment-reply pull-right"
-                                                           data-toggle="modal"
-                                                           data-target="#deleteComment"
-                                                           data-id="@comment.Id"
-                                                           data-body="@comment.Comment"
-                                                           data-updateddate="@comment.UpdatedDate"
-                                                           data-removedby="@comment.UserId">Delete Comment</a>
-                                                    </span>
-                                                    }
-                                                </h5>
-                                                <div class="formattedContent">@Html.Raw(comment.Comment)</div>
-                                            </div>
-                                        </li>
-                                    </ul>                                        
+                                    @foreach (var comment in Model.Comments) {
+                                        <ul class="media-list">
+                                            <li class="media">
+                                                <div class="media-body">
+                                                    <h5 class="media-heading">
+                                                        @Html.DisplayTextFor(model => comment.User.DisplayName)
+                                                        <span class="subText">Created: @comment.CreatedDate.ToString("g") </span>
+                                                        @if ((User.IsInRole("Admin") || User.IsInRole("Moderator"))) {
+                                                            <span>
+                                                                <a href="" class="jsCommentClass comment-reply pull-right"
+                                                                   data-toggle="modal"
+                                                                   data-target="#editComment"
+                                                                   data-id="@comment.Id"
+                                                                   data-body="@comment.Comment"
+                                                                   data-updateddate="@comment.UpdatedDate"
+                                                                   data-updatedby="@comment.UserId">Edit Comment</a>
+                                                                <a href="" class="jsCommentClass comment-reply pull-right"
+                                                                   data-toggle="modal"
+                                                                   data-target="#deleteComment"
+                                                                   data-id="@comment.Id"
+                                                                   data-body="@comment.Comment"
+                                                                   data-updateddate="@comment.UpdatedDate"
+                                                                   data-removedby="@comment.UserId">Delete Comment</a>
+                                                            </span>
+                                                        }
+                                                    </h5>
+                                                    <div class="formattedContent">@Html.Raw(comment.Comment)</div>
+                                                </div>
+                                            </li>
+                                        </ul>
                                     }
                                 </div>
                             </div>
@@ -294,6 +304,9 @@
     </div>
 
 </section>
+
+
+
 
 <div id="editComment" class="modal fade" role="dialog">
     <div class="modal-dialog">

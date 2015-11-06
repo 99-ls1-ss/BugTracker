@@ -1612,19 +1612,21 @@ ul.list-icons>li>i {
 		text-align:center;
 		font-size: 42px;
 	}
-	.piechart > span {
+	.piechart > span, .piechart > b {
 		position:absolute;
 		display:block;
 		text-align:center;
 		font-size:17px;
 		font-weight:bold;
 	}
-	.piechart > span.countTo {
+	.piechart > span.countTo, .piechart > b.countTo {
 		font-size:30px;
 	}
 	
 	.piechart > span[class^="size-"], 
-	.piechart > span[class*=" size-"] {
+	.piechart > span[class*=" size-"],
+    .piechart > b[class^="size-"], 
+	.piechart > b[class*=" size-"] {
 		line-height:inherit;
 	}
 
@@ -5639,7 +5641,7 @@ section.dark .box-inner h6>a:hover {
 		 -o-transition: all .400s;
 			transition: all .400s;
 }
-.box-gradient>div>p {
+.box-gradient>div>p, .box-gradient>div>a>p {
 	font-size:15px;
 	margin:0;
 	height:50px;
@@ -5659,6 +5661,10 @@ section.dark .box-inner h6>a:hover {
 	font-size:50px;
 	line-height:50px;
 	font-weight:300;
+}
+
+.box-gradient>div>a {
+    color:#fff;
 }
 
 	/* pink */
@@ -5748,6 +5754,9 @@ section.dark .box-inner h6>a:hover {
 	.box-red>div:nth-child(4) {
 		background-color:#e17673;
 	}
+    .box-red>div:nth-child(5) {
+		background-color:#e59593;
+	}
 
 
 	/* brown */
@@ -5823,6 +5832,9 @@ section.dark .box-inner h6>a:hover {
 	.box-teal>div:nth-child(4) {
 		background-color:#8aadb0;
 	}
+    .circleCountLabel{
+        margin-top:16px;
+    }
 
 
 @media all and (max-width: 768px) {

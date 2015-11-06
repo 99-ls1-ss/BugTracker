@@ -822,6 +822,7 @@ pre code {
 .col-xs-12,
 .col-sm-1,
 .col-sm-2,
+.col-sm-2-5,
 .col-sm-3,
 .col-sm-4,
 .col-sm-5,
@@ -930,6 +931,7 @@ pre code {
   }
   .col-sm-1,
   .col-sm-2,
+  .col-sm-2-5,
   .col-sm-3,
   .col-sm-4,
   .col-sm-5,
@@ -946,6 +948,9 @@ pre code {
   }
   .col-sm-2 {
     width: 16.666666666666664%;
+  }
+  .col-sm-2-5 {
+      width: 20%;
   }
   .col-sm-3 {
     width: 25%;
