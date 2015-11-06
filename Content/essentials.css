@@ -5825,6 +5825,9 @@ section.dark .box-inner h6>a:hover {
 	.box-teal>div:nth-child(4) {
 		background-color:#8aadb0;
 	}
+    .circleCountLabel{
+        margin-top:16px;
+    }
 
 
 @media all and (max-width: 768px) {

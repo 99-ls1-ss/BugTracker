@@ -30,10 +30,7 @@ namespace BugTracker.Controllers {
             }
             else if ((User.IsInRole("ProjectManager")) || (User.IsInRole("Developer"))) {
 
-                tickets = user.Projects.SelectMany(p => p.Tickets).AsQueryable();
-
-                //tickets = projDevOwner;
-                //tickets = projDevProjects;                
+                tickets = user.Projects.SelectMany(p => p.Tickets).AsQueryable();       
             }
             else if (User.IsInRole("Submitter")) {
                 tickets = db.TicketsData.Where(t => t.OwnerUserId == user.Id);
@@ -43,8 +40,20 @@ namespace BugTracker.Controllers {
         }
 
         public ActionResult Dashboard() {
-            TicketsModel dashboard = new TicketsModel();
-            return View();
+
+            var tickets = db.TicketsData.Include(t => t.Project).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
+            var userId = User.Identity.GetUserId();
+            var user = db.Users.Include(p => p.Projects).FirstOrDefault(u => u.Id == userId);
+
+
+            DashboardModel dashboard = new DashboardModel();
+
+            dashboard.Tickets = db.TicketsData.ToList();
+            dashboard.Comments = db.TicketCommentsData.ToList();
+            dashboard.Priorities = db.TicketPrioritiesData.ToList();
+            dashboard.Statuses = db.TicketStatusesData.ToList();
+            
+            return View(dashboard);
         }
 
         // GET: Tickets/Details/5

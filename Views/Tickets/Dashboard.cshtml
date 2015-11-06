@@ -1,75 +1,66 @@
-﻿@model BugTracker.Models.TicketsModel
+﻿@model BugTracker.Models.DashboardModel
 @using Microsoft.AspNet.Identity;
 @{
     ViewBag.Title = "Dashboard";
     ViewBag.Menu = "Dashboard";
+
 }
 
-<section class="section colored-wrapper">
-    @*<div class="container">
-
+@*<section class="section colored-wrapper">
+    <div class="container">
         <h3 class="text-center">Circle Counter</h3>
         <div class="text-center">
-            <div class="piechart" data-color="#D9534F" data-size="200" data-percent="100" data-width="2" data-animate="2000">
-
-                <span class="countTo font-raleway timer" id="ticketCount" data-speed="2000" data-to="24" style="line-height:200px !important; height:200px; width:200px"> tickets</span>
+            <div class="piechart" data-color="#D9534F" data-size="175" data-percent="78" data-width="2" data-animate="2000">
+                <span class="countTo font-raleway timer" id="ticketCount2" style="line-height:175px !important; height:200px; width:175px"></span>
                 <canvas height="200" width="200"></canvas>
             </div>
             <div class="piechart" data-color="#F0AD4E" data-size="150" data-percent="70" data-width="2" data-animate="1700">
-                <span class="countTo font-raleway timer" data-speed="3000" style="line-height:150px !important; height:150px; width:150px">4555</span>
+                <span class="countTo font-raleway timer" id="commentCount2" style="line-height:150px !important; height:150px; width:150px">4555</span>
                 <canvas height="150" width="150"></canvas>
             </div>
             <div class="piechart" data-color="#337AB7" data-size="150" data-percent="89" data-width="2" data-animate="1700">
-                <span class="countTo font-raleway timer" data-speed="3000" style="line-height:150px !important; height:150px; width:150px">8766</span>
+                <span class="countTo font-raleway timer" style="line-height:150px !important; height:150px; width:150px">8766</span>
                 <canvas height="150" width="150"></canvas>
             </div>
             <div class="piechart" data-color="#86B530" data-size="200" data-percent="93" data-width="2" data-animate="1700">
-                <span class="countTo font-raleway timer" data-speed="3000" style="line-height:200px !important; height:200px; width:200px">5612</span>
+                <span class="countTo font-raleway timer" style="line-height:200px !important; height:200px; width:200px">5612</span>
                 <canvas height="200" width="200"></canvas>
             </div>
         </div>
-    </div>*@
-
-    @*<div class="example">
-                <h2>
-                    How many licks to the center of a Tootsie Pop?
-                    <button class="restart" data-target="#lollipop">Restart</button>
-                </h2>
-                <p><b class="timer" id="lollipop" data-to="3" data-speed="1500"></b></p>
-            </div>
-        <div class="example">
-                <h2>
-                    What is Earth's radius?
-                    <button class="restart" data-target="#earth">Restart</button>
-                </h2>
-                <p><b class="timer" id="earth" data-to="3968" data-speed="10000"></b> miles</p>
-            </div>
-            <div class="example">
-                <h2>
-                    Start the countdown...
-                    <button class="restart" data-target="#countdown">Restart</button>
-                </h2>
-                <p>Lift-off in <b class="timer" id="countdown" data-from="3" data-to="1" data-speed="3000"></b></p>
-            </div>
-            <div class="example">
-                <h2>
-                    Earth's Gravity
-                    <button class="restart" data-target="#gravity">Restart</button>
-                </h2>
-                <p><b class="timer" id="gravity" data-from="0" data-to="9.8" data-speed="3000" data-decimals="2"></b> m/s<sup>2</sup></p>
-            </div>
-            <div class="example">
-                <h2>
-                    To infinity...and beyond!
-                    <button class="restart" data-target="#infinity">Restart</button>
-                </h2>
-                <p><b class="timer" id="infinity" data-from="0" data-to="1000" data-speed="800"></b></p>
-            </div>*@
-</section>
-
+    </div>
+</section>*@
 <!-- COLOR BOXES -->
+
+
+<!-- HTML -->
+<div id="flot-pie" class="flot-chart height-300"><!-- FLOT CONTAINER --></div>
+
+<!-- JAVASCRIPT -->
+For javascript code example, see assets/js/view/demo.graphs.flot.js
+
+<!-- JS LOAD -->
+<script>
+    loadScript(plugin_path + "chart.flot/jquery.flot.min.js", function(){
+        loadScript(plugin_path + "chart.flot/jquery.flot.resize.min.js", function(){
+            loadScript(plugin_path + "chart.flot/jquery.flot.time.min.js", function(){
+                loadScript(plugin_path + "chart.flot/jquery.flot.fillbetween.min.js", function(){
+                    loadScript(plugin_path + "chart.flot/jquery.flot.orderBars.min.js", function(){
+                        loadScript(plugin_path + "chart.flot/jquery.flot.pie.min.js", function(){
+                            loadScript(plugin_path + "chart.flot/jquery.flot.tooltip.min.js", function(){
+
+                            // demo js script - or add js code directly here!
+                            loadScript("assets/js/view/demo.graphs.flot.js");
+
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    });
+</script>
 <section class="section colored-wrapper">
-    <!--
+    @*
         .box-pink
         .box-blue
         .box-orange
@@ -81,59 +72,39 @@
         .box-black
         .box-gray
         .box-teal
-
-
-
-    CREATE YOUR OWN COLORS - CSS EXAMPLE:
-        .box-pink>div:nth-child(1) {
-            background-color:#e2476b;
-        }
-        .box-pink>div:nth-child(2) {
-            background-color:#e9738f;
-        }
-        .box-pink>div:nth-child(3) {
-            background-color:#f09fb2;
-        }
-        .box-pink>div:nth-child(4) {
-            background-color:#f7cbd5;
-        }
-
-    -->
+    *@
     <div class="container">
-
-        <div class="row box-gradient box-gray">
+        
+        <div class="row box-gradient box-red">
             <div class="col-xs-6 col-sm-3">
                 <i class="fa fa-child fa-4x"></i>
-                <h2 class="countTo font-raleway timer" id="ticketCount" data-speed="3000">0</h2>
+                <h2 class="countTo font-raleway timer" id="ticketCount">0</h2>
                 <p>NUMBER OF TICKETS</p>
             </div>
-
             <div class="col-xs-6 col-sm-3">
                 <i class="fa fa-smile-o fa-4x"></i>
-                <h2 class="countTo font-raleway timer" id="commentCount" data-speed="3000">0</h2>
-                <p>NUMBER OF COMMENTS</p>
+                <h2 class="countTo font-raleway timer" id="blockerCount">0</h2>
+                <p>NUMBER OF BLOCKERS</p>
             </div>
-
             <div class="col-xs-6 col-sm-3">
                 <i class="fa fa-heart fa-4x"></i>
-                <h2 class="countTo font-raleway timer" data-speed="3000">24567</h2>
-                <p>MASSAGES</p>
+                <h2 class="countTo font-raleway timer" id="criticalCount">0</h2>
+                <p>NUMBER OF Critcal</p>
             </div>
-
             <div class="col-xs-6 col-sm-3">
                 <i class="fa fa-female fa-4x"></i>
-                <h2 class="countTo font-raleway timer" data-speed="3000">68</h2>
-                <p>MOTHERS TO BE</p>
+                <h2 class="countTo font-raleway timer" id="">0</h2>
+                <p>NUMBER OF OTHER THINGS</p>
             </div>
         </div>
+
     </div>
 </section>
 <!-- /COLOR BOXES -->
-  @*<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>*@
-  @*<script type="text/javascript" src="jquery.countTo.js"></script>*@
 <script src="~/Scripts/jquery-1.11.3.min.js"></script>
 <script src="~/Scripts/jquery.countTo.js"></script>
 <script type="text/javascript">
+
     jQuery(function ($) {
         // custom formatting example
         //$('#earth').data('countToOptions', {
@@ -160,21 +131,50 @@
             onComplete: function (value) {
                 count.call(this, {
                     from: value,
-                    to: 100,
-                    refreshInterval: 100,
+                    to: @Model.Tickets.Count(),
+                    speed: 1500
+                });
+            }
+        });
+        $('#blockerCount').data('countToOptions', {
+            onComplete: function (value) {
+                count.call(this, {
+                    from: value,
+                    to: @Model.Tickets.Count(t => t.TicketPriorityId == 1),
+                    speed: 1000
+                });
+            }
+        });
+
+        $('#criticalCount').data('countToOptions', {
+            onComplete: function (value) {
+                count.call(this, {
+                    from: value,
+                    to: @Model.Tickets.Count(t => t.TicketPriorityId == 2),
+                    speed: 1000
+                });
+            }
+        });
+
+        $('#commentCount2').data('countToOptions', {
+            onComplete: function (value) {
+                count.call(this, {
+                    from: value,
+                    to: @Model.Comments.Count(),
                     speed: 2000
                 });
             }
         });
 
-        $('#commentCount').data('countToOptions', {
-            onComplete: function (value) {
-                count.call(this, {
-                    from: value,
-                    to: 100
-                });
-            }
-        });
+        //$('#blockerCount').data('countToOptions', {
+        //    onComplete: function (value) {
+        //        count.call(this, {
+        //            from: value,
+        //            to: 100,
+        //            speed: 2000
+        //        });
+        //    }
+        //});
 
         // start all the timers
         $('.timer').each(count);
