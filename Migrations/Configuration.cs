@@ -31,6 +31,9 @@ namespace BugTracker.Migrations {
             if (!context.Roles.Any(r => r.Name == "Submitter")) {
                 roleManager.Create(new IdentityRole { Name = "Submitter" });
             };
+            if (!context.Roles.Any(r => r.Name == "Guest")) {
+                roleManager.Create(new IdentityRole { Name = "Guest" });
+            };
 
 
             if (!context.Users.Any(u => u.Email == "brandon@navicamls.net")) {
@@ -41,8 +44,10 @@ namespace BugTracker.Migrations {
             };
             if (!context.Users.Any(u => u.Email == "branpayne69@gmail.com")) {
                 roleManager.Create(new IdentityRole { Name = "Developer" });
-            }; 
-            
+            };
+            if (!context.Users.Any(u => u.Email == "guest@coderfoundry")) {
+                roleManager.Create(new IdentityRole { Name = "Guest" });
+            };
 
             var userManager = new UserManager<ApplicationUser>(
                 new UserStore<ApplicationUser>(context));
@@ -82,12 +87,26 @@ namespace BugTracker.Migrations {
                     "Password-1");
             };
 
+            if (!context.Users.Any(u => u.Email == "guest@coderfoundry.com")) {
+                userManager.Create(new ApplicationUser {
+                    UserName = "guest@coderfoundry.com",
+                    Email = "guest@coderfoundry.com",
+                    FirstName = "Guest",
+                    LastName = "User",
+                    DisplayName = "Guest User",
+                    EmailConfirmed = true
+                },
+                    "Password-1");
+            };
+
             var userIdAdmin = userManager.FindByEmail("brandon@navicamls.net").Id;
             userManager.AddToRole(userIdAdmin, "Admin");
             var userIdMod = userManager.FindByEmail("moderator@coderfoundry.com").Id;
             userManager.AddToRole(userIdMod, "ProjectManager");
             var userIdDev = userManager.FindByEmail("branpayne69@gmail.com").Id;
             userManager.AddToRole(userIdDev, "Developer");
+            var userIdGuest = userManager.FindByEmail("guest@coderfoundry.com").Id;
+            userManager.AddToRole(userIdGuest, "Guest");
         }
     }
 }

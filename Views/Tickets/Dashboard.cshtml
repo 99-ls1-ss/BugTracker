@@ -27,7 +27,7 @@ else {
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
-                    @if (User.IsInRole("Admin")) {
+                    @if (User.IsInRole("Admin") || User.IsInRole("Guest")) {
                         <h4><span>CURRENT NUMBER OF ACTIVE TICKETS: @Model.Tickets.Where(s => s.TicketStatusId != 4).Count()</span></h4>
                     }
                     else {
@@ -53,21 +53,22 @@ else {
                 </div>
                 <div class="col-xs-6 col-sm-2-5">
                     <a href="@Url.Action("Index","Tickets",new {priorityId = 3})">
-                        <i class="fa fa-search-minus fa-4x"></i>
+                        <i class="fa fa-frown-o fa-4x"></i>
                         <h2 class="countTo font-raleway timer" id="myMinorCount">0</h2>
                         <p>MINOR TICKETS</p>
                     </a>
                 </div>
                 <div class="col-xs-6 col-sm-2-5">
                     <a href="@Url.Action("Index","Tickets",new {priorityId = 1002})">
-                        <i class="fa fa-adjust fa-4x"></i>
+                        <i class="fa fa-user-plus fa-4x"></i>
+                        @*<i class="fa fa-adjust fa-4x"></i>*@
                         <h2 class="countTo font-raleway timer" id="myWishListCount">0</h2>
                         <p>WISHLIST TICKETS</p>
                     </a>
                 </div>
                 <div class="col-xs-6 col-sm-2-5">
                     <a href="@Url.Action("Index","Tickets",new {priorityId = 1003})">
-                        <i class="fa fa-pencil fa-4x"></i>
+                        <i class="fa fa-edit fa-4x"></i>
                         <h2 class="countTo font-raleway timer" id="enhancementCount">0</h2>
                         <p>ENHANCEMENT TICKETS</p>
                     </a>
@@ -80,7 +81,7 @@ else {
     <script src="~/Scripts/jquery.countTo.js"></script>
     
        
-    if(User.IsInRole("Admin")){
+    if (User.IsInRole("Admin") || User.IsInRole("Guest")) {
         
         
     <script type="text/javascript">

@@ -50,6 +50,15 @@ namespace BugTracker.Controllers {
             return View();
         }
 
+        [AllowAnonymous]
+        public async Task<ActionResult> AdminLogin() {
+            var admin = UserManager.FindByEmail("guest@coderfoundry.com");
+
+            await SignInManager.SignInAsync(admin, true, false);
+
+            return RedirectToAction("Index", "Home");
+        }
+
         //
         // POST: /Account/Login
         [HttpPost]
