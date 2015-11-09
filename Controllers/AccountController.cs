@@ -51,6 +51,7 @@ namespace BugTracker.Controllers {
         }
 
         [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> AdminLogin() {
             var admin = UserManager.FindByEmail("guest@coderfoundry.com");
 
