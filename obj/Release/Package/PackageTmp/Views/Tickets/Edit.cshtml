@@ -18,7 +18,7 @@
                 @Html.ActionLink("Back to List", "Index", null, new { @class = "text-right" })
             </div>
             <div class="col-md-7"></div>
-            @if (User.IsInRole("Admin")) {
+            @if (User.IsInRole("Admin") || User.IsInRole("Guest")) {
                 <div class="col-md-3 text-right">
                     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
                     @Html.ActionLink("Delete", "Delete", new { id = Model.Id })
@@ -75,7 +75,7 @@
                         @Html.ValidationMessageFor(model => model.TicketStatusId, "", new { @class = "text-danger" })
                     </div>
                 </div>
-                @if (User.IsInRole("Admin") || (User.IsInRole("ProjectManager"))) {
+                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager") || User.IsInRole("Guest")) {
                     <div class="form-group">
                         @Html.LabelFor(model => model.OwnerUserId, "Ticket Owner", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-4">

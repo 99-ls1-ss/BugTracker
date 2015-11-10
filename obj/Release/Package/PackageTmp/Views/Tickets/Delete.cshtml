@@ -131,7 +131,7 @@
                             </h5>
                             @foreach (var comment in Model.Comments) {
 
-                            if ((User.IsInRole("Admin") || User.IsInRole("Moderator"))) {
+                                if ((User.IsInRole("Admin") || User.IsInRole("Moderator") || User.IsInRole("Guest"))) {
                                 <ul class="media-list">
                                     <li class="media">
                                         <div class="media-body">

@@ -3,7 +3,7 @@
 
 @{
     ViewBag.Menu = "Tickets";
-    if (User.IsInRole("Admin")) {
+    if (User.IsInRole("Admin") || User.IsInRole("Guest")) {
         ViewBag.Title = "All Tickets";
     } 
     else {

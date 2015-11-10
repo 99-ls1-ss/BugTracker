@@ -369,6 +369,10 @@ textarea.form-control.comments {
     font-weight:700;
 }
 
+.usersTable tbody tr.even, .projectsTable tbody tr.even {
+    background-color:aliceblue;
+}
+
 /*Background color for Even Blocker Rows*/
 .row-priority-1.even {
     background-color:rgba(255, 0, 0, 0.065);

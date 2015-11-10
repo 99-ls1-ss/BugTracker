@@ -18,7 +18,7 @@
                             @Html.ActionLink("Back to List", "Index")
                         </div>
                         <div class="col-md-7"></div>
-                        @if (User.IsInRole("Admin")) {
+                        @if (User.IsInRole("Admin") || User.IsInRole("Guest") || User.IsInRole("Guest")) {
                             <div class="col-md-3 text-right">
                                 @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
                                 @Html.ActionLink("Delete", "Delete", new { id = Model.Id })
@@ -138,7 +138,7 @@
                         <div class="tab-content">
                             <div id="attachmentTab" class="tab-pane fade">
                                 @if ((Model.AssignedToUser.UserName == User.Identity.Name) ||
-                                (User.IsInRole("Admin")) ||
+                                (User.IsInRole("Admin") || User.IsInRole("Guest")) ||
                                 ((Model.OwnerUser.UserName == User.Identity.Name) && (User.IsInRole("Submitter")))) {
                                 <div class="post-attachments">
                                     <div class="col-md-12">
@@ -199,7 +199,7 @@
                             </div>
                             <div id="commentTab" class="tab-pane fade in active">
                                 @if ((Model.AssignedToUser.UserName == User.Identity.Name) ||
-                                (User.IsInRole("Admin")) ||
+                                (User.IsInRole("Admin") || User.IsInRole("Guest")) ||
                                 ((Model.OwnerUser.UserName == User.Identity.Name) && (User.IsInRole("Submitter")))) {
                                     <div class="post-comments">
                                         <div class="col-md-12">
@@ -223,7 +223,7 @@
                                                     <h5 class="media-heading">
                                                         @Html.DisplayTextFor(model => comment.User.DisplayName)
                                                         <span class="subText">Created: @comment.CreatedDate.ToString("g") </span>
-                                                        @if ((User.IsInRole("Admin") || User.IsInRole("Moderator"))) {
+                                                        @if ((User.IsInRole("Admin") || User.IsInRole("Moderator") || User.IsInRole("Guest"))) {
                                                             <span>
                                                                 <a href="" class="jsCommentClass comment-reply pull-right"
                                                                    data-toggle="modal"

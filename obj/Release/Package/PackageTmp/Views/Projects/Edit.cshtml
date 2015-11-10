@@ -16,7 +16,7 @@
                 @Html.ActionLink("Back to Project List", "Index", null, new { @class = "text-right" })
             </div>
             <div class="col-md-3 text-right">
-                @if (User.IsInRole("Admin")) {
+                @if (User.IsInRole("Admin") || User.IsInRole("Guest")) {
                     @Html.ActionLink("Create New Project", "Create")
                 }
             </div>

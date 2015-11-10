@@ -42,9 +42,9 @@
                     </div>
                     <div class="collapse navbar-collapse navbar-ex1-collapse">
                         <ul class="nav navbar-nav">
-                            <li class="dropdown  @(ViewBag.Menu == "Dashboard" ? "active" : "")">@Html.ActionLink("Dashboard","Dashboard","Tickets")</li>
+                            <li class="dropdown  @(ViewBag.Menu == "Dashboard" ? "active" : "")">@Html.ActionLink("Dashboard", "Dashboard", "Tickets")</li>
                             <li class="dropdown  @(ViewBag.Menu == "Tickets" ? "active" : "")">@Html.ActionLink("Tickets", "Index", "Tickets")</li>
-                            @if (User.IsInRole("Admin")) {
+                            @if (User.IsInRole("Admin") || User.IsInRole("Guest")) {
                                 <li class="dropdown  @(ViewBag.Menu == "Users" ? "active" : "")">@Html.ActionLink("User Admin", "Index", "Admin")</li>
                                 <li class="dropdown  @(ViewBag.Menu == "Projects" ? "active" : "")">@Html.ActionLink("Project Admin", "Index", "Projects")</li>
                             }
