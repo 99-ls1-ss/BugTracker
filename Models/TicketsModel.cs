@@ -27,11 +27,11 @@ namespace BugTracker.Models {
         public string Description { get; set; }
 
         [Display(Name = "Date Created")]
-        [DisplayFormat(DataFormatString = "{0:MMM dd yyyy}")]
+        [DisplayFormat(DataFormatString = "{0:MMM dd yyyy hh:mmtt}")]
         public DateTimeOffset CreatedDate { get; set; }
 
         [Display(Name = "Date Updated")]
-        [DisplayFormat(DataFormatString = "{0:MMM dd yyyy}")]
+        [DisplayFormat(DataFormatString = "{0:MMM dd yyyy hh:mmtt}")]
         public Nullable<DateTimeOffset> UpdatedDate { get; set; }
 
         [Display(Name = "Project ID")]

@@ -14,9 +14,9 @@ namespace BugTracker.Models {
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string DisplayName { get; set; }
-        [DisplayFormat(DataFormatString = "{0:MMM dd yyyy}")]
+        [DisplayFormat(DataFormatString = "{0:MMM dd yyyy hh:mm tt}")]
         public DateTimeOffset CreatedDate { get; set; }
-        [DisplayFormat(DataFormatString = "{0:MMM dd yyyy}")]
+        [DisplayFormat(DataFormatString = "{0:MMM dd yyyy hh:mm tt}")]
         public Nullable<DateTimeOffset> ModifiedDate { get; set; }
 
         public ApplicationUser() {

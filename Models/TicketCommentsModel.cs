@@ -16,11 +16,11 @@ namespace BugTracker.Models {
         public string Comment { get; set; }
 
         [Display(Name = "Date Created")]
-        [DisplayFormat(DataFormatString = "{0:MMM dd yyyy}")]
+        [DisplayFormat(DataFormatString = "{0:MMM dd yyyy hh:mm tt}")]
         public DateTimeOffset CreatedDate { get; set; }
 
         [Display(Name = "Date Updated")]
-        [DisplayFormat(DataFormatString = "{0:MMM dd yyyy}")]
+        [DisplayFormat(DataFormatString = "{0:MMM dd yyyy hh:mm tt}")]
         public Nullable<DateTimeOffset> UpdatedDate { get; set; }
 
         public int TicketId { get; set; }

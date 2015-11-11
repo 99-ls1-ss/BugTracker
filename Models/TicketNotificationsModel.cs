@@ -26,7 +26,7 @@ namespace BugTracker.Models {
         public string NotificationMessage { get; set; }
 
         [Display(Name = "Sent Date")]
-        [DisplayFormat(DataFormatString = "{0:MMM dd yyyy}")]
+        [DisplayFormat(DataFormatString = "{0:MMM dd yyyy hh:mm tt}")]
         public DateTimeOffset SentDate { get; set; }
 
         public virtual ApplicationUser User { get; set; }
