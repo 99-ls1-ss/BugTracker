@@ -22,8 +22,7 @@ namespace BugTracker.Controllers {
             
             var tickets = db.TicketsData.Include(t => t.Project).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
             var userId = User.Identity.GetUserId();
-            var user = db.Users.Include(p => p.Projects).FirstOrDefault(u => u.Id == userId);
-           
+            var user = db.Users.Include(p => p.Projects).FirstOrDefault(u => u.Id == userId);           
 
             if (User.IsInRole("Admin")) {
                 tickets = tickets;
@@ -46,7 +45,6 @@ namespace BugTracker.Controllers {
             var tickets = db.TicketsData.Include(t => t.Project).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
             var userId = User.Identity.GetUserId();
             var user = db.Users.Include(p => p.Projects).FirstOrDefault(u => u.Id == userId);
-
 
             DashboardModel dashboard = new DashboardModel();
 
