@@ -328,9 +328,8 @@ input.btn{
 
 .bugTracker-landing-bg-wrapper {
     padding:6px;
-    background-color:rgba(255, 255, 255, 0.84);
+    background-color:rgba(255, 255, 255, 0.7);
     border-radius:6px;
-    margin-top:4px;
     -webkit-box-shadow: 2px 2px 8px 1px rgba(2, 2, 2, 0.62);
     -moz-box-shadow: 2px 2px 8px 1px rgba(2, 2, 2, 0.62);
     box-shadow: 2px 2px 8px 1px rgba(2, 2, 2, 0.62);

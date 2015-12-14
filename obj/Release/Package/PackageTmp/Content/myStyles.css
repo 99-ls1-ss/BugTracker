@@ -91,7 +91,7 @@
 }
 
 .section {
-    padding: 24px 0;
+    /*padding: 24px 0;*/
 }
 
 #resume li {
@@ -316,11 +316,28 @@ input.btn{
 
 .landing-page {
     background-image:url('images/blue-beach-vw-beetle-wallpaper.png');
-    background-position:bottom center;
+    background-position:top center;
     background-repeat:no-repeat;
+    background-size:contain;
     min-height:575px;
-    width: 116%;
-    margin: 0 -8%;
+    height:100%;
+    vertical-align:middle;
+    /*width: 116%;
+    margin: 0 -8%;*/
+}
+
+.bugTracker-landing-bg-wrapper {
+    padding:6px;
+    background-color:rgba(255, 255, 255, 0.7);
+    border-radius:6px;
+    -webkit-box-shadow: 2px 2px 8px 1px rgba(2, 2, 2, 0.62);
+    -moz-box-shadow: 2px 2px 8px 1px rgba(2, 2, 2, 0.62);
+    box-shadow: 2px 2px 8px 1px rgba(2, 2, 2, 0.62);
+}
+
+.bugTracker-landing-bg-wrapper h2 {
+    margin: 0 0 0 0;
+    text-align:center;
 }
 
 .ticket-description {
